@@ -4,8 +4,8 @@ import React from 'react'
 const FeatureHomePage: React.FC = () => {
 
     return (
-        <div>
-
+        <div className='text-white'>
+            hello world
         </div>
     )
 }

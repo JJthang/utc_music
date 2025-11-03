@@ -5,11 +5,11 @@ import React from 'react'
 const Sidebar = () => {
 
     const { isOpen } = useMemoizedSelector((item) => item.sidebar)
+    console.log('isOpen:  ', isOpen);
 
     return (
         <div
-            className={`fixed right-0 top-0 h-full w-64 bg-gray-950 border-r border-gray-800 transform transition-transform duration-300 ease-in-out z-40 ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
+            className={`fixed right-0 top-0 h-full w-64 bg-gray-950 border-r border-gray-800 transform transition-transform duration-500 ease-in-out z-40 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
             <div className="p-6">
                 <h2 className="text-xl font-bold mb-6">Menu</h2>

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body{
+    overflow: hidden;
+}
+
 @theme {
     /* Purple - Màu chủ đạo */
     --color-purple: #9b4de0;

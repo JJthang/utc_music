@@ -22,6 +22,8 @@ import { VolumeControl } from "./components/VolumeControl";
 import { IconButtonWithTooltip } from "./components/IconButtonWithTooltip";
 import { SongInfo } from "./components/SongInfo";
 import type { PlayerState } from "@/types/song.type";
+import { useAppDispatch } from "@/hooks";
+import { toggleSidebar } from "@/stores/slice/sidebar.slice";
 
 type RepeatMode = (typeof REPEAT_MODES)[number];
 
@@ -46,8 +48,7 @@ const INITIAL_STATE: PlayerState = {
 const MusicPlayer: FC = () => {
     const [state, setState] = useState<PlayerState>(INITIAL_STATE);
     const prevStateRef = useRef<PlayerState>(state);
-    console.log("HELLO WROLD");
-
+    const dispatch = useAppDispatch();
 
     const handleProgressChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +93,7 @@ const MusicPlayer: FC = () => {
     }, [state]);
 
     return (
-        <div className="fixed bottom-0 z-[100] w-[100vw] bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 border-t border-purple-700 px-6 py-3">
+        <div className="fixed bottom-0 z-[100] w-[100vw] bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 border-t border-purple-700 px-6 pt-3 pb-1">
             <div className="flex items-center gap-6 flex-wrap md:flex-nowrap">
                 {/* Song Info */}
                 <SongInfo title={SONG_INFO.title} artist={SONG_INFO.artist} />
@@ -167,6 +168,9 @@ const MusicPlayer: FC = () => {
                         <ProgressBar
                             currentTime={state.currentTime}
                             duration={state.duration}
+                            onChange={() => {
+                                console.log('HEHEE');
+                            }}
                         />
                     </div>
                 </div>
@@ -176,7 +180,8 @@ const MusicPlayer: FC = () => {
                     <button
                         aria-label="Queue"
                         title="Queue"
-                        className="text-gray-400 hover:text-white transition"
+                        className="text-gray-400 hover:text-white transition cursor-pointer"
+                        onClick={() => dispatch(toggleSidebar())}
                     >
                         <svg
                             width="18"
