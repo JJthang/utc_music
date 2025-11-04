@@ -13,7 +13,7 @@ const MenuItems: React.FC<SidebarItemProps> = ({ icon: Icon, label, id, active, 
     <li>
         <button
             onClick={() => onClick(id)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${active ? 'bg-[#ffffff1a] text-white' : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all cursor-pointer ${active ? 'bg-[#ffffff1a] text-white' : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
                 }`}
         >
             <Icon size={22} />

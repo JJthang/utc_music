@@ -1,12 +1,15 @@
 import React from 'react'
+import { Banner, PlaylistCarousel, SuggestedSongs } from './components'
 
 
 const FeatureHomePage: React.FC = () => {
 
     return (
-        <div className='text-white'>
-            hello world
-        </div>
+        <>
+            <PlaylistCarousel />
+            <Banner />
+            <SuggestedSongs />
+        </>
     )
 }
 

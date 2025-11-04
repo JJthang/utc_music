@@ -18,7 +18,7 @@ const SidebarMenu: React.FC = () => {
     ];
 
     return (
-        <div className="w-64 bg-[#231b2e] text-white h-[calc(100vh-91px)] overflow-y-scroll flex flex-col">
+        <div className="sidebar-menu w-64 bg-sidebar text-white h-[calc(100vh-91px)] overflow-y-auto flex flex-col">
             {/* Logo */}
             <div className="p-6 pb-4">
                 <div className="flex items-center gap-1">
@@ -34,13 +34,13 @@ const SidebarMenu: React.FC = () => {
             </div>
 
             {/* Main Menu */}
-            <nav className="flex-1 px-3">
+            <nav className="flex-1 ">
                 <ul className="space-y-1">
                     {menuItems.map((item) => (
                         <li key={item.id}>
                             <button
                                 onClick={() => setActiveItem(item.id)}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeItem === item.id
+                                className={`w-full flex items-center gap-3 cursor-pointer px-6 py-3 transition-all ${activeItem === item.id
                                     ? 'bg-[#ffffff1a] text-white'
                                     : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
                                     }`}
@@ -66,7 +66,7 @@ const SidebarMenu: React.FC = () => {
                         <li key={item.id}>
                             <button
                                 onClick={() => setActiveItem(item.id)}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeItem === item.id
+                                className={`w-full flex items-center gap-3 cursor-pointer px-6 py-3 transition-all ${activeItem === item.id
                                     ? 'bg-[#ffffff1a] text-white'
                                     : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
                                     }`}
