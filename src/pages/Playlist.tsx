@@ -2,13 +2,13 @@ import type { FC } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
-import type { Album } from "@/types/album.type";
-import { getDetailAlbum } from "@/services/Apis/listsAlbum.service.api";
 import { formatDate, formatDuration } from "@/utils/format";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
 import type { currentSong } from "@/types/song.type";
+import { getDetailPlaylist } from "@/services/Apis/listsPlaylist.service.api";
+import type { Playlist } from "@/types/playlist.type";
 
 type SongCardType = {
   song: currentSong;
@@ -74,10 +74,10 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
   );
 };
 
-const AlbumPage: FC = () => {
-  const { albumId } = useParams<{ albumId: string }>();
+const PlaylistPage: FC = () => {
+  const { playlistId } = useParams<{ playlistId: string }>();
 
-  const [album, setAlbum] = useState<Album | null>(null);
+  const [playlist, setPlaylist] = useState<Playlist | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -92,33 +92,33 @@ const AlbumPage: FC = () => {
   };
 
   useEffect(() => {
-    if (!albumId) {
-      setError("Không tìm thấy ID album.");
+    if (!playlistId) {
+      setError("Không tìm thấy ID playlist.");
       setIsLoading(false);
       return;
     }
 
-    const fetchAlbumDetail = async () => {
+    const fetchPlaylistDetail = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getDetailAlbum(albumId);
-        setAlbum(data);
+        const data = await getDetailPlaylist(playlistId);
+        setPlaylist(data);
       } catch (err) {
-        console.error("Lỗi khi tải album:", err);
-        setError("Không thể tải chi tiết album. Vui lòng thử lại.");
+        console.error("Lỗi khi tải playlist:", err);
+        setError("Không thể tải chi tiết playlist. Vui lòng thử lại.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAlbumDetail();
-  }, [albumId]);
+    fetchPlaylistDetail();
+  }, [playlistId]);
 
   if (isLoading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-slate-950 text-white">
-        <p>Đang tải chi tiết album...</p>
+        <p>Đang tải chi tiết playlist...</p>
       </main>
     );
   }
@@ -131,35 +131,32 @@ const AlbumPage: FC = () => {
     );
   }
 
-  if (!album) {
+  if (!playlist) {
     return null;
   }
 
   return (
     <main className="min-h-screen bg-linear-to-b from-slate-900 to-slate-950 text-white p-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Side - Album Info */}
+        {/* Left Side - Playlist Info */}
         <div className="lg:col-span-1 flex flex-col items-start lg:sticky lg:top-8 lg:h-fit">
           <div className="relative w-full max-w-xs mb-6">
-            {/* Album Cover */}
+            {/* Playlist Cover */}
             <img
-              src={album.coverUri || "/placeholder.svg"}
-              alt={album.title}
+              src={playlist.imageUri || "/placeholder.svg"}
+              alt={playlist.title}
               className="object-cover group-hover:hidden"
             />
           </div>
 
-          {/* Album Details */}
-          <h1 className="text-4xl font-bold mb-2">{album.title}</h1>
+          {/* Playlist Details */}
+          <h1 className="text-4xl font-bold mb-2">{playlist.title}</h1>
           <div className="text-gray-400 text-sm space-y-1 mb-6">
             <p>
-              <span>
-                {album.artists &&
-                  album.artists.map((art) => art.artist.name).join(", ")}
-              </span>{" "}
-              • {formatDate(album.releaseDate, "year")}
+              <span>{playlist.user.displayName}</span> •{" "}
+              {formatDate(playlist.createdAt, "year")}
             </p>
-            {/* <p>{album.likes} người yêu thích</p> */}
+            <p>{playlist.followerCount} người yêu thích</p>
           </div>
 
           {/* Play Button */}
@@ -182,7 +179,7 @@ const AlbumPage: FC = () => {
         {/* Right Side - Track List */}
         <div className="lg:col-span-2 max-h-screen overflow-y-auto">
           <div className="space-y-2 mb-8">
-            {album.songs?.map((song, idx) => (
+            {playlist.songs?.map((song, idx) => (
               <SongCard
                 key={idx}
                 song={song}
@@ -190,33 +187,10 @@ const AlbumPage: FC = () => {
               />
             ))}
           </div>
-
-          {/* Album Info Section */}
-          <div className="p-6">
-            <h2 className="text-white font-bold mb-4">Thông Tin</h2>
-            <div className="space-y-3 text-sm">
-              <div>
-                <p className="text-gray-400">Số bài hát</p>
-                <p className="text-white font-medium">{album.songs?.length}</p>
-              </div>
-              <div>
-                <p className="text-gray-400">Ngày phát hành</p>
-                <p className="text-white font-medium">
-                  {formatDate(album.releaseDate, "date")}
-                </p>
-              </div>
-              {/* <div>
-                <p className="text-gray-400">Cung cấp bởi</p>
-                <p className="text-purple-400 font-medium cursor-pointer hover:underline">
-                  The Orchard
-                </p>
-              </div> */}
-            </div>
-          </div>
         </div>
       </div>
     </main>
   );
 };
 
-export default AlbumPage;
+export default PlaylistPage;

@@ -62,7 +62,7 @@ const Sidebar: React.FC = () => {
                                         {currentSong.title}
                                     </h3>
                                     <p className="text-xs text-purple-100 truncate">
-                                        {currentSong.artists.map((a) => a.artist.name).join(', ')}
+                                        {currentSong.artists?.map((a) => a.artist.name).join(', ')}
                                     </p>
                                 </div>
 
@@ -114,7 +114,7 @@ const Sidebar: React.FC = () => {
                                     <div className="flex-1 min-w-0">
                                         <h4 className="font-medium text-white text-sm truncate">{song.title}</h4>
                                         <p className="text-xs text-gray-400 truncate">
-                                            {song.artists.map((a) => a.artist.name).join(', ')}
+                                            {song.artists?.map((a) => a.artist.name).join(', ')}
                                         </p>
                                     </div>
 

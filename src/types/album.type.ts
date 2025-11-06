@@ -1,3 +1,5 @@
+import type { currentSong } from "./song.type";
+
 export interface ArtistDetails {
   id: string;
   name: string;
@@ -16,19 +18,6 @@ export interface AlbumArtistAssociation {
   artist: ArtistDetails;
 }
 
-export interface SongDetails {
-  id: string;
-  title: string;
-  duration: number;
-  releaseDate: string;
-  albumId: string;
-  url: string;
-  coverUri: string;
-  views: number;
-  lyrics: string;
-  trackNumber: number;
-}
-
 export interface Album {
   id: string;
   title: string;
@@ -37,6 +26,6 @@ export interface Album {
   description: string;
   createdAt: string;
   updatedAt: string;
-  songs: SongDetails[];
+  songs: currentSong[];
   artists: AlbumArtistAssociation[];
 }

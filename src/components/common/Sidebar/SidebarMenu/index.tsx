@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Music, Disc, TrendingUp, Radio, Clock, Folder, Star, LogIn } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const SidebarMenu: React.FC = () => {
     const [activeItem, setActiveItem] = useState<string>('');
 
     const menuItems = [
-        { icon: Music, label: 'Thư Viện', id: 'library' },
-        { icon: Disc, label: 'Khám Phá', id: 'discover' },
-        { icon: TrendingUp, label: '#zingchart', id: 'zingchart' },
-        { icon: Radio, label: 'Phòng Nhạc', id: 'radio', badge: 'LIVE' },
+        { icon: Music, label: 'Thư Viện', id: 'library', link: '#' },
+        { icon: Disc, label: 'Khám Phá', id: 'discover', link: '/' },
+        { icon: TrendingUp, label: '#zingchart', id: 'zingchart', link: '#' },
+        { icon: Radio, label: 'Phòng Nhạc', id: 'radio', badge: 'LIVE', link: '#' },
     ];
 
     const subMenuItems = [
@@ -38,21 +39,20 @@ const SidebarMenu: React.FC = () => {
                 <ul className="space-y-1">
                     {menuItems.map((item) => (
                         <li key={item.id}>
-                            <button
-                                onClick={() => setActiveItem(item.id)}
+                            
+                                <Link to={item.link} onClick={() => setActiveItem(item.id)}
                                 className={`w-full flex items-center gap-3 cursor-pointer px-6 py-3 transition-all ${activeItem === item.id
                                     ? 'bg-[#ffffff1a] text-white'
                                     : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
-                                    }`}
-                            >
-                                <item.icon size={22} />
-                                <span className="text-[15px] font-medium">{item.label}</span>
-                                {item.badge && (
-                                    <span className="ml-auto bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">
-                                        {item.badge}
-                                    </span>
-                                )}
-                            </button>
+                                    }`}>
+                                    <item.icon size={22} />
+                                    <span className="text-[15px] font-medium">{item.label}</span>
+                                    {item.badge && (
+                                        <span className="ml-auto bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                                            {item.badge}
+                                        </span>
+                                    )}
+                                </Link>
                         </li>
                     ))}
                 </ul>

@@ -1,3 +1,5 @@
+import type { Album } from "./album.type";
+
 export interface PlayerState {
   isPlaying: boolean;
   currentTime: number;
@@ -28,5 +30,6 @@ export interface currentSong {
   views: number;
   lyrics: string;
   trackNumber: number;
+  album: Album;
   artists: SongArtist[];
 }

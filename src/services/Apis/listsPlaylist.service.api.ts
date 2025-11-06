@@ -17,3 +17,10 @@ export const getPublicPlaylists = async (): Promise<PlaylistData> => {
     throw new Error("Không thể tải danh sách playlist. Vui lòng thử lại");
   }
 };
+
+export const getDetailPlaylist = async (id: string): Promise<Playlist> => {
+  const url = `${import.meta.env.VITE_API_URL}/api/playlists/${id}`;
+  const result = await axios.get<Playlist>(url);
+
+  return result.data;
+};

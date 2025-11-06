@@ -166,7 +166,7 @@ const MusicPlayer: FC = () => {
 
     // Lấy tên nghệ sĩ từ currentSong
     const artistNames = useMemo(() => {
-        return currentSong.artists.map((a) => a.artist.name).join(", ");
+        return currentSong.artists?.map((a) => a.artist.name).join(", ");
     }, [currentSong.artists]);
 
     return (

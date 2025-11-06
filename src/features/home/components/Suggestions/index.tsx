@@ -6,6 +6,7 @@ import { getListSongs } from "@/services/Apis/listsSong.service.api";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayList, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
+import { Link } from "react-router-dom";
 
 function Cover({ url, title }: { url?: string; title: string }) {
   const initials = title
@@ -33,21 +34,23 @@ function SongRow({ song, onClick }: { song: currentSong, onClick: (song: current
       type="button"
       onClick={() => onClick(song)}
     >
-      <div className="flex items-center gap-3">
-        <Cover url={song.coverUri} title={song.title} />
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <p className="truncate font-medium text-zinc-100">{song.title}</p>
+      <Link to={`album/${song.albumId}`}>
+        <div className="flex items-center gap-3">
+          <Cover url={song.coverUri} title={song.title} />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <p className="truncate font-medium text-zinc-100">{song.title}</p>
+            </div>
+            <p className="mt-0.5 truncate text-sm text-zinc-400">
+              {song.artists?.map((art) => art.artist.name).join(", ")}
+            </p>
           </div>
-          <p className="mt-0.5 truncate text-sm text-zinc-400">
-            {song.artists?.map((art) => art.artist.name).join(", ")}
-          </p>
+          <Sparkles
+            className="opacity-0 transition-opacity group-hover:opacity-100"
+            size={16}
+          />
         </div>
-        <Sparkles
-          className="opacity-0 transition-opacity group-hover:opacity-100"
-          size={16}
-        />
-      </div>
+      </Link>
     </button>
   );
 }
@@ -88,7 +91,7 @@ export function SuggestedSongs() {
     };
 
     fetchSongs();
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <p>Đang tải danh sách</p>;
