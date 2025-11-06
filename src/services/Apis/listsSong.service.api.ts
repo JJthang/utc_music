@@ -1,9 +1,9 @@
 import axios from "axios";
 import type { Pagination } from "@/types/pagination";
-import type { Song } from "@/types/song.type";
+import type { currentSong } from "@/types/song.type";
 
 interface SongData {
-  data: Song[];
+  data: currentSong[];
   pagination: Pagination;
 }
 

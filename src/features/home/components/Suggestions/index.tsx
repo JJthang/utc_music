@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { RotateCw, Sparkles } from "lucide-react";
 import type { currentSong } from "@/types/song.type";
 import { getListSongs } from "@/services/Apis/listsSong.service.api";
+import { useDispatch } from "react-redux";
+import { setCurrentSong, setPlayList, setPlayStatus } from "@/stores/slice/song.slice";
+import { useDebouncedCallback } from "use-debounce";
 
 function Cover({ url, title }: { url?: string; title: string }) {
   const initials = title
@@ -26,7 +29,7 @@ function Cover({ url, title }: { url?: string; title: string }) {
 function SongRow({ song, onClick }: { song: currentSong, onClick: (song: currentSong) => void }) {
   return (
     <button
-      className="group w-full rounded-xl px-2 py-2 text-left hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-zinc-500/50"
+      className="group w-full cursor-pointer rounded-xl px-2 py-2 text-left hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-zinc-500/50"
       type="button"
       onClick={() => onClick(song)}
     >
@@ -53,10 +56,15 @@ export function SuggestedSongs() {
   const [songs, setSongs] = useState<currentSong[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+
+  const debouncedPlay = useDebouncedCallback(() => {
+    dispatch(setPlayStatus(true));
+  }, 500);
 
   const handSetCurrentSong = (item: currentSong) => {
-    console.log('item:  ', item);
-
+    dispatch(setCurrentSong(item))
+    debouncedPlay()
   }
 
   useEffect(() => {
@@ -64,8 +72,14 @@ export function SuggestedSongs() {
       setIsLoading(true);
       setError(null);
       try {
-        const { data } = await getListSongs({ limit: 9 });
-        setSongs(data);
+        const { data } = await getListSongs({ limit: 40 });
+        const playlist = data.sort((a, b) => b.views - a.views).slice(0, 12);
+        const sliceData = data.slice(0, 9);
+        if (!localStorage.getItem('playList')) {
+          localStorage.setItem('playList', JSON.stringify(playlist));
+        }
+        dispatch(setPlayList(playlist))
+        setSongs(sliceData);
       } catch (err: any) {
         setError(err.message);
       } finally {

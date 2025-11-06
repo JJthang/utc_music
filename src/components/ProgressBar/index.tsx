@@ -4,13 +4,8 @@ import type { FC } from "react";
 interface ProgressBarProps {
     currentTime: number;
     duration: number;
-    onChange: (e: Event, value: number | number[]) => void;
+    onChange: (e: Event) => void;
 }
-
-const getProgressPercentage = (currentTime: number, duration: number): number => {
-    if (duration === 0) return 0;
-    return (currentTime / duration) * 100;
-};
 
 const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -25,9 +20,6 @@ export const ProgressBar: FC<ProgressBarProps> = ({
     duration,
     onChange,
 }) => {
-    const percentage = getProgressPercentage(currentTime, duration);
-    console.log('percentage : ', percentage);
-
 
     return (
         <Box display="flex" alignItems="center" gap={1} width="100%">

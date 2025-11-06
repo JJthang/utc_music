@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import sidebarReducer from "./slice/sidebar.slice";
+import currentSongSlice from "./slice/song.slice";
 
 const rootReducer = combineReducers({
   sidebar: sidebarReducer,
+  currentSong: currentSongSlice,
 });
 
 export const store = configureStore({

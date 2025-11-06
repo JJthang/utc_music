@@ -4,8 +4,7 @@ export interface PlayerState {
   duration: number;
   volume: number;
   isFavorite: boolean;
-  shuffle: boolean;
-  repeat: 0 | 1 | 2;
+  repeat: boolean;
 }
 
 interface SongArtist {

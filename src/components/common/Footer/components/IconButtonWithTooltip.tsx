@@ -20,7 +20,7 @@ export const IconButtonWithTooltip: FC<IconButtonWithTooltipProps> = ({
         onClick={onClick}
         aria-label={ariaLabel || tooltip}
         title={tooltip}
-        className={`transition p-2 ${isActive ? "text-purple-400" : "text-gray-400 hover:text-white"
+        className={`transition p-2 cursor-pointer ${isActive ? "text-purple-400" : "text-gray-400 hover:text-white"
             }`}
     >
         <Icon size={18} />
