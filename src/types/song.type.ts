@@ -20,3 +20,29 @@ export interface currentSong {
   lyrics: string;
   trackNumber: number;
 }
+
+interface ArtistInfo {
+  name: string;
+}
+
+interface SongArtist {
+  songId: string;
+  artistId: string;
+  createdAt: string; 
+  updatedAt: string; 
+  artist: ArtistInfo;
+}
+
+export interface Song {
+  id: string;
+  title: string;
+  duration: number; 
+  releaseDate: string; 
+  albumId: string;
+  url: string; 
+  coverUri: string; 
+  views: number;
+  lyrics: string;
+  trackNumber: number;
+  artists: SongArtist[];
+}

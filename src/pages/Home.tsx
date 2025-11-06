@@ -1,10 +1,8 @@
-import * as React from 'react';
-import FeatureHomePage from '@/features/home';
-
+import * as React from "react";
+import FeatureHomePage from "@/features/home";
 
 const HomePage: React.FC = () => {
+  return <FeatureHomePage />;
+};
 
-    return <FeatureHomePage />
-}
-
-export default HomePage
+export default HomePage;

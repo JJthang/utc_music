@@ -1,16 +1,14 @@
-import React from 'react'
-import { Banner, PlaylistCarousel, SuggestedSongs } from './components'
-
+import React from "react";
+import { Banner, PlaylistCarousel, SuggestedSongs } from "./components";
 
 const FeatureHomePage: React.FC = () => {
+  return (
+    <>
+      <PlaylistCarousel />
+      <Banner />
+      <SuggestedSongs />
+    </>
+  );
+};
 
-    return (
-        <>
-            <PlaylistCarousel />
-            <Banner />
-            <SuggestedSongs />
-        </>
-    )
-}
-
-export default FeatureHomePage
+export default FeatureHomePage;

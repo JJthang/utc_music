@@ -29,7 +29,7 @@ export interface SongDetails {
   trackNumber: number;
 }
 
-export interface AlbumData {
+export interface Album {
   id: string;
   title: string;
   releaseDate: string;
