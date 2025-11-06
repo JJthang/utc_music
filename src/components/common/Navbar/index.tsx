@@ -5,7 +5,7 @@ const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     return (
-        <nav className="h-[68px]">
+        <nav className="h-[68px] w-full">
             {/* Navbar */}
             <div className="bg-[#170f23] bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
                 {/* Left section - Navigation arrows and Search */}

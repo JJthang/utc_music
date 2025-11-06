@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Play } from "lucide-react";
 import { motion } from "framer-motion";
 import { getPublicPlaylists } from "@/services/Apis/listsPlaylist.service.api";
@@ -15,7 +15,7 @@ function PlaylistCard({ item }: { item: Playlist }) {
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 220, damping: 20 }}
-      className="relative w-[520px] h-[168px] shrink-0 rounded-lg overflow-hidden bg-linear-to-r text-white shadow-lg group cursor-pointer"
+      className="relative aspect-[3/1] rounded-lg overflow-hidden bg-linear-to-r text-white shadow-lg group cursor-pointer"
     >
       {/* Lớp nền chính */}
       <div className={`absolute inset-0 bg-linear-to-r ${accent}`} />
@@ -28,26 +28,27 @@ function PlaylistCard({ item }: { item: Playlist }) {
 
       {/* Nội dung */}
       <div className="relative z-10 flex h-full gap-5 p-3">
-        <div className="relative">
+        <div className="relative h-full aspect-square shrink-0">
           <img
             src={item.imageUri}
             alt={item.title}
-            className="h-full w-auto bg-cover rounded-xl object-cover ring-2 ring-white/5"
+            className="w-full h-full object-cover rounded-xl ring-2 ring-white/5"
           />
-
           {/* Icon Play hiển thị khi hover */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
             <Play size={32} fill="white" />
           </div>
         </div>
 
-        <div className="flex min-w-0 flex-col justify-start">
+        <div className="flex min-w-0 flex-col justify-start flex-1">
           {item.title ? (
             <span className="w-fit rounded-full mb-4 bg-white/10 px-3 py-1 text-[8px] font-semibold tracking-wide text-white/90 backdrop-blur">
               {item.title.toUpperCase()}
             </span>
           ) : null}
-          <h3 className="truncate text-xl font-bold">{item.title}</h3>
+          <h3 className="truncate text-xl font-bold">
+            {item.title}
+          </h3>
           <p className="mt-2 line-clamp-2 text-sm text-white/80">
             {/* {item.artists} */}
           </p>
@@ -58,7 +59,6 @@ function PlaylistCard({ item }: { item: Playlist }) {
 }
 
 export function PlaylistCarousel({ items }: { items?: Playlist[] }) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -85,6 +85,7 @@ export function PlaylistCarousel({ items }: { items?: Playlist[] }) {
     () => items ?? playlists,
     [items, playlists]
   );
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-8">
@@ -103,12 +104,10 @@ export function PlaylistCarousel({ items }: { items?: Playlist[] }) {
 
   return (
     <div className="w-full text-white py-4">
-      <div className="relative">
-        <div ref={scrollerRef} className="flex gap-6 pb-2 pt-1">
-          {sample.map((it) => (
-            <PlaylistCard key={it.id} item={it} />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        {sample.map((it) => (
+          <PlaylistCard key={it.id} item={it} />
+        ))}
       </div>
     </div>
   );

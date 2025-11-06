@@ -11,7 +11,7 @@ const MainLayout = () => {
                 <SidebarMenu />
                 <div className="flex-1">
                     <Navbar />
-                    <div className="main-content flex-1 h-[calc(100vh-91px-68px)] overflow-y-scroll px-10 py-2 bg-outlet">
+                    <div className="main-content w-full h-[calc(100vh-91px-68px)] overflow-y-scroll px-10 py-2 bg-outlet">
                         <Outlet />
                     </div>
                 </div>

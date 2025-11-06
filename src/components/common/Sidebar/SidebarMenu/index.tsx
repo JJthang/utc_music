@@ -18,7 +18,7 @@ const SidebarMenu: React.FC = () => {
     ];
 
     return (
-        <div className="sidebar-menu w-64 bg-sidebar text-white h-[calc(100vh-91px)] overflow-y-auto flex flex-col">
+        <div className="sidebar-menu w-64 bg-sidebar text-white h-[calc(100vh-91px)] overflow-y-scroll flex flex-col ">
             {/* Logo */}
             <div className="p-6 pb-4">
                 <div className="flex items-center gap-1">

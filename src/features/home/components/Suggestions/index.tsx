@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { RotateCw, Sparkles } from "lucide-react";
-import type { Song } from "@/types/song.type";
+import type { currentSong } from "@/types/song.type";
 import { getListSongs } from "@/services/Apis/listsSong.service.api";
 
 function Cover({ url, title }: { url?: string; title: string }) {
@@ -23,27 +23,18 @@ function Cover({ url, title }: { url?: string; title: string }) {
   );
 }
 
-// function Badge({ children }: { children: React.ReactNode }) {
-//   return (
-//     <span className="ml-2 inline-flex items-center rounded-md border border-zinc-600/60 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-300/90">
-//       {children}
-//     </span>
-//   );
-// }
-
-function SongRow({ song }: { song: Song }) {
+function SongRow({ song, onClick }: { song: currentSong, onClick: (song: currentSong) => void }) {
   return (
     <button
       className="group w-full rounded-xl px-2 py-2 text-left hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-zinc-500/50"
       type="button"
+      onClick={() => onClick(song)}
     >
       <div className="flex items-center gap-3">
         <Cover url={song.coverUri} title={song.title} />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <p className="truncate font-medium text-zinc-100">{song.title}</p>
-            {/* {song.premium && <Badge>Premium</Badge>} */}
-            {/* {song.badge && <Badge>{song.badge}</Badge>} */}
           </div>
           <p className="mt-0.5 truncate text-sm text-zinc-400">
             {song.artists?.map((art) => art.artist.name).join(", ")}
@@ -59,9 +50,14 @@ function SongRow({ song }: { song: Song }) {
 }
 
 export function SuggestedSongs() {
-  const [songs, setSongs] = useState<Song[]>([]);
+  const [songs, setSongs] = useState<currentSong[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handSetCurrentSong = (item: currentSong) => {
+    console.log('item:  ', item);
+
+  }
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -104,7 +100,7 @@ export function SuggestedSongs() {
 
       <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
         {songs?.map((song, idx) => (
-          <SongRow key={idx} song={song} />
+          <SongRow key={idx} song={song} onClick={(song: currentSong) => handSetCurrentSong(song)} />
         ))}
       </div>
     </section>

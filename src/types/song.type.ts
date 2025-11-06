@@ -8,6 +8,16 @@ export interface PlayerState {
   repeat: 0 | 1 | 2;
 }
 
+interface SongArtist {
+  songId: string;
+  artistId: string;
+  createdAt: string;
+  updatedAt: string;
+  artist: {
+    name: string;
+  };
+}
+
 export interface currentSong {
   id: string;
   title: string;
@@ -16,31 +26,6 @@ export interface currentSong {
   albumId: string;
   url: string;
   coverUri: string;
-  views: number;
-  lyrics: string;
-  trackNumber: number;
-}
-
-interface ArtistInfo {
-  name: string;
-}
-
-interface SongArtist {
-  songId: string;
-  artistId: string;
-  createdAt: string; 
-  updatedAt: string; 
-  artist: ArtistInfo;
-}
-
-export interface Song {
-  id: string;
-  title: string;
-  duration: number; 
-  releaseDate: string; 
-  albumId: string;
-  url: string; 
-  coverUri: string; 
   views: number;
   lyrics: string;
   trackNumber: number;
