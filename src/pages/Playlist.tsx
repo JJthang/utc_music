@@ -102,7 +102,7 @@ const PlaylistPage: FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getDetailPlaylist(playlistId);
+        const { data } = await getDetailPlaylist(playlistId);
         setPlaylist(data);
       } catch (err) {
         console.error("Lỗi khi tải playlist:", err);
@@ -178,6 +178,10 @@ const PlaylistPage: FC = () => {
 
         {/* Right Side - Track List */}
         <div className="lg:col-span-2 max-h-screen overflow-y-auto">
+          <p className="text-sm mb-4">
+            <span className="text-gray-400">Mô tả: </span>
+            {playlist.description}
+          </p>
           <div className="space-y-2 mb-8">
             {playlist.songs?.map((song, idx) => (
               <SongCard

@@ -1,5 +1,3 @@
-import type { Album } from "./album.type";
-
 export interface PlayerState {
   isPlaying: boolean;
   currentTime: number;
@@ -9,12 +7,20 @@ export interface PlayerState {
   repeat: boolean;
 }
 
+interface SongAlbum {
+  title: string;
+}
+
 interface SongArtist {
-  songId: string;
   artistId: string;
-  createdAt: string;
-  updatedAt: string;
   artist: {
+    name: string;
+  };
+}
+
+interface SongGenre {
+  genreId: string;
+  genre: {
     name: string;
   };
 }
@@ -28,8 +34,9 @@ export interface currentSong {
   url: string;
   coverUri: string;
   views: number;
-  lyrics: string;
+  lyrics?: string;
   trackNumber: number;
-  album: Album;
+  album: SongAlbum;
   artists: SongArtist[];
+  genres: SongGenre[];
 }

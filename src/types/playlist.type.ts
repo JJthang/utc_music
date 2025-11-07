@@ -1,7 +1,6 @@
 import type { currentSong } from "./song.type";
 
 export interface UserPlaylist {
-  id: string;
   displayName: string;
 }
 
@@ -10,6 +9,7 @@ export interface Playlist {
   userId: string;
   title: string;
   imageUri: string;
+  description: string;
   followerCount: number;
   isPublic: boolean;
   isFavorite: boolean;
@@ -18,3 +18,4 @@ export interface Playlist {
   user: UserPlaylist;
   songs: currentSong[];
 }
+

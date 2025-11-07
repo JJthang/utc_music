@@ -3,7 +3,7 @@ import { register } from "@/services/Apis/auth.service.api";
 import type { RegisterPayload } from "@/types/auth.type";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 export function SignUpForm() {
   const [userName, setUserName] = useState("");
@@ -44,13 +44,13 @@ export function SignUpForm() {
     setLoading(true);
     const payload: RegisterPayload = { userName, email, password, displayName };
     try {
-      const res = await register(payload);
+      const { message } = await register(payload);
       setUserName("");
       setEmail("");
       setPassword("");
       setDisplayName("");
 
-      toast.success(res.message)
+      toast.success(message);
       navigate("/login");
     } catch (error: any) {
       console.error(error.message || "Đã xảy ra lỗi trong quá trình đăng ký.");

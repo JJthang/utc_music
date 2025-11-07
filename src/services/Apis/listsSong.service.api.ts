@@ -1,11 +1,6 @@
-import axios from "axios";
-import type { Pagination } from "@/types/pagination";
+import api from "../http";
+import type { ApiListResponse } from "@/types/api-response.type";
 import type { currentSong } from "@/types/song.type";
-
-interface SongData {
-  data: currentSong[];
-  pagination: Pagination;
-}
 
 interface SongQueryParams {
   page?: number;
@@ -16,10 +11,10 @@ interface SongQueryParams {
 
 export const getListSongs = async (
   params?: SongQueryParams
-): Promise<SongData> => {
+): Promise<ApiListResponse<currentSong>> => {
   const albumsUrl = `${import.meta.env.VITE_API_URL}/api/songs`;
   try {
-    const result = await axios.get(albumsUrl, { params });
+    const result = await api.get(albumsUrl, { params });
     return result.data;
   } catch (error) {
     console.error("Lỗi khi tải danh sách bài hát:", error);

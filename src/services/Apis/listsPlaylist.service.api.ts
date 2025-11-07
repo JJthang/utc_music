@@ -1,16 +1,16 @@
-import type { Pagination } from "@/types/pagination";
+import type {
+  ApiItemResponse,
+  ApiListResponse,
+} from "@/types/api-response.type";
+import api from "../http";
 import type { Playlist } from "@/types/playlist.type";
-import axios from "axios";
 
-type PlaylistData = {
-  data: Playlist[];
-  pagination: Pagination;
-};
-
-export const getPublicPlaylists = async (): Promise<PlaylistData> => {
+export const getPublicPlaylists = async (): Promise<
+  ApiListResponse<Playlist>
+> => {
   const playlistsUrl = `${import.meta.env.VITE_API_URL}/api/playlists`;
   try {
-    const result = await axios.get(playlistsUrl);
+    const result = await api.get(playlistsUrl);
     return result.data;
   } catch (error) {
     console.error("Lỗi khi tải danh sách playlist:", error);
@@ -18,9 +18,11 @@ export const getPublicPlaylists = async (): Promise<PlaylistData> => {
   }
 };
 
-export const getDetailPlaylist = async (id: string): Promise<Playlist> => {
+export const getDetailPlaylist = async (
+  id: string
+): Promise<ApiItemResponse<Playlist>> => {
   const url = `${import.meta.env.VITE_API_URL}/api/playlists/${id}`;
-  const result = await axios.get<Playlist>(url);
+  const result = await api.get(url);
 
   return result.data;
 };

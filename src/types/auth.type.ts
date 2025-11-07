@@ -5,17 +5,16 @@ export interface AuthUser {
   displayName: string;
   role?: string;
   status?: string;
+  avatarUri?: string;
 }
 
 export interface LoginResponse {
-  message: string;
   accessToken: string;
   refreshToken: string;
   user: AuthUser;
 }
 
 export interface RegisterResponse {
-  message: string;
   user: AuthUser;
 }
 

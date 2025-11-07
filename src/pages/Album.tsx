@@ -102,7 +102,7 @@ const AlbumPage: FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getDetailAlbum(albumId);
+        const { data } = await getDetailAlbum(albumId);
         setAlbum(data);
       } catch (err) {
         console.error("Lỗi khi tải album:", err);

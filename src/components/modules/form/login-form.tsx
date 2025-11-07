@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { login } from "@/services/Apis/auth.service.api";
-import type { LoginPayload } from "@/types/auth.type";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+
+import { login, getCurrentUser } from "@/services/Apis/auth.service.api";
+import type { LoginPayload } from "@/types/auth.type";
+import { setCredentials, setUser } from "@/stores/slice/auth.slice";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -11,6 +14,7 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validateForm = (): boolean => {
     if (!email.trim() || !password.trim()) {
@@ -37,16 +41,21 @@ export function LoginForm() {
     setLoading(true);
     const payload: LoginPayload = { email, password };
     try {
-      const res = await login(payload);
+      const { data, message } = await login(payload);
       setEmail("");
       setPassword("");
 
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-      localStorage.setItem("user", JSON.stringify(res.user));
+      dispatch(
+        setCredentials({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        })
+      );
 
-      toast.success(res.message);
-      if (res.user.role === "ADMIN") {
+      const userRes = await getCurrentUser(data.accessToken);
+      dispatch(setUser(userRes));
+      toast.success(message);
+      if (data.user.role === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/");

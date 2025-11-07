@@ -1,6 +1,29 @@
 import React, { useState } from 'react';
-import { Music, Disc, TrendingUp, Radio, Clock, Folder, Star, LogIn } from 'lucide-react';
+import { Music, Disc, TrendingUp, Radio, Clock, Folder, Star, LogIn, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/stores';
+
+export function LoginBanner() {
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  if (user) return null;
+
+  return (
+    <Link
+      to="/login"
+      className="mx-4 mb-6 block bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6 hover:opacity-95 transition"
+    >
+      <p className="text-white text-center text-sm leading-relaxed mb-4">
+        Đăng nhập để khám phá playlist dành riêng cho bạn
+      </p>
+      <div className="w-full bg-white text-purple-600 font-semibold py-3 rounded-full flex items-center justify-center gap-2">
+        <LogIn size={18} />
+        <span>ĐĂNG NHẬP</span>
+      </div>
+    </Link>
+  );
+}
 
 const SidebarMenu: React.FC = () => {
     const [activeItem, setActiveItem] = useState<string>('');
@@ -10,6 +33,7 @@ const SidebarMenu: React.FC = () => {
         { icon: Disc, label: 'Khám Phá', id: 'discover', link: '/' },
         { icon: TrendingUp, label: '#zingchart', id: 'zingchart', link: '#' },
         { icon: Radio, label: 'Phòng Nhạc', id: 'radio', badge: 'LIVE', link: '#' },
+        { icon: Heart, label: 'Bài hát yêu thích', id: 'favorite', link: '/favorite' },
     ];
 
     const subMenuItems = [
@@ -80,15 +104,7 @@ const SidebarMenu: React.FC = () => {
             </nav>
 
             {/* Login Card */}
-            <Link to="/login" className="mx-4 mb-6 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6">
-                <p className="text-white text-center text-sm leading-relaxed mb-4">
-                    Đăng nhập để khám phá playlist dành riêng cho bạn
-                </p>
-                <button className="w-full bg-white text-purple-600 font-semibold py-3 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 cursor-pointer">
-                    <LogIn size={18} />
-                    ĐĂNG NHẬP
-                </button>
-            </Link>
+                <LoginBanner/>
         </div>
     );
 };
