@@ -80,15 +80,15 @@ const SidebarMenu: React.FC = () => {
             </nav>
 
             {/* Login Card */}
-            <div className="mx-4 mb-6 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6">
+            <Link to="/login" className="mx-4 mb-6 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6">
                 <p className="text-white text-center text-sm leading-relaxed mb-4">
                     Đăng nhập để khám phá playlist dành riêng cho bạn
                 </p>
-                <button className="w-full bg-white text-purple-600 font-semibold py-3 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                <button className="w-full bg-white text-purple-600 font-semibold py-3 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                     <LogIn size={18} />
                     ĐĂNG NHẬP
                 </button>
-            </div>
+            </Link>
         </div>
     );
 };

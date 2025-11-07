@@ -6,6 +6,7 @@ import { TanstackProvider } from './providers'
 import { router } from './routes'
 import { store } from './stores'
 import './styles/main.css'
+import { Toaster } from "react-hot-toast";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Provider store={store}>
         <TanstackProvider>
           <AppThemeProvider>
+            <Toaster />
             <RouterProvider router={router} />,
           </AppThemeProvider>
         </TanstackProvider>
