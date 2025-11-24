@@ -4,12 +4,13 @@ import { AppThemeProvider } from './providers/ThemeProvider'
 import { TanstackProvider } from './providers'
 import { router } from './routes'
 import { type RootState } from './stores'
-import './styles/main.css'
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from './services/Apis/auth.service.api'
 import { logout, setUser } from './stores/slice/auth.slice'
+import './styles/main.css'
+import './styles/style.scss'
 
 
 function App() {
@@ -30,12 +31,12 @@ function App() {
 
   return (
     <>
-        <TanstackProvider>
-          <AppThemeProvider>
-            <Toaster />
-            <RouterProvider router={router} />,
-          </AppThemeProvider>
-        </TanstackProvider>
+      <TanstackProvider>
+        <AppThemeProvider>
+          <Toaster />
+          <RouterProvider router={router} />,
+        </AppThemeProvider>
+      </TanstackProvider>
     </>
   )
 }

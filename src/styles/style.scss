@@ -1,0 +1,38 @@
+.micro-wrap {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.micro-wrap.active::before,
+.micro-wrap.active::after {
+    content: "";
+    position: absolute;
+    width: 90%;
+    height: 97%;
+    border: 2px solid #ff4d6d;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    top: 3%;
+    left: 6%;
+}
+
+.micro-wrap.active::after {
+    animation-delay: 1s;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}

@@ -6,13 +6,31 @@ import {
   Download,
   Settings,
 } from "lucide-react";
-import { UserMenu } from "./UserMenu";
+import { UserMenu } from "./components/UserMenu";
+import { Micro } from "@/components/Micro";
 
 const Navbar = () => {
+  const [isMicroActive, setIsMicroActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [message, setMessage] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const mockSongs = [
+    "Hơn Cả Yêu - Đức Phúc",
+    "Chúng Ta Của Hiện Tại - Sơn Tùng",
+    "Em Gái Mưa - Hương Tràm",
+    "Lạc Trôi - Sơn Tùng",
+    "Có Chắc Yêu Là Đây",
+    "Nàng Thơ - Hoàng Dũng",
+    "Bước Qua Mùa Cô Đơn",
+    "Bước Qua Mùa Cô Đơn",
+    "Bước Qua Mùa Cô Đơn",
+    "Bước Qua Mùa Cô Đơn",
+  ];
+
 
   return (
-    <nav className="h-[68px] w-full">
+    <nav className="h-[68px] w-full relative z-50">
       {/* Navbar */}
       <div className="bg-[#170f23] bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
         {/* Left section - Navigation arrows and Search */}
@@ -36,8 +54,40 @@ const Navbar = () => {
                 placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#2f2739] text-white placeholder-gray-400 rounded-full py-2.5 pl-12 pr-4 outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full bg-[#2f2739] text-white placeholder-gray-400 rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-purple-500 transition-all"
               />
+              <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                <Micro
+                  isActive={isMicroActive}
+                  language="vi-VN"
+                  onChangeIsActive={setIsMicroActive}
+                  onMicro={(text) => setMessage(text)}
+                  onTimeout={(text) => {
+                    setShowDropdown(false);
+                  }}
+                  className=""
+                />
+              </div>
+              {showDropdown && (
+                <div className="absolute top-full mt-2 w-full bg-[#2f2739] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50">
+                  {mockSongs
+                    .filter((song) =>
+                      song.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .map((song, index) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setSearchQuery(song);
+                          setShowDropdown(false);
+                        }}
+                        className="px-4 py-3 hover:bg-[#3f3650] cursor-pointer text-white transition"
+                      >
+                        🎵 {song}
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -60,7 +110,7 @@ const Navbar = () => {
           </button>
 
           {/* User Avatar */}
-            <UserMenu />
+          <UserMenu />
         </div>
       </div>
     </nav>
