@@ -25,7 +25,7 @@ const Sidebar: React.FC = () => {
                         <button
                             onClick={() => setActiveTab('playlist')}
                             className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'playlist'
-                                ? 'bg-purple-600 text-white'
+                                ? 'bg-blue-600 text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-gray-800'
                                 }`}
                         >
@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
                         <button
                             onClick={() => setActiveTab('recent')}
                             className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'recent'
-                                ? 'bg-purple-600 text-white'
+                                ? 'bg-blue-600 text-white'
                                 : 'text-gray-400 hover:text-white hover:bg-gray-800'
                                 }`}
                         >
@@ -48,8 +48,8 @@ const Sidebar: React.FC = () => {
                     <div className="p-4">
                         {/* Current Playing Song */}
                         {currentSong && (
-                            <div className="bg-gradient-to-r from-purple-600 to-purple-500 rounded-xl p-3 mb-4 flex items-center gap-3">
-                                <div className="bg-purple-900 rounded-lg w-12 h-12 flex items-center justify-center text-xl flex-shrink-0 overflow-hidden">
+                            <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl p-3 mb-4 flex items-center gap-3">
+                                <div className="bg-blue-900 rounded-lg w-12 h-12 flex items-center justify-center text-xl flex-shrink-0 overflow-hidden">
                                     <img
                                         src={currentSong.coverUri}
                                         alt={currentSong.title}
@@ -61,7 +61,7 @@ const Sidebar: React.FC = () => {
                                     <h3 className="font-semibold text-white text-sm truncate">
                                         {currentSong.title}
                                     </h3>
-                                    <p className="text-xs text-purple-100 truncate">
+                                    <p className="text-xs text-blue-100 truncate">
                                         {currentSong.artists?.map((a) => a.artist.name).join(', ')}
                                     </p>
                                 </div>
@@ -71,7 +71,7 @@ const Sidebar: React.FC = () => {
                                     className="bg-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
                                 >
                                     {
-                                        statusSong ? <Pause className="w-4 h-4 text-purple-600 fill-purple-600" /> : <Play className="w-4 h-4 text-purple-600 fill-purple-600" />
+                                        statusSong ? <Pause className="w-4 h-4 text-blue-600 fill-blue-600" /> : <Play className="w-4 h-4 text-blue-600 fill-blue-600" />
                                     }
                                 </button>
                             </div>
@@ -85,7 +85,7 @@ const Sidebar: React.FC = () => {
                             </div>
                             <button
                                 onClick={() => setAutoPlay(!autoPlay)}
-                                className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${autoPlay ? 'bg-purple-600' : 'bg-gray-600'
+                                className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${autoPlay ? 'bg-blue-600' : 'bg-gray-600'
                                     }`}
                             >
                                 <div

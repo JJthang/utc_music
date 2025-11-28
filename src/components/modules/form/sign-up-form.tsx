@@ -123,7 +123,7 @@ export function SignUpForm() {
       {/* Primary Button */}
       <button
         type="submit"
-        className="w-full bg-purple-600 text-black font-bold py-3 rounded-full hover:bg-purple-400 transition text-lg cursor-pointer"
+        className="w-full bg-blue-600 text-white font-bold py-3 rounded-full hover:bg-blue-500 transition text-lg cursor-pointer"
       >
         {loading ? "Đang xử lý..." : "Đăng ký"}
       </button>

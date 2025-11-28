@@ -28,7 +28,7 @@ export function UserMenu() {
     return (
       <Link
         to="/login"
-        className="flex items-center gap-2 bg-gradient-to-br from-purple-500 to-purple-700 px-4 py-2 rounded-full text-white hover:from-purple-600 hover:to-pink-600 transition-all text-sm font-semibold"
+        className="flex items-center gap-2 bg-gradient-to-br from-blue-500 to-blue-700 px-4 py-2 rounded-full text-white hover:from-blue-600 hover:to-cyan-600 transition-all text-sm font-semibold"
       >
         <LogIn size={16} />
         Đăng nhập
@@ -41,7 +41,7 @@ export function UserMenu() {
       {/* Nút Avatar */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 hover:ring-2 hover:ring-purple-400 flex items-center justify-center overflow-hidden transition-all"
+        className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 hover:ring-2 hover:ring-blue-400 flex items-center justify-center overflow-hidden transition-all"
       >
         {user?.avatarUri ? (
           <img
@@ -56,9 +56,9 @@ export function UserMenu() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-3 w-56 bg-[#2a123f] border border-purple-700 rounded-2xl shadow-xl z-[99999] animate-fade-in">
+        <div className="absolute right-0 mt-3 w-56 bg-[#1E293B] border border-blue-700 rounded-2xl shadow-xl z-[99999] animate-fade-in">
           {/* Header */}
-          <div className="flex items-center gap-3 p-4 border-b border-purple-700">
+          <div className="flex items-center gap-3 p-4 border-b border-blue-700">
             <img
               src={user?.avatarUri || "/default-avatar.png"}
               alt="avatar"
@@ -80,7 +80,7 @@ export function UserMenu() {
               dispatch(logout());
               setOpen(false);
             }}
-            className="flex items-center gap-2 w-full px-4 py-3 text-left text-gray-300 hover:bg-purple-800 transition-all rounded-b-2xl cursor-pointer"
+            className="flex items-center gap-2 w-full px-4 py-3 text-left text-gray-300 hover:bg-blue-800 transition-all rounded-b-2xl cursor-pointer"
           >
             <LogOut size={18} />
             Đăng xuất

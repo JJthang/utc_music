@@ -12,12 +12,12 @@ export function LoginBanner() {
   return (
     <Link
       to="/login"
-      className="mx-4 mb-6 block bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6 hover:opacity-95 transition"
+      className="mx-4 mb-6 block bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl p-6 hover:opacity-95 transition"
     >
       <p className="text-white text-center text-sm leading-relaxed mb-4">
         Đăng nhập để khám phá playlist dành riêng cho bạn
       </p>
-      <div className="w-full bg-white text-purple-600 font-semibold py-3 rounded-full flex items-center justify-center gap-2">
+      <div className="w-full bg-white text-blue-600 font-semibold py-3 rounded-full flex items-center justify-center gap-2">
         <LogIn size={18} />
         <span>ĐĂNG NHẬP</span>
       </div>

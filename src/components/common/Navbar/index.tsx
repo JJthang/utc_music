@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <nav className="h-[68px] w-full relative z-50">
       {/* Navbar */}
-      <div className="bg-[#170f23] bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
+      <div className="bg-[#0F172A] bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
         {/* Left section - Navigation arrows and Search */}
         <div className="flex items-center gap-4 flex-1">
           {/* Navigation Arrows */}
@@ -54,7 +54,7 @@ const Navbar = () => {
                 placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#2f2739] text-white placeholder-gray-400 rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                className="w-full bg-[#334155] text-white placeholder-gray-400 rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
                 <Micro
@@ -69,7 +69,7 @@ const Navbar = () => {
                 />
               </div>
               {showDropdown && (
-                <div className="absolute top-full mt-2 w-full bg-[#2f2739] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50">
+                <div className="absolute top-full mt-2 w-full bg-[#334155] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50">
                   {mockSongs
                     .filter((song) =>
                       song.toLowerCase().includes(searchQuery.toLowerCase())
@@ -81,7 +81,7 @@ const Navbar = () => {
                           setSearchQuery(song);
                           setShowDropdown(false);
                         }}
-                        className="px-4 py-3 hover:bg-[#3f3650] cursor-pointer text-white transition"
+                        className="px-4 py-3 hover:bg-[#475569] cursor-pointer text-white transition"
                       >
                         🎵 {song}
                       </div>
@@ -95,7 +95,7 @@ const Navbar = () => {
         {/* Right section - Action buttons */}
         <div className="flex items-center gap-3">
           {/* Upgrade Button */}
-          <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-semibold text-sm transition-all">
+          <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-full font-semibold text-sm transition-all">
             Nâng cấp tài khoản
           </button>
 

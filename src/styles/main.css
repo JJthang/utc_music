@@ -14,7 +14,7 @@ body {
 }
 
 .sidebar-menu::-webkit-scrollbar-track {
-    background: #231b2e; /* nền tối */
+    background: #1E293B; /* nền tối */
     border-radius: 10px;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb:hover {
-    background: #6b4de6;
+    background: #60A5FA;
 }
 
 .main-content::-webkit-scrollbar {
@@ -34,7 +34,7 @@ body {
 }
 
 .main-content::-webkit-scrollbar-track {
-    background: #231b2e; /* nền tối */
+    background: #1E293B; /* nền tối */
     border-radius: 10px;
 }
 
@@ -45,27 +45,27 @@ body {
 }
 
 .main-content::-webkit-scrollbar-thumb:hover {
-    background: #6b4de6;
+    background: #60A5FA;
 }
 
 @theme {
-    /* Purple - Màu chủ đạo */
-    --color-purple: #9b4de0;
-    --color-purple-dark: #7826b4;
-    --color-purple-light: #c273ed;
+    /* Winter Blue - Màu chủ đạo (thay thế Purple) */
+    --color-purple: #60A5FA;
+    --color-purple-dark: #3B82F6;
+    --color-purple-light: #93C5FD;
 
-    /* Background */
-    --color-outlet: #170f23;
-    --color-bg-secondary: #231b2e;
-    --color-bg-tertiary: #2f2739;
-    --color-bg-alpha: rgba(23, 15, 35, 0.9);
+    /* Background - Cool tones */
+    --color-outlet: #0F172A;
+    --color-bg-secondary: #1E293B;
+    --color-bg-tertiary: #334155;
+    --color-bg-alpha: rgba(15, 23, 42, 0.9);
 
     /* Sidebar */
-    --color-sidebar: #231b2e;
-    --color-sidebar-hover: #2f2739;
+    --color-sidebar: #1E293B;
+    --color-sidebar-hover: #334155;
 
     /* Player */
-    --color-player-bg: #130c1c;
+    --color-player-bg: #0A0E1A;
     --color-player-border: rgba(255, 255, 255, 0.1);
 
     /* Text */
@@ -79,17 +79,17 @@ body {
 
     /* Hover states */
     --color-hover: rgba(255, 255, 255, 0.1);
-    --color-hover-purple: rgba(155, 77, 224, 0.1);
+    --color-hover-purple: rgba(96, 165, 250, 0.1);
 
     /* Accent colors */
-    --color-link: #3596f7;
+    --color-link: #60A5FA;
     --color-success: #52c41a;
     --color-warning: #faad14;
     --color-error: #ff4757;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(to right, #9b4de0, #c273ed);
-    --gradient-dark: linear-gradient(180deg, #740091, #2d1a4d);
+    /* Gradients - Winter theme */
+    --gradient-primary: linear-gradient(to right, #60A5FA, #93C5FD);
+    --gradient-dark: linear-gradient(180deg, #1E40AF, #0F172A);
 }
 
 

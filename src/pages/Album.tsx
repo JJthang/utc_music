@@ -45,7 +45,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
           song.artists.map((art, idx) => (
             <p
               key={idx}
-              className="text-gray-500 text-sm hover:text-purple-400 hover:underline cursor-pointer transition-colors"
+              className="text-gray-500 text-sm hover:text-blue-400 hover:underline cursor-pointer transition-colors"
             >
               {art.artist.name}
             </p>
@@ -64,7 +64,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
 
       <div className="hidden group-hover:flex items-center gap-2">
         <button className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer">
-          <Heart className="w-5 h-5 text-white hover:text-purple-400 transition-colors" />
+          <Heart className="w-5 h-5 text-white hover:text-blue-400 transition-colors" />
         </button>
         <button className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer">
           <MoreHorizontal className="w-5 h-5 text-white" />
@@ -163,7 +163,7 @@ const AlbumPage: FC = () => {
           </div>
 
           {/* Play Button */}
-          <button className="w-full bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center gap-2 mb-4 transition-all shadow-lg cursor-pointer">
+          <button className="w-full bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center gap-2 mb-4 transition-all shadow-lg cursor-pointer">
             <Play className="w-5 h-5 fill-white" />
             PHÁT TẤT CẢ
           </button>
@@ -207,7 +207,7 @@ const AlbumPage: FC = () => {
               </div>
               {/* <div>
                 <p className="text-gray-400">Cung cấp bởi</p>
-                <p className="text-purple-400 font-medium cursor-pointer hover:underline">
+                <p className="text-blue-400 font-medium cursor-pointer hover:underline">
                   The Orchard
                 </p>
               </div> */}

@@ -176,7 +176,7 @@ const MusicPlayer: FC = () => {
                 <source src={currentSong.url} type="audio/mpeg" />
             </audio>
 
-            <div className="fixed bottom-0 z-[100] w-[100vw] bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 border-t border-purple-700 px-6 pt-3 pb-1">
+            <div className="fixed bottom-0 z-[100] w-[100vw] bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border-t border-blue-700 px-6 pt-3 pb-1">
                 <div className="flex items-center gap-6 flex-wrap md:flex-nowrap">
                     <div className="flex w-[300px]" >
                         <SongInfo
@@ -226,7 +226,7 @@ const MusicPlayer: FC = () => {
                                     onClick={togglePlayPause}
                                     aria-label={state.isPlaying ? "Pause" : "Play"}
                                     title={state.isPlaying ? "Pause" : "Play"}
-                                    className="bg-purple-600 hover:bg-purple-500 text-white rounded-full p-2 transition cursor-pointer"
+                                    className="bg-blue-600 hover:bg-blue-500 text-white rounded-full p-2 transition cursor-pointer"
                                 >
                                     {state.isPlaying ? (
                                         <Pause size={24} fill="white" />

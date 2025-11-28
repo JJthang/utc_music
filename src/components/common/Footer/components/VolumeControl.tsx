@@ -15,7 +15,7 @@ export const VolumeControl: FC<VolumeControlProps> = ({ volume, onChange }) => (
             max="100"
             value={volume}
             onChange={onChange}
-            className="w-24 h-1 bg-gray-700 rounded accent-purple-500 cursor-pointer"
+            className="w-24 h-1 bg-gray-700 rounded accent-blue-500 cursor-pointer"
             aria-label="Volume"
         />
     </div>
