@@ -1,7 +1,7 @@
 import { SignUpForm } from "@/components/modules/form/sign-up-form";
 import { Link } from "react-router-dom";
 
-export default function SignUpPage() {
+export function SignUpPage() {
   return (
     <main className="min-h-screen bg-black flex flex-col items-center justify-center px-4 overflow-y-auto">
       <div className="w-full max-w-md py-6">

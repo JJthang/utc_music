@@ -51,13 +51,6 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
             </p>
           ))}
       </div>
-
-      {/* {song.premium && (
-                  <span className="bg-yellow-500 text-white font-bold text-xs px-2 py-1 rounded">
-                    PREMIUM
-                  </span>
-                )} */}
-
       <span className="text-gray-400 text-sm min-w-12 text-right">
         {formatDuration(song.duration)}
       </span>
@@ -74,7 +67,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
   );
 };
 
-const AlbumPage: FC = () => {
+export const AlbumPage: FC = () => {
   const { albumId } = useParams<{ albumId: string }>();
 
   const [album, setAlbum] = useState<Album | null>(null);
@@ -205,12 +198,6 @@ const AlbumPage: FC = () => {
                   {formatDate(album.releaseDate, "date")}
                 </p>
               </div>
-              {/* <div>
-                <p className="text-gray-400">Cung cấp bởi</p>
-                <p className="text-blue-400 font-medium cursor-pointer hover:underline">
-                  The Orchard
-                </p>
-              </div> */}
             </div>
           </div>
         </div>
@@ -218,5 +205,3 @@ const AlbumPage: FC = () => {
     </main>
   );
 };
-
-export default AlbumPage;

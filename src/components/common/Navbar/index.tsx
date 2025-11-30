@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { UserMenu } from "./components/UserMenu";
 import { Micro } from "@/components/Micro";
+import axios from "axios";
 
 const Navbar = () => {
   const [isMicroActive, setIsMicroActive] = useState(false);

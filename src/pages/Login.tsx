@@ -1,6 +1,6 @@
 import { LoginForm } from "@/components/modules/form/login-form";
 
-const LoginPage = () => {
+export const LoginPage = () => {
   return (
     <main className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
@@ -20,5 +20,3 @@ const LoginPage = () => {
     </main>
   );
 };
-
-export default LoginPage;

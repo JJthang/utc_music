@@ -52,12 +52,6 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
           ))}
       </div>
 
-      {/* {song.premium && (
-                  <span className="bg-yellow-500 text-white font-bold text-xs px-2 py-1 rounded">
-                    PREMIUM
-                  </span>
-                )} */}
-
       <span className="text-gray-400 text-sm min-w-12 text-right">
         {formatDuration(song.duration)}
       </span>
@@ -74,7 +68,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
   );
 };
 
-const PlaylistPage: FC = () => {
+export const PlaylistPage: FC = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
 
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
@@ -196,5 +190,3 @@ const PlaylistPage: FC = () => {
     </main>
   );
 };
-
-export default PlaylistPage;
