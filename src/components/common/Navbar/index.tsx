@@ -9,8 +9,12 @@ import {
 import { UserMenu } from "./components/UserMenu";
 import { Micro } from "@/components/Micro";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/stores";
 
 const Navbar = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
   const [isMicroActive, setIsMicroActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [message, setMessage] = useState("");
@@ -28,7 +32,6 @@ const Navbar = () => {
     "Bước Qua Mùa Cô Đơn",
     "Bước Qua Mùa Cô Đơn",
   ];
-
 
   return (
     <nav className="h-[68px] w-full relative z-50">
@@ -96,9 +99,13 @@ const Navbar = () => {
         {/* Right section - Action buttons */}
         <div className="flex items-center gap-3">
           {/* Upgrade Button */}
-          <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-full font-semibold text-sm transition-all">
-            Nâng cấp tài khoản
-          </button>
+          {user?.isPremium ? (
+            <div />
+          ) : (
+            <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-full font-semibold text-sm transition-all">
+              <Link to="upgrade/subscription">Nâng cấp tài khoản</Link>
+            </button>
+          )}
 
           {/* Download Button */}
           <button className="w-10 h-10 rounded-full bg-black bg-opacity-20 hover:bg-opacity-30 flex items-center justify-center transition-all">

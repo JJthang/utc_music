@@ -24,6 +24,11 @@ export function UserMenu() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout = () => {
+    dispatch(logout());
+    setOpen(false);
+    window.location.href = "/login";
+  };
   if (!user) {
     return (
       <Link
@@ -69,17 +74,14 @@ export function UserMenu() {
                 {user?.displayName || "Người dùng"}
               </p>
               <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded">
-                {user?.role || "USER"}
+                {user.isPremium ? "Gói cao cấp" : "Gói cơ bản"}
               </span>
             </div>
           </div>
 
           {/* Logout */}
           <button
-            onClick={() => {
-              dispatch(logout());
-              setOpen(false);
-            }}
+            onClick={handleLogout}
             className="flex items-center gap-2 w-full px-4 py-3 text-left text-gray-300 hover:bg-blue-800 transition-all rounded-b-2xl cursor-pointer"
           >
             <LogOut size={18} />

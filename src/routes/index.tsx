@@ -1,7 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
-import { AlbumPage, HomePage, LoginPage, PlaylistPage, SignUpPage } from "@/pages";
+import {
+  AlbumPage,
+  HomePage,
+  LoginPage,
+  PlaylistPage,
+  SignUpPage,
+} from "@/pages";
 import TopSong from "@/pages/TopSong";
+import UpgradeSubscriptionPage from "@/pages/UpgradeSubscription";
+import PaymentSubscriptionPage from "@/pages/PaymentSubscription";
+import PaymentResultPage from "@/pages/PaymentResult";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +21,18 @@ export const router = createBrowserRouter([
       { path: "album/:albumId", element: <AlbumPage /> },
       { path: "playlist/:playlistId", element: <PlaylistPage /> },
       { path: "chart-top-song", element: <TopSong /> },
+      {
+        path: "upgrade/subscription",
+        element: <UpgradeSubscriptionPage />,
+      },
+      {
+        path: "upgrade/payment",
+        element: <PaymentSubscriptionPage />,
+      },
+      {
+        path: "payment/result",
+        element: <PaymentResultPage />,
+      },
     ],
   },
   {

@@ -48,3 +48,15 @@ export const formatNumber = (num: number): string => {
   }
   return num.toString();
 };
+
+export const formatCurrency = (
+  amount: string | number,
+  currency: string = "VND",
+  locale: string = "vi-VN"
+): string => {
+  const num = typeof amount === "string" ? Number(amount) : amount;
+  return num.toLocaleString(locale, {
+    style: "currency",
+    currency,
+  });
+};
