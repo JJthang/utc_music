@@ -5,7 +5,9 @@ import {
   HomePage,
   LoginPage,
   PlaylistPage,
+  SearchPage,
   SignUpPage,
+  SongPage,
 } from "@/pages";
 import TopSong from "@/pages/TopSong";
 import UpgradeSubscriptionPage from "@/pages/UpgradeSubscription";
@@ -19,6 +21,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "album/:albumId", element: <AlbumPage /> },
+      { path: "song/:songId", element: <SongPage /> },
+      { path: "search", element: <SearchPage/>},
       { path: "playlist/:playlistId", element: <PlaylistPage /> },
       { path: "chart-top-song", element: <TopSong /> },
       {

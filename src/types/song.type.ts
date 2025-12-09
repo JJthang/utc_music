@@ -11,7 +11,7 @@ interface SongAlbum {
   title: string;
 }
 
-interface SongArtist {
+export interface SongArtist {
   artistId: string;
   artist: {
     name: string;

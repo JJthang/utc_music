@@ -59,15 +59,13 @@ export const Micro: React.FC<Props> = ({
         onTimeout?.(transcript);
         SpeechRecognition.stopListening();
         clearCurrentTimeout();
-    }, [isActive]);
+    }, [onChangeIsActive, onTimeout, transcript]);
 
     const resetTimeout = useCallback(() => {
-
         clearCurrentTimeout();
         timeoutRef.current = setTimeout(() => {
-            console.log('HEHE setTimeout');
             stopListening();
-        }, 5000);
+        }, 500);
     }, [stopListening]);
 
     const startListening = useCallback(() => {
@@ -83,7 +81,7 @@ export const Micro: React.FC<Props> = ({
         });
 
         resetTimeout();
-    }, [isActive]);
+    }, [language, listening, onChangeIsActive, onMicro, resetTimeout, resetTranscript]);
 
     // Debounce giống useDebounceFn(..., 500) bên Vue
     const debounceToggleMicro = useDebouncedCallback(() => {
@@ -119,7 +117,7 @@ export const Micro: React.FC<Props> = ({
                 SpeechRecognition.stopListening();
             }
         };
-    }, []);
+    }, [listening]);
 
     if (!browserSupportsSpeechRecognition) {
         return <div>Trình duyệt không hỗ trợ SpeechRecognition</div>;

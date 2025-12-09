@@ -3,7 +3,7 @@ import { ArrowUp, ArrowDown, MoreHorizontal } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce';
 import { setCurrentSong, setPlayStatus } from '@/stores/slice/song.slice';
-import { getListSongs } from '@/services/Apis/listsSong.service.api';
+import { getListSongs } from '@/services/Apis/song.service';
 import { formatDuration } from '@/utils/format';
 import type { currentSong } from '@/types/song.type';
 import SongContextMenu from './components/SongContextMenu';

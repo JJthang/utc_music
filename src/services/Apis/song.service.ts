@@ -1,5 +1,6 @@
+import { requestUrl } from "@/constants";
 import api from "../http";
-import type { ApiListResponse } from "@/types/api-response.type";
+import type { ApiItemResponse, ApiListResponse } from "@/types/api-response.type";
 import type { currentSong } from "@/types/song.type";
 
 interface SongQueryParams {
@@ -12,7 +13,7 @@ interface SongQueryParams {
 export const getListSongs = async (
   params?: SongQueryParams
 ): Promise<ApiListResponse<currentSong>> => {
-  const albumsUrl = `${import.meta.env.VITE_API_URL}/api/songs`;
+  const albumsUrl = `${requestUrl}/songs`;
   try {
     const result = await api.get(albumsUrl, { params });
     return result.data;
@@ -20,4 +21,13 @@ export const getListSongs = async (
     console.error("Lỗi khi tải danh sách bài hát:", error);
     throw new Error("Không thể tải danh sách bài hát. Vui lòng thử lại");
   }
+};
+
+export const getDetailSong = async (
+  id: string
+): Promise<ApiItemResponse<currentSong>> => {
+  const albumUrl = `${requestUrl}/songs/${id}`;
+  const result = await api.get(albumUrl);
+
+  return result.data;
 };

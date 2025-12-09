@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import { RotateCw, Sparkles } from "lucide-react";
 import type { currentSong } from "@/types/song.type";
-import { getListSongs } from "@/services/Apis/listsSong.service.api";
+import { getListSongs } from "@/services/Apis/song.service";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayList, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
 import { Link } from "react-router-dom";
 
-function Cover({ url, title }: { url?: string; title: string }) {
+export function Cover({ url, title }: { url?: string; title: string }) {
   const initials = title
     .split(" ")
     .slice(0, 2)
@@ -34,7 +34,7 @@ function SongRow({ song, onClick }: { song: currentSong, onClick: (song: current
       type="button"
       onClick={() => onClick(song)}
     >
-      <Link to={`album/${song.albumId}`}>
+      <Link to={`song/${song.id}`}>
         <div className="flex items-center gap-3">
           <Cover url={song.coverUri} title={song.title} />
           <div className="min-w-0 flex-1">

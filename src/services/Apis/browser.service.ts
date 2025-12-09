@@ -1,0 +1,35 @@
+import { requestUrl } from "@/constants";
+import api from "../http";
+import type { ApiItemResponse, ApiMeta } from "@/types/api-response.type";
+import type { Album, ArtistDetails } from "@/types/album.type";
+import type { currentSong } from "@/types/song.type";
+
+interface searchQuery {
+  q: string;
+}
+
+export interface BrowseResponse {
+  songs: currentSong[];
+  albums: Album[];
+  artists: ArtistDetails[];
+}
+
+interface ApiBrowseResponse extends ApiItemResponse<BrowseResponse> {
+  meta: ApiMeta & {
+    totalSongs: number;
+    totalArtists: number;
+    totalAlbums: number;
+  };
+}
+
+export const browseAllData = async (
+  params: searchQuery
+): Promise<ApiBrowseResponse> => {
+  const { q } = params;
+
+  const result = await api.get(`${requestUrl}/search`, {
+    params: { q },
+  });
+
+  return result.data;
+};

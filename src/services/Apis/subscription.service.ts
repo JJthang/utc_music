@@ -1,8 +1,9 @@
+import { requestUrl } from "@/constants";
 import api from "../http";
 import type { ApiListResponse } from "@/types/api-response.type";
 import type { SubscriptionTier } from "@/types/subscriptions";
 
-const paymentUrl = `${import.meta.env.VITE_API_URL}/api/payment`;
+const paymentUrl = `${requestUrl}/payment`;
 
 interface GetSubscriptionTiersParams {
   includeFree?: boolean;

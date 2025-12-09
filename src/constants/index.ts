@@ -6,3 +6,5 @@ export const specialPrivileges = [
 ];
 
 export const basicPrivileges = ["Chất lượng âm thanh cơ bản", "Có quảng cáo"];
+
+export const requestUrl = `${import.meta.env.VITE_API_URL}/api`;

@@ -1,53 +1,96 @@
-import { useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Search,
-  Download,
-  Settings,
-} from "lucide-react";
-import { UserMenu } from "./components/UserMenu";
+import { useMemo, useState, type ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, X } from "lucide-react";
+import { IoIosSearch } from "react-icons/io";
+
 import { Micro } from "@/components/Micro";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import type { RootState } from "@/stores";
+import {
+  CardResult,
+  DownloadButton,
+  NavigationArrows,
+  SettingsButton,
+  UpgradeButton,
+  UserMenu,
+} from "./components";
+
+import {
+  browseAllData,
+  type BrowseResponse,
+} from "@/services/Apis/browser.service";
+import { debounce } from "@/utils/debounce";
+import { FaSpinner } from "react-icons/fa";
 
 const Navbar = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const [isMicroActive, setIsMicroActive] = useState(false);
+  const navigate = useNavigate();
+  const [isMicroActive, setIsMicroActive] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [message, setMessage] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [listResult, setListResult] = useState<BrowseResponse>({
+    songs: [],
+    albums: [],
+    artists: [],
+  });
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const mockSongs = [
-    "Hơn Cả Yêu - Đức Phúc",
-    "Chúng Ta Của Hiện Tại - Sơn Tùng",
-    "Em Gái Mưa - Hương Tràm",
-    "Lạc Trôi - Sơn Tùng",
-    "Có Chắc Yêu Là Đây",
-    "Nàng Thơ - Hoàng Dũng",
-    "Bước Qua Mùa Cô Đơn",
-    "Bước Qua Mùa Cô Đơn",
-    "Bước Qua Mùa Cô Đơn",
-    "Bước Qua Mùa Cô Đơn",
-  ];
+  const fetchSearch = async (query: string) => {
+    if (!query.trim()) {
+      setListResult({
+        songs: [],
+        albums: [],
+        artists: [],
+      });
+      return;
+    }
+
+    setLoading(true);
+    setShowDropdown(true);
+    try {
+      const searchResult = await browseAllData({ q: query });
+      setListResult(searchResult.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const debouncedSearch = useMemo(
+    () => debounce((text: string) => fetchSearch(text), 400),
+    []
+  );
+
+  const onMicro = (text: string) => {
+    setSearchQuery(text);
+    debouncedSearch(text);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim();
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
+
+  const onHandleSearch = (text: string) => {
+    navigate(`/search?q=${text}`);
+    setShowDropdown(false);
+  };
+
+  const clearSearchQuery = () => {
+    setSearchQuery("");
+    setListResult({
+      songs: [],
+      albums: [],
+      artists: [],
+    });
+  };
 
   return (
     <nav className="h-[68px] w-full relative z-50">
       {/* Navbar */}
-      <div className="bg-[#0F172A] bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
+      <div className="bg-outlet bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
         {/* Left section - Navigation arrows and Search */}
         <div className="flex items-center gap-4 flex-1">
-          {/* Navigation Arrows */}
-          <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded-full bg-black bg-opacity-20 hover:bg-opacity-30 flex items-center justify-center transition-all">
-              <ArrowLeft className="w-5 h-5 text-white" />
-            </button>
-            <button className="w-10 h-10 rounded-full bg-black bg-opacity-20 hover:bg-opacity-30 flex items-center justify-center transition-all">
-              <ArrowRight className="w-5 h-5 text-white" />
-            </button>
-          </div>
+          <NavigationArrows />
 
           {/* Search Bar */}
           <div className="flex-1 max-w-xl">
@@ -57,39 +100,100 @@ const Navbar = () => {
                 type="text"
                 placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleChange}
                 className="w-full bg-[#334155] text-white placeholder-gray-400 rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                <Micro
-                  isActive={isMicroActive}
-                  language="vi-VN"
-                  onChangeIsActive={setIsMicroActive}
-                  onMicro={(text) => setMessage(text)}
-                  onTimeout={(text) => {
-                    setShowDropdown(false);
-                  }}
-                  className=""
-                />
+                {searchQuery ? (
+                  <X
+                    onClick={clearSearchQuery}
+                    className="text-[#B3B3C2] cursor-pointer"
+                  />
+                ) : (
+                  <Micro
+                    isActive={isMicroActive}
+                    language="vi-VN"
+                    onChangeIsActive={setIsMicroActive}
+                    onMicro={onMicro}
+                    onTimeout={() => {
+                      setShowDropdown(false);
+                    }}
+                  />
+                )}
               </div>
               {showDropdown && (
-                <div className="absolute top-full mt-2 w-full bg-[#334155] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50">
-                  {mockSongs
-                    .filter((song) =>
-                      song.toLowerCase().includes(searchQuery.toLowerCase())
-                    )
-                    .map((song, index) => (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          setSearchQuery(song);
-                          setShowDropdown(false);
-                        }}
-                        className="px-4 py-3 hover:bg-[#475569] cursor-pointer text-white transition"
-                      >
-                        🎵 {song}
-                      </div>
-                    ))}
+                <div
+                  onBlur={() => setShowDropdown(false)}
+                  className="absolute px-4 py-3 top-full mt-2 w-full bg-[#334155] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50"
+                >
+                  <p className="text-white text-base font-bold">
+                    Từ khoá liên quan
+                  </p>
+                  {listResult.songs?.map((song, index) => (
+                    <div
+                      key={index}
+                      onClick={() => onHandleSearch(song.title)}
+                      className="flex items-center gap-1 w-full cursor-pointer rounded-xl px-2 py-2 hover:bg-[#475569]"
+                    >
+                      <IoIosSearch />
+                      <span className="text-white text-sm font-bold">
+                        {song.title}
+                      </span>
+                    </div>
+                  ))}
+                  {searchQuery.trim() && (
+                    <div
+                      onClick={() => onHandleSearch(searchQuery)}
+                      className="flex items-center gap-1 w-full cursor-pointer rounded-xl px-2 py-2 hover:bg-[#475569]"
+                    >
+                      <IoIosSearch />
+                      <span className="text-zinc-400 text-sm font-normal">
+                        Tìm kiếm
+                      </span>
+                      <span className="text-white text-sm font-bold">
+                        "{searchQuery}"
+                      </span>
+                    </div>
+                  )}
+
+                  <hr className="border-gray-500 my-3" />
+
+                  <p className="text-white text-base font-bold">
+                    Gợi ý kết quả
+                  </p>
+                  {loading ? (
+                    <FaSpinner className={`${loading && "animate-spin"}`} />
+                  ) : (
+                    <div>
+                      {listResult.songs?.map((song, index) => (
+                        <CardResult
+                          key={index}
+                          title={song.title}
+                          coverUri={song.coverUri}
+                          artists={song.artists}
+                          redirectUrl={`song/${song.id}`}
+                        />
+                      ))}
+                      {listResult.albums?.map((album, index) => (
+                        <CardResult
+                          key={index}
+                          title={album.title}
+                          coverUri={album.coverUri}
+                          artists={album.artists}
+                          redirectUrl={`album/${album.id}`}
+                          type={album.type}
+                        />
+                      ))}
+                      {listResult.artists?.map((artist, index) => (
+                        <CardResult
+                          key={index}
+                          title={artist.name}
+                          coverUri={artist.avatarUri}
+                          redirectUrl={`artist/${artist.id}`}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -98,25 +202,9 @@ const Navbar = () => {
 
         {/* Right section - Action buttons */}
         <div className="flex items-center gap-3">
-          {/* Upgrade Button */}
-          {user?.isPremium ? (
-            <div />
-          ) : (
-            <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-full font-semibold text-sm transition-all">
-              <Link to="upgrade/subscription">Nâng cấp tài khoản</Link>
-            </button>
-          )}
-
-          {/* Download Button */}
-          <button className="w-10 h-10 rounded-full bg-black bg-opacity-20 hover:bg-opacity-30 flex items-center justify-center transition-all">
-            <Download className="w-5 h-5 text-white" />
-          </button>
-
-          {/* Settings Button */}
-          <button className="w-10 h-10 rounded-full bg-black bg-opacity-20 hover:bg-opacity-30 flex items-center justify-center transition-all">
-            <Settings className="w-5 h-5 text-white" />
-          </button>
-
+          <UpgradeButton />
+          <DownloadButton />
+          <SettingsButton />
           {/* User Avatar */}
           <UserMenu />
         </div>
