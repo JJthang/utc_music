@@ -22,21 +22,21 @@ import {
   Share2,
   ChevronRight,
 } from 'lucide-react';
-import type { currentSong } from '@/types/song.type';
+import type { Song } from '@/types/song.type';
 import { formatNumber } from '@/utils/format';
 
 interface SongContextMenuProps {
-  song: currentSong;
+  song: Song;
   anchorEl: HTMLElement | null;
   open: boolean;
   onClose: () => void;
-  onAddToPlaylist?: (song: currentSong) => void;
-  onPlayNext?: (song: currentSong) => void;
-  onPlaySimilar?: (song: currentSong) => void;
-  onCopyLink?: (song: currentSong) => void;
-  onShare?: (song: currentSong) => void;
-  onBlock?: (song: currentSong) => void;
-  onShowLyrics?: (song: currentSong) => void;
+  onAddToPlaylist?: (song: Song) => void;
+  onPlayNext?: (song: Song) => void;
+  onPlaySimilar?: (song: Song) => void;
+  onCopyLink?: (song: Song) => void;
+  onShare?: (song: Song) => void;
+  onBlock?: (song: Song) => void;
+  onShowLyrics?: (song: Song) => void;
 }
 
 const SongContextMenu: React.FC<SongContextMenuProps> = ({

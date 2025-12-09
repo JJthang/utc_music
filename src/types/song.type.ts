@@ -1,3 +1,6 @@
+import type { AlbumType } from "./album.type";
+import type { Status } from "./auth.type";
+
 export interface PlayerState {
   isPlaying: boolean;
   currentTime: number;
@@ -9,12 +12,15 @@ export interface PlayerState {
 
 interface SongAlbum {
   title: string;
+  coverUri: string;
+  type: AlbumType;
 }
 
 export interface SongArtist {
   artistId: string;
   artist: {
     name: string;
+    isVerified: boolean;
   };
 }
 
@@ -22,10 +28,11 @@ interface SongGenre {
   genreId: string;
   genre: {
     name: string;
+    status: Status;
   };
 }
 
-export interface currentSong {
+export interface Song {
   id: string;
   title: string;
   duration: number;

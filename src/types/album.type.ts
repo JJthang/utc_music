@@ -1,4 +1,4 @@
-import type { currentSong } from "./song.type";
+import type { Song } from "./song.type";
 
 export interface ArtistDetails {
   id: string;
@@ -25,9 +25,11 @@ export interface Album {
   title: string;
   releaseDate: string;
   coverUri: string;
-  type: string;
+  type: AlbumType;
   createdAt: string;
   updatedAt: string;
-  songs: currentSong[];
+  songs: Song[];
   artists: AlbumArtist[];
 }
+
+export type AlbumType = "SINGLE" | "ALBUM" | "EP";

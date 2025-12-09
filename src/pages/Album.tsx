@@ -8,11 +8,11 @@ import { formatDate, formatDuration } from "@/utils/format";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
-import type { currentSong } from "@/types/song.type";
+import type { Song } from "@/types/song.type";
 
 type SongCardType = {
-  song: currentSong;
-  onClick: (song: currentSong) => void;
+  song: Song;
+  onClick: (song: Song) => void;
 };
 
 const SongCard: FC<SongCardType> = ({ song, onClick }) => {
@@ -79,7 +79,7 @@ export const AlbumPage: FC = () => {
     dispatch(setPlayStatus(true));
   }, 500);
 
-  const handSetCurrentSong = (item: currentSong) => {
+  const handSetCurrentSong = (item: Song) => {
     dispatch(setCurrentSong(item));
     debouncedPlay();
   };
@@ -179,7 +179,7 @@ export const AlbumPage: FC = () => {
               <SongCard
                 key={idx}
                 song={song}
-                onClick={(song: currentSong) => handSetCurrentSong(song)}
+                onClick={(song: Song) => handSetCurrentSong(song)}
               />
             ))}
           </div>

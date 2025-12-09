@@ -1,12 +1,12 @@
-import type { currentSong } from "@/types/song.type";
+import type { Song } from "@/types/song.type";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface CounterState {
   value: number;
   statusSong: boolean;
-  currentSong: currentSong;
+  currentSong: Song;
   shuffle: boolean;
-  playList: currentSong[] | [];
+  playList: Song[] | [];
 }
 
 const savedState = localStorage.getItem("currentSong");
@@ -53,7 +53,7 @@ const initialState: CounterState = {
       },
 };
 
-const saveToLocalStorage = (state: currentSong) => {
+const saveToLocalStorage = (state: Song) => {
   localStorage.setItem("currentSong", JSON.stringify(state));
 };
 
@@ -62,7 +62,7 @@ const currentSongSlice = createSlice({
   initialState,
   reducers: {
     // Đặt bài hát hiện tại
-    setCurrentSong: (state, action: PayloadAction<currentSong>) => {
+    setCurrentSong: (state, action: PayloadAction<Song>) => {
       state.currentSong = action.payload;
       state.statusSong = false;
       saveToLocalStorage(state.currentSong);
@@ -78,7 +78,7 @@ const currentSongSlice = createSlice({
       state.statusSong = action.payload;
     },
 
-    setPlayList: (state, action: PayloadAction<currentSong[]>) => {
+    setPlayList: (state, action: PayloadAction<Song[]>) => {
       state.playList = action.payload;
     },
 

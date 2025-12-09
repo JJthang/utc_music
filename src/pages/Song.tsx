@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
-import type { currentSong } from "@/types/song.type";
+import type { Song } from "@/types/song.type";
 import { getDetailSong } from "@/services/Apis/song.service";
 import { formatDate, formatDuration, formatNumber } from "@/utils/format";
 import { useDispatch } from "react-redux";
@@ -10,8 +10,8 @@ import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
 
 type SongCardType = {
-  song: currentSong;
-  onClick: (song: currentSong) => void;
+  song: Song;
+  onClick: (song: Song) => void;
 };
 
 const SongCard: FC<SongCardType> = ({ song, onClick }) => {
@@ -69,7 +69,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
 export const SongPage: FC = () => {
   const { songId } = useParams<{ songId: string }>();
 
-  const [song, setSong] = useState<currentSong | null>(null);
+  const [song, setSong] = useState<Song | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ export const SongPage: FC = () => {
     dispatch(setPlayStatus(true));
   }, 500);
 
-  const handSetCurrentSong = (item: currentSong) => {
+  const handSetCurrentSong = (item: Song) => {
     dispatch(setCurrentSong(item));
     debouncedPlay();
   };
@@ -160,7 +160,7 @@ export const SongPage: FC = () => {
           <div className="space-y-2 mb-8">
             <SongCard
               song={song}
-              onClick={(song: currentSong) => handSetCurrentSong(song)}
+              onClick={(song: Song) => handSetCurrentSong(song)}
             />
           </div>
 

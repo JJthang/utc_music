@@ -1,4 +1,4 @@
-import type { currentSong } from "./song.type";
+import type { Song } from "./song.type";
 
 export interface UserPlaylist {
   displayName: string;
@@ -16,6 +16,6 @@ export interface Playlist {
   createdAt: string;
   updatedAt: string;
   user: UserPlaylist;
-  songs: currentSong[];
+  songs: Song[];
 }
 

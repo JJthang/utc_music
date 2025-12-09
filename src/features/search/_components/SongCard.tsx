@@ -5,11 +5,11 @@ import { useDispatch } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 
 import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
-import type { currentSong } from "@/types/song.type";
+import type { Song } from "@/types/song.type";
 import { formatDuration } from "@/utils/format";
 
 interface SongCardProps {
-  song: currentSong;
+  song: Song;
 }
 
 export const SongCard: FC<SongCardProps> = ({ song }) => {
@@ -19,7 +19,7 @@ export const SongCard: FC<SongCardProps> = ({ song }) => {
     dispatch(setPlayStatus(true));
   }, 500);
 
-  const handSetCurrentSong = (item: currentSong) => {
+  const handSetCurrentSong = (item: Song) => {
     dispatch(setCurrentSong(item));
     debouncedPlay();
   };
@@ -42,7 +42,7 @@ export const SongCard: FC<SongCardProps> = ({ song }) => {
       <div className="flex-1">
         <Link
           to={`/song/${song.id}`}
-          className="text-white text-sm font-medium hover:text-blue-400"
+          className="text-white text-sm font-medium hover:text-blue-400 transition-colors"
         >
           {song.title}
         </Link>

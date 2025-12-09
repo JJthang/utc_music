@@ -1,7 +1,7 @@
 import { requestUrl } from "@/constants";
 import api from "../http";
 import type { ApiItemResponse, ApiListResponse } from "@/types/api-response.type";
-import type { currentSong } from "@/types/song.type";
+import type { Song } from "@/types/song.type";
 
 interface SongQueryParams {
   page?: number;
@@ -12,7 +12,7 @@ interface SongQueryParams {
 
 export const getListSongs = async (
   params?: SongQueryParams
-): Promise<ApiListResponse<currentSong>> => {
+): Promise<ApiListResponse<Song>> => {
   const albumsUrl = `${requestUrl}/songs`;
   try {
     const result = await api.get(albumsUrl, { params });
@@ -25,7 +25,7 @@ export const getListSongs = async (
 
 export const getDetailSong = async (
   id: string
-): Promise<ApiItemResponse<currentSong>> => {
+): Promise<ApiItemResponse<Song>> => {
   const albumUrl = `${requestUrl}/songs/${id}`;
   const result = await api.get(albumUrl);
 

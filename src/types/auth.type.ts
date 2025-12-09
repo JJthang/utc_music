@@ -15,8 +15,8 @@ export interface User {
   password: string;
   displayName: string | null;
   avatarUri: string | null;
-  role: "USER" | "ADMIN";
-  status: "ACTIVE" | "INACTIVE" | "PENDING";
+  role: RoleUser;
+  status: Status;
   createdAt: string;
   updatedAt: string;
   isPremium: boolean;
@@ -44,3 +44,6 @@ export interface RegisterPayload {
   password: string;
   displayName: string;
 }
+
+export type Status = "ACTIVE" | "INACTIVE" | "PENDING";
+export type RoleUser = "USER" | "ADMIN";

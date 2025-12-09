@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { RotateCw, Sparkles } from "lucide-react";
-import type { currentSong } from "@/types/song.type";
+import type { Song } from "@/types/song.type";
 import { getListSongs } from "@/services/Apis/song.service";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayList, setPlayStatus } from "@/stores/slice/song.slice";
@@ -27,7 +27,7 @@ export function Cover({ url, title }: { url?: string; title: string }) {
   );
 }
 
-function SongRow({ song, onClick }: { song: currentSong, onClick: (song: currentSong) => void }) {
+function SongRow({ song, onClick }: { song: Song, onClick: (song: Song) => void }) {
   return (
     <button
       className="group w-full cursor-pointer rounded-xl px-2 py-2 text-left hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-zinc-500/50"
@@ -56,7 +56,7 @@ function SongRow({ song, onClick }: { song: currentSong, onClick: (song: current
 }
 
 export function SuggestedSongs() {
-  const [songs, setSongs] = useState<currentSong[]>([]);
+  const [songs, setSongs] = useState<Song[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ export function SuggestedSongs() {
     dispatch(setPlayStatus(true));
   }, 500);
 
-  const handSetCurrentSong = (item: currentSong) => {
+  const handSetCurrentSong = (item: Song) => {
     dispatch(setCurrentSong(item))
     debouncedPlay()
   }
@@ -117,7 +117,7 @@ export function SuggestedSongs() {
 
       <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 md:gap-3">
         {songs?.map((song, idx) => (
-          <SongRow key={idx} song={song} onClick={(song: currentSong) => handSetCurrentSong(song)} />
+          <SongRow key={idx} song={song} onClick={(song: Song) => handSetCurrentSong(song)} />
         ))}
       </div>
     </section>
