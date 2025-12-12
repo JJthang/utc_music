@@ -102,7 +102,7 @@ export function SuggestedSongs() {
   }
 
   return (
-    <section className="w-full mt-8 rounded-2xl p-4 sm:p-6 shadow-xl">
+    <section className="w-full p-2 sm:p-2">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-zinc-100">Gợi Ý Bài Hát</h2>
         <button

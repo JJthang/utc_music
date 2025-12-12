@@ -1,10 +1,14 @@
 import type { FC } from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
 import type { Song } from "@/types/song.type";
 import { getDetailSong } from "@/services/Apis/song.service";
-import { formatDate, formatDuration, formatNumber } from "@/utils/format";
+import {
+  formatDuration,
+  formatNumber,
+  formatReleaseDate,
+} from "@/utils/format";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
@@ -40,15 +44,23 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
 
       <div className="flex-1">
         <p className="text-white font-medium">{song.title}</p>
-        {song.artists &&
-          song.artists.map((art, idx) => (
-            <p
-              key={idx}
-              className="text-gray-500 text-sm hover:text-blue-400 hover:underline cursor-pointer transition-colors"
-            >
-              {art.artist.name}
-            </p>
-          ))}
+        <p className="flex items-center">
+          {song.artists &&
+            song.artists.map((art, idx) => (
+              <span key={idx} className="flex items-center">
+                <Link
+                  to={`/artist/${art.artistId}`}
+                  className="text-gray-400 text-sm hover:text-white hover:underline cursor-pointer transition-colors"
+                >
+                  {art.artist.name}
+                </Link>
+
+                {idx < song.artists.length - 1 && (
+                  <span className="text-gray-500">,&nbsp;</span>
+                )}
+              </span>
+            ))}
+        </p>
       </div>
       <span className="text-gray-400 text-sm min-w-12 text-right">
         {formatDuration(song.duration)}
@@ -144,12 +156,12 @@ export const SongPage: FC = () => {
           {/* Song Details */}
           <h1 className="text-4xl font-bold mb-2">{song.title}</h1>
           <div className="text-gray-400 text-sm space-y-1 mb-6">
-            <p>
+            <p className="flex items-baseline gap-1">
               <span>
                 {song.artists &&
                   song.artists.map((art) => art.artist.name).join(", ")}
-              </span>{" "}
-              • {formatDate(song.releaseDate, "year")}
+              </span>
+              • {formatReleaseDate(song.releaseDate)}
             </p>
             <p>{formatNumber(song.views)} lượt nghe</p>
           </div>
@@ -171,7 +183,7 @@ export const SongPage: FC = () => {
               <div>
                 <p className="text-gray-400">Ngày phát hành</p>
                 <p className="text-white font-medium">
-                  {formatDate(song.releaseDate, "date")}
+                  {formatReleaseDate(song.releaseDate)}
                 </p>
               </div>
             </div>

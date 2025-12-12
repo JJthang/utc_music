@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
 import type { Album } from "@/types/album.type";
 import { getDetailAlbum } from "@/services/Apis/listsAlbum.service.api";
-import { formatDate, formatDuration } from "@/utils/format";
+import { formatDuration, formatReleaseDate } from "@/utils/format";
 import { useDispatch } from "react-redux";
 import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
@@ -145,12 +145,12 @@ export const AlbumPage: FC = () => {
           {/* Album Details */}
           <h1 className="text-4xl font-bold mb-2">{album.title}</h1>
           <div className="text-gray-400 text-sm space-y-1 mb-6">
-            <p>
+            <p className="flex items-baseline gap-1">
               <span>
                 {album.artists &&
                   album.artists.map((art) => art.artist.name).join(", ")}
               </span>{" "}
-              • {formatDate(album.releaseDate, "year")}
+              • {formatReleaseDate(album.releaseDate)}
             </p>
             {/* <p>{album.likes} người yêu thích</p> */}
           </div>
@@ -195,7 +195,7 @@ export const AlbumPage: FC = () => {
               <div>
                 <p className="text-gray-400">Ngày phát hành</p>
                 <p className="text-white font-medium">
-                  {formatDate(album.releaseDate, "date")}
+                  {formatReleaseDate(album.releaseDate)}
                 </p>
               </div>
             </div>

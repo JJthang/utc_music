@@ -1,11 +1,12 @@
 import type { Song } from "./song.type";
 
-export interface ArtistDetails {
+export interface Artist {
   id: string;
   name: string;
   biography?: string;
   avatarUri: string;
   country: string;
+  followerCount: number;
   isVerified: boolean;
   status: string;
   createdAt: string;
@@ -17,7 +18,7 @@ export interface AlbumArtist {
   albumId: string;
   createdAt: string;
   updatedAt: string;
-  artist: ArtistDetails;
+  artist: Artist;
 }
 
 export interface Album {
@@ -28,7 +29,7 @@ export interface Album {
   type: AlbumType;
   createdAt: string;
   updatedAt: string;
-  songs: Song[];
+  songs?: Song[];
   artists: AlbumArtist[];
 }
 

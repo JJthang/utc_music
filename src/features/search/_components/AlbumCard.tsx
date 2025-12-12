@@ -8,6 +8,7 @@ import type { Album } from "@/types/album.type";
 interface AlbumCardProps {
   album: Album;
 }
+
 export const AlbumCard: FC<AlbumCardProps> = ({ album }) => {
   return (
     <motion.div

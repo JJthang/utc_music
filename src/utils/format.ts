@@ -61,6 +61,21 @@ export const formatCurrency = (
   });
 };
 
+export const formatReleaseDate = (input: string): string => {
+  if (!input) return "";
+
+  if (/^\d{4}$/.test(input)) {
+    return input;
+  }
+
+  if (/^\d{2}-\d{2}-\d{4}$/.test(input)) {
+    const [dd, mm, yyyy] = input.split("-");
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  return input;
+};
+
 export function capitalizeFirst(text: string): string {
   if (!text) return text;
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();

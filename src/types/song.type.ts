@@ -1,6 +1,15 @@
 import type { AlbumType } from "./album.type";
 import type { Status } from "./auth.type";
 
+export interface Genre {
+  id: string;
+  name: string;
+  description: string;
+  status: Status;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface PlayerState {
   isPlaying: boolean;
   currentTime: number;

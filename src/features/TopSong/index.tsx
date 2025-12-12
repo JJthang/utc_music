@@ -9,11 +9,11 @@ import SongContextMenu from "./components/SongContextMenu";
 import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { capitalizeFirst, formatDuration } from "@/utils/format";
 import type { Song } from "@/types/song.type";
-import type { TopSongs } from "@/types/stats.type";
+import type { TopSongChart } from "@/types/stats.type";
 import { getChartTopSongs } from "@/services/Apis/stats.service";
 
 const TopSong = () => {
-  const [topSongs, setTopSongs] = useState<TopSongs[]>([]);
+  const [topSongs, setTopSongs] = useState<TopSongChart[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [contextMenu, setContextMenu] = useState<{
     song: Song;
@@ -130,14 +130,14 @@ const TopSong = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-outlet text-white flex items-center justify-center">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <p>Đang tải bảng xếp hạng...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-outlet text-white p-6 md:p-8">
+    <div className="min-h-screen bg-black text-white p-6 md:p-8">
       <div className="w-full">
         <h1 className="text-3xl md:text-4xl font-bold mb-8">Bảng xếp hạng</h1>
 

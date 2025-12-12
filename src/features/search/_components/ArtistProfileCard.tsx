@@ -2,15 +2,18 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { UserRoundPlus } from "lucide-react";
 
-import type { ArtistDetails } from "@/types/album.type";
+import type { Artist } from "@/types/album.type";
+import { formatNumber } from "@/utils/format";
 
 interface ArtistProfileCardProps {
-  artist: ArtistDetails;
+  artist: Artist;
 }
 
 export const ArtistProfileCard: FC<ArtistProfileCardProps> = ({ artist }) => {
   const artistName = artist.name;
-  const artistFollowers = "318K quan tâm";
+  const artistFollowers = `${formatNumber(
+    artist.followerCount
+  )} người theo dõi`;
   const profileImageUrl =
     artist.avatarUri || "https://i.imgur.com/your-image-url.jpg";
 

@@ -176,11 +176,12 @@ const MusicPlayer: FC = () => {
                 <source src={currentSong.url} type="audio/mpeg" />
             </audio>
 
-            <div className="fixed bottom-0 z-[100] w-[100vw] bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border-t border-blue-700 px-6 pt-3 pb-1">
+            <div className="sticky bottom-0 z-[100] w-[100vw] bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border-t border-blue-700 px-6 pt-3 pb-1">
                 <div className="flex items-center gap-6 flex-wrap md:flex-nowrap">
                     <div className="flex w-[300px]" >
                         <SongInfo
                             title={currentSong.title}
+                            coverUri={currentSong.coverUri}
                             artist={artistNames}
                         />
                         <div className="flex items-center gap-2 hidden md:flex">

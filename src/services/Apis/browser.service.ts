@@ -1,7 +1,7 @@
 import { requestUrl } from "@/constants";
 import api from "../http";
 import type { ApiItemResponse, ApiMeta } from "@/types/api-response.type";
-import type { Album, ArtistDetails } from "@/types/album.type";
+import type { Album, Artist } from "@/types/album.type";
 import type { Song } from "@/types/song.type";
 
 interface searchQuery {
@@ -11,7 +11,7 @@ interface searchQuery {
 export interface BrowseResponse {
   songs: Song[];
   albums: Album[];
-  artists: ArtistDetails[];
+  artists: Artist[];
 }
 
 interface ApiBrowseResponse extends ApiItemResponse<BrowseResponse> {

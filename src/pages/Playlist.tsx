@@ -146,7 +146,7 @@ export const PlaylistPage: FC = () => {
           {/* Playlist Details */}
           <h1 className="text-4xl font-bold mb-2">{playlist.title}</h1>
           <div className="text-gray-400 text-sm space-y-1 mb-6">
-            <p>
+            <p className="flex items-baseline gap-1">
               <span>{playlist.user.displayName}</span> •{" "}
               {formatDate(playlist.createdAt, "year")}
             </p>

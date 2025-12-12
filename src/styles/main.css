@@ -8,6 +8,16 @@ body {
     scrollbar-width: thin;
     scrollbar-color: #2c2c2c #121212;
 } */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .sidebar-menu::-webkit-scrollbar {
     width: 4px;
     height: 4px;
