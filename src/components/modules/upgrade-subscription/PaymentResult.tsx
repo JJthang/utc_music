@@ -1,6 +1,7 @@
-import { SERVER_MESSAGES, VNPAY_CODES } from "@/constants/payment";
 import type { FC } from "react";
 import { Link } from "react-router-dom";
+
+import { SERVER_MESSAGES, VNPAY_CODES } from "@/constants/payment";
 
 interface PaymentResultProps {
   status: string | null;

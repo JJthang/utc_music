@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { ArtistProfileCard } from "@/features/search/_components/ArtistProfileCard";
+import { ArtistProfileCard } from "@/components/common/ArtistProfileCard";
 
 import type { TopArtistPersonal } from "@/types/stats.type";
 import { getTopArtistsPersonal } from "@/services/Apis/stats.service";
-import { HorizontalScrollWrapper } from "@/components/HorizontalCarousel";
+import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 import { ArrowRight } from "lucide-react";
 
 const MyTopArtists = () => {

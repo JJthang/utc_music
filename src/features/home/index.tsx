@@ -21,23 +21,21 @@ const FeatureHomePage: FC = () => {
       {/* <Banner /> */}
       {/* <SuggestedSongs /> */}
 
-      <>
-        {user && (
-          <div className="bg-linear-to-b from-[#2a2222] to-outlet rounded-xl">
-            <MyTopSongs />
-            <RecentPlay />
-          </div>
-        )}
-        <TrendingSongs />
-        <TopSongsByViews />
-        {user && (
-          <div>
-            <MyTopArtists />
-            <AlbumRecent />
-            <DiscoverySongs />
-          </div>
-        )}
-      </>
+      {user && (
+        <div className="bg-linear-to-b from-[#2a2222] to-outlet rounded-xl">
+          <MyTopSongs />
+          <RecentPlay />
+        </div>
+      )}
+      <TrendingSongs />
+      <TopSongsByViews />
+      {user && (
+        <div>
+          <MyTopArtists />
+          <AlbumRecent />
+          <DiscoverySongs />
+        </div>
+      )}
     </div>
   );
 };

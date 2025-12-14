@@ -3,6 +3,7 @@ import type {
   RegisterPayload,
   LoginResponse,
   RegisterResponse,
+  User,
 } from "@/types/auth.type";
 import api from "../http";
 import type { ApiItemResponse } from "@/types/api-response.type";
@@ -35,11 +36,19 @@ export const register = async (
   }
 };
 
-export const getCurrentUser = async (token: string) => {
+export const getCurrentUser = async (token: string): Promise<User> => {
   const res = await api.get(`${API_URL}/api/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
   return res.data;
+};
+
+export const refreshAccessToken = async (
+  refreshToken: string
+): Promise<ApiItemResponse<{ accessToken: string }>> => {
+  const url = `${API_URL}/api/auth/refresh-token`;
+  const result = await api.post(url, { refreshToken });
+  return result.data;
 };

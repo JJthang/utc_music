@@ -1,8 +1,9 @@
-import MusicPlayer from "@/components/common/Footer";
-import Navbar from "@/components/common/Navbar";
-import Sidebar from "@/components/common/Sidebar";
-import SidebarMenu from "@/components/common/Sidebar/SidebarMenu";
 import { Outlet } from "react-router";
+
+import MusicPlayer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Sidebar from "@/components/layout/Sidebar";
+import SidebarMenu from "@/components/layout/Sidebar/SidebarMenu";
 
 const MainLayout = () => {
   return (

@@ -5,7 +5,7 @@ import { ArrowRight, Play } from "lucide-react";
 import type { TopAlbumPersonal } from "@/types/stats.type";
 import { getTopAlbumsPersonal } from "@/services/Apis/stats.service";
 import type { Album } from "@/types/album.type";
-import { HorizontalScrollWrapper } from "@/components/HorizontalCarousel";
+import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 
 interface AlbumRecentCardProps {
   album: Album;

@@ -9,10 +9,12 @@ import {
   SignUpPage,
   SongPage,
 } from "@/pages";
+import {
+  PaymentResultPage,
+  PaymentSubscriptionPage,
+  UpgradeSubscriptionPage,
+} from "@/pages/subscription";
 import TopSong from "@/pages/TopSong";
-import UpgradeSubscriptionPage from "@/pages/UpgradeSubscription";
-import PaymentSubscriptionPage from "@/pages/PaymentSubscription";
-import PaymentResultPage from "@/pages/PaymentResult";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +24,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "album/:albumId", element: <AlbumPage /> },
       { path: "song/:songId", element: <SongPage /> },
-      { path: "search", element: <SearchPage/>},
+      { path: "search", element: <SearchPage /> },
       { path: "playlist/:playlistId", element: <PlaylistPage /> },
       { path: "chart-top-song", element: <TopSong /> },
       {

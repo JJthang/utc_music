@@ -1,4 +1,4 @@
-import PaymentResult from "@/features/UpgradeSubscription/PaymentResult";
+import PaymentResult from "@/components/modules/upgrade-subscription/PaymentResult";
 import { useSearchParams } from "react-router-dom";
 
 const PaymentResultPage = () => {

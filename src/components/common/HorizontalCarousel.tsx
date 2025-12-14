@@ -41,20 +41,14 @@ export const HorizontalScrollWrapper = ({
     const el = containerRef.current;
     if (!el) return;
 
-    // STEP 1: chạy ngay khi mount
     checkScrollPosition();
 
-    // STEP 2: check khi scroll
     el.addEventListener("scroll", checkScrollPosition);
-
-    // STEP 3: check khi window resize
     window.addEventListener("resize", checkScrollPosition);
 
-    // STEP 4: check khi ảnh load xong
     const images = el.querySelectorAll("img");
     images.forEach((img) => img.addEventListener("load", checkScrollPosition));
 
-    // STEP 5: chạy lần 2 sau 300ms để đảm bảo layout ổn định
     const timeout = setTimeout(checkScrollPosition, 300);
 
     return () => {

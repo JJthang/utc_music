@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { SongCard } from "./SongCard";
 
 import { getTopSongsByViews } from "@/services/Apis/stats.service";
-import { HorizontalScrollWrapper } from "@/components/HorizontalCarousel";
+import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 import type { Song } from "@/types/song.type";
 
 const TopSongsByViews = () => {

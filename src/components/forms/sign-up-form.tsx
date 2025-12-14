@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { register } from "@/services/Apis/auth.service.api";
+import { register } from "@/services/Apis/auth.service";
 import type { RegisterPayload } from "@/types/auth.type";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";

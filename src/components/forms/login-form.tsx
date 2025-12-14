@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-import { login, getCurrentUser } from "@/services/Apis/auth.service.api";
+import { login, getCurrentUser } from "@/services/Apis/auth.service";
 import type { LoginPayload } from "@/types/auth.type";
 import { setCredentials, setUser } from "@/stores/slice/auth.slice";
 
@@ -55,11 +55,7 @@ export function LoginForm() {
       const userRes = await getCurrentUser(data.accessToken);
       dispatch(setUser(userRes));
       toast.success(message);
-      if (data.user.role === "ADMIN") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+      if (userRes) navigate("/");
     } catch (error: any) {
       console.error(
         error.message || "Đã xảy ra lỗi trong quá trình đăng nhập."

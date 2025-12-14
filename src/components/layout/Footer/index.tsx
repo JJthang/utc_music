@@ -17,7 +17,7 @@ import {
     Heart,
     MoreVertical,
 } from "lucide-react";
-import { ProgressBar } from "../../ProgressBar";
+import { ProgressBar } from "../../common/ProgressBar";
 import { VolumeControl } from "./components/VolumeControl";
 import { IconButtonWithTooltip } from "./components/IconButtonWithTooltip";
 import { SongInfo } from "./components/SongInfo";

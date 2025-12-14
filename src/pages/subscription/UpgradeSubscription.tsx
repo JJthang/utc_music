@@ -1,4 +1,4 @@
-import { Subscriptions } from "@/features/UpgradeSubscription";
+import { Subscriptions } from "@/components/modules/upgrade-subscription";
 
 const UpgradeSubscriptionPage = () => {
   return <Subscriptions />;

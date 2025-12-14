@@ -5,7 +5,7 @@ import { SongCard } from "./SongCard";
 
 import type { SongRecentPlay } from "@/types/stats.type";
 import { getRecentPlayedSongs } from "@/services/Apis/stats.service";
-import { HorizontalScrollWrapper } from "@/components/HorizontalCarousel";
+import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 
 const RecentPlay = () => {
   const [songRecentPlay, setSongRecentPlay] = useState<SongRecentPlay[]>([]);

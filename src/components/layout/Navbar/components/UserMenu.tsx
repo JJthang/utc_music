@@ -25,10 +25,11 @@ export function UserMenu() {
   }, []);
 
   const handleLogout = () => {
-    dispatch(logout());
     setOpen(false);
-    window.location.href = "/login";
+    window.location.href = "/";
+    dispatch(logout());
   };
+  
   if (!user) {
     return (
       <Link

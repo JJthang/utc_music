@@ -5,7 +5,7 @@ import { SongCard } from "./SongCard";
 
 import type { TrendingSong } from "@/types/stats.type";
 import { getTrendingSongs } from "@/services/Apis/stats.service";
-import { HorizontalScrollWrapper } from "@/components/HorizontalCarousel";
+import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 
 const TrendingSongs = () => {
   const [trendingSongs, setTrendingSongs] = useState<TrendingSong[]>([]);

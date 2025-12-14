@@ -137,7 +137,7 @@ const TopSong = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 md:p-8">
+    <div className="min-h-screen bg-black text-white p-6 md:p-8 rounded-xl">
       <div className="w-full">
         <h1 className="text-3xl md:text-4xl font-bold mb-8">Bảng xếp hạng</h1>
 

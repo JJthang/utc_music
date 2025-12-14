@@ -19,8 +19,8 @@ export interface User {
   status: Status;
   createdAt: string;
   updatedAt: string;
-  isPremium: boolean;
-  premiumUntil: string | null;
+  isPremium?: boolean;
+  premiumUntil?: string | null;
 }
 
 export interface LoginResponse {

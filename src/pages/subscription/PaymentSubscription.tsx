@@ -1,4 +1,4 @@
-import { PaymentSubscription } from "@/features/UpgradeSubscription";
+import { PaymentSubscription } from "@/components/modules/upgrade-subscription";
 
 const PaymentSubscriptionPage = () => {
   return <PaymentSubscription />;

@@ -2,7 +2,7 @@ import { useEffect, useState, type FC } from "react";
 
 import { SongCard } from "./_components/SongCard";
 import { AlbumCard } from "./_components/AlbumCard";
-import { ArtistProfileCard } from "./_components/ArtistProfileCard";
+import { ArtistProfileCard } from "../../common/ArtistProfileCard";
 
 import {
   browseAllData,
@@ -65,7 +65,7 @@ const SearchResult: FC<SearchResultProps> = ({ q }) => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full rounded-xl">
       <p className="text-white text-2xl font-bold">Kết quả tìm kiếm</p>
 
       <hr className="border-gray-800 mt-3 mb-6" />

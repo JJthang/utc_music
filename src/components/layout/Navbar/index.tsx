@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import { IoIosSearch } from "react-icons/io";
 
-import { Micro } from "@/components/Micro";
+import { Micro } from "@/components/common/Micro";
 import {
   CardResult,
   DownloadButton,
