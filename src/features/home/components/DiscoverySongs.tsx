@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { type FC } from "react";
 import { Link } from "react-router-dom";
 import { Play } from "lucide-react";
@@ -24,9 +24,7 @@ export const SongCard: FC<SongCardProps> = ({ song }) => {
           alt={song.title}
           className="absolute inset-0 w-full h-full object-cover rounded-xl"
         />
-        <div
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 rounded-xl shadow-lg"
-        >
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 rounded-xl shadow-lg">
           <Play size={32} fill="white" />
         </div>
       </div>
@@ -51,7 +49,6 @@ export const SongCard: FC<SongCardProps> = ({ song }) => {
     </Link>
   );
 };
-
 
 const DiscoverySongs = () => {
   const [discoverySongs, setDiscoverySongs] = useState<
@@ -91,18 +88,22 @@ const DiscoverySongs = () => {
   }
 
   return (
-    <section className="w-full p-2 sm:p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-white">
-          Tiếp tục khám phá những giai điệu
-        </h2>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        {discoverySongs?.newSongs.map((song, index) => (
-          <SongCard key={index} song={song} />
-        ))}
-      </div>
-    </section>
+    <Fragment>
+      {discoverySongs && discoverySongs.newSongs.length > 0 ? (
+        <section className="w-full p-2 sm:p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-white">
+              Tiếp tục khám phá những giai điệu
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            {discoverySongs?.newSongs.map((song, index) => (
+              <SongCard key={index} song={song} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+    </Fragment>
   );
 };
 

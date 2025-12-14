@@ -12,7 +12,7 @@ import type { Song } from "@/types/song.type";
 import type { TopSongChart } from "@/types/stats.type";
 import { getChartTopSongs } from "@/services/Apis/stats.service";
 
-const TopSong = () => {
+export const ChartTopSongs = () => {
   const [topSongs, setTopSongs] = useState<TopSongChart[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [contextMenu, setContextMenu] = useState<{
@@ -271,5 +271,3 @@ const TopSong = () => {
     </div>
   );
 };
-
-export default TopSong;

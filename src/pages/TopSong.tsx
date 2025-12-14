@@ -1,10 +1,7 @@
-import React from 'react'
-import TopSong from '@/features/TopSong'
-
+import { ChartTopSongs } from "@/features/ChartTopSongs";
 
 const TopSongPage = () => {
+  return <ChartTopSongs />;
+};
 
-    return <TopSong />
-}
-
-export default TopSongPage
+export default TopSongPage;

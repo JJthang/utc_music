@@ -2,12 +2,13 @@ import type { FC } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
-import { formatDate, formatDuration } from "@/utils/format";
 import { useDispatch } from "react-redux";
-import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
+
+import { formatDate, formatDuration } from "@/utils/format";
+import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
+import { getDetailPlaylist } from "@/services/Apis/playlist.service";
 import type { Song } from "@/types/song.type";
-import { getDetailPlaylist } from "@/services/Apis/listsPlaylist.service.api";
 import type { Playlist } from "@/types/playlist.type";
 
 type SongCardType = {
@@ -68,7 +69,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
   );
 };
 
-export const PlaylistPage: FC = () => {
+const PlaylistPage: FC = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
 
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
@@ -190,3 +191,5 @@ export const PlaylistPage: FC = () => {
     </main>
   );
 };
+
+export default PlaylistPage;

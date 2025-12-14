@@ -47,7 +47,7 @@ export function UserMenu() {
       {/* Nút Avatar */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 hover:ring-2 hover:ring-blue-400 flex items-center justify-center overflow-hidden transition-all"
+        className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 hover:ring-2 hover:ring-blue-400 flex items-center justify-center overflow-hidden transition-all cursor-pointer"
       >
         {user?.avatarUri ? (
           <img
@@ -74,7 +74,7 @@ export function UserMenu() {
               <p className="text-white font-semibold">
                 {user?.displayName || "Người dùng"}
               </p>
-              <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded">
+              <span className={`text-xs font-semibold shadow-2xl ${user.isPremium ? "bg-[#dca519] text-white" : "bg-gray-700 text-gray-300"} px-2 py-0.5 rounded`}>
                 {user.isPremium ? "Gói cao cấp" : "Gói cơ bản"}
               </span>
             </div>

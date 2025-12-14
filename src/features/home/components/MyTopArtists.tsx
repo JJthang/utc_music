@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { ArtistProfileCard } from "@/components/common/ArtistProfileCard";
 
@@ -43,27 +43,31 @@ const MyTopArtists = () => {
   }
 
   return (
-    <section className="w-full p-2 sm:p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-white">
-          Nghệ sĩ bạn nghe nhiều nhất
-        </h2>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/50 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 cursor-pointer"
-          onClick={() => console.log("refresh suggestions")}
-        >
-          <ArrowRight size={16} />
-          <span>Xem tất cả</span>
-        </button>
-      </div>
+    <Fragment>
+      {myTopArtists.length === 0 ? null : (
+        <section className="w-full p-2 sm:p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-white">
+              Nghệ sĩ bạn nghe nhiều nhất
+            </h2>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/50 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 cursor-pointer"
+              onClick={() => console.log("refresh suggestions")}
+            >
+              <ArrowRight size={16} />
+              <span>Xem tất cả</span>
+            </button>
+          </div>
 
-      <HorizontalScrollWrapper>
-        {myTopArtists.map((ta, index) => (
-          <ArtistProfileCard key={index} artist={ta.artist} />
-        ))}
-      </HorizontalScrollWrapper>
-    </section>
+          <HorizontalScrollWrapper>
+            {myTopArtists.map((ta, index) => (
+              <ArtistProfileCard key={index} artist={ta.artist} />
+            ))}
+          </HorizontalScrollWrapper>
+        </section>
+      )}
+    </Fragment>
   );
 };
 

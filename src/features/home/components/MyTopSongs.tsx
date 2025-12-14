@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from "react";
+import { Fragment, useEffect, useState, type FC } from "react";
 import { Link } from "react-router-dom";
 import { Play } from "lucide-react";
 import { motion } from "framer-motion";
@@ -92,13 +92,17 @@ const MyTopSongs = () => {
   }
 
   return (
-    <section className="w-full p-2 sm:p-4">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        {myTopSongs?.map((topSong, index) => (
-          <MyTopSongCard key={index} song={topSong.song} />
-        ))}
-      </div>
-    </section>
+    <Fragment>
+      {myTopSongs.length === 0 ? null : (
+        <section className="w-full p-2 sm:p-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {myTopSongs?.map((topSong, index) => (
+              <MyTopSongCard key={index} song={topSong.song} />
+            ))}
+          </div>
+        </section>
+      )}
+    </Fragment>
   );
 };
 

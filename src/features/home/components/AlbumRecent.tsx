@@ -1,11 +1,12 @@
-import { useEffect, useState, type FC } from "react";
+import { Fragment, useEffect, useState, type FC } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
+
+import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 
 import type { TopAlbumPersonal } from "@/types/stats.type";
 import { getTopAlbumsPersonal } from "@/services/Apis/stats.service";
 import type { Album } from "@/types/album.type";
-import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 
 interface AlbumRecentCardProps {
   album: Album;
@@ -72,25 +73,29 @@ const AlbumRecent = () => {
   }
 
   return (
-    <section className="w-full p-2 sm:p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-white">Top Album của bạn</h2>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/50 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 cursor-pointer"
-          onClick={() => console.log("refresh suggestions")}
-        >
-          <ArrowRight size={16} />
-          <span>Xem tất cả</span>
-        </button>
-      </div>
+    <Fragment>
+      {albumRecent.length === 0 ? null : (
+        <section className="w-full p-2 sm:p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-white">Top Album của bạn</h2>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/50 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 cursor-pointer"
+              onClick={() => console.log("refresh suggestions")}
+            >
+              <ArrowRight size={16} />
+              <span>Xem tất cả</span>
+            </button>
+          </div>
 
-      <HorizontalScrollWrapper>
-        {albumRecent?.map((tap, index) => (
-          <AlbumRecentCard key={index} album={tap.album} />
-        ))}
-      </HorizontalScrollWrapper>
-    </section>
+          <HorizontalScrollWrapper>
+            {albumRecent?.map((tap, index) => (
+              <AlbumRecentCard key={index} album={tap.album} />
+            ))}
+          </HorizontalScrollWrapper>
+        </section>
+      )}
+    </Fragment>
   );
 };
 

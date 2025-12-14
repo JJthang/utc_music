@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Play } from "lucide-react";
 import { motion } from "framer-motion";
-import { getPublicPlaylists } from "@/services/Apis/listsPlaylist.service.api";
+import { getPublicPlaylists } from "@/services/Apis/playlist.service";
 import type { Playlist } from "@/types/playlist.type";
 import { Link } from "react-router-dom";
 

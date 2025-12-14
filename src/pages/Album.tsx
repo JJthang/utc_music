@@ -2,12 +2,13 @@ import type { FC } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
-import type { Album } from "@/types/album.type";
-import { getDetailAlbum } from "@/services/Apis/listsAlbum.service.api";
-import { formatDuration, formatReleaseDate } from "@/utils/format";
 import { useDispatch } from "react-redux";
-import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
+
+import type { Album } from "@/types/album.type";
+import { getDetailAlbum } from "@/services/Apis/album.service";
+import { formatDuration, formatReleaseDate } from "@/utils/format";
+import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
 import type { Song } from "@/types/song.type";
 
 type SongCardType = {
@@ -67,7 +68,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
   );
 };
 
-export const AlbumPage: FC = () => {
+const AlbumPage: FC = () => {
   const { albumId } = useParams<{ albumId: string }>();
 
   const [album, setAlbum] = useState<Album | null>(null);
@@ -205,3 +206,5 @@ export const AlbumPage: FC = () => {
     </main>
   );
 };
+
+export default AlbumPage;

@@ -1,8 +1,7 @@
-export * from "./Home";
-export * from "./Album";
-export * from "./auth/Login";
-export * from "./Playlist";
-export * from "./auth/Signup";
-export * from "./Song";
-export * from "./TopSong";
-export * from "./Search";
+export { default as HomePage } from "./Home";
+export { default as AlbumPage } from "./Album";
+export { default as PlaylistPage } from "./Playlist";
+export { default as SongPage } from "./Song";
+export { default as TopSongPage } from "./TopSong";
+export { default as SearchPage } from "./Search";
+export { default as FavoritePage } from "./Favorite";
