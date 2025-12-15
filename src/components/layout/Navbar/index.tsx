@@ -1,7 +1,8 @@
-import { useMemo, useState, type ChangeEvent } from "react";
+import { useState, useEffect, useCallback, useRef, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import { IoIosSearch } from "react-icons/io";
+import { useDebounce } from "use-debounce";
 
 import { Micro } from "@/components/common/Micro";
 import {
@@ -17,7 +18,6 @@ import {
   browseAllData,
   type BrowseResponse,
 } from "@/services/Apis/browser.service";
-import { debounce } from "@/utils/debounce";
 import { FaSpinner } from "react-icons/fa";
 
 const Navbar = () => {
@@ -31,8 +31,13 @@ const Navbar = () => {
     artists: [],
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const isClearingRef = useRef<boolean>(false);
 
-  const fetchSearch = async (query: string) => {
+  const fetchSearch = useCallback(async (query: string) => {
+    console.log('browseAllData : ', query);
+
     if (!query.trim()) {
       setListResult({
         songs: [],
@@ -43,7 +48,6 @@ const Navbar = () => {
     }
 
     setLoading(true);
-    setShowDropdown(true);
     try {
       const searchResult = await browseAllData({ q: query });
       setListResult(searchResult.data);
@@ -52,22 +56,26 @@ const Navbar = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const debouncedSearch = useMemo(
-    () => debounce((text: string) => fetchSearch(text), 400),
-    []
-  );
+  useEffect(() => {
+    fetchSearch(debouncedSearchQuery);
+  }, [debouncedSearchQuery, fetchSearch]);
 
   const onMicro = (text: string) => {
+    // Nếu đang clear, không làm gì cả
+    if (isClearingRef.current) {
+      return;
+    }
     setSearchQuery(text);
-    debouncedSearch(text);
+    // Chỉ hiển thị dropdown khi có text (transcript)
+    setShowDropdown(!!text.trim());
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
+    const value = e.target.value;
     setSearchQuery(value);
-    debouncedSearch(value);
+    setShowDropdown(!!value.trim());
   };
 
   const onHandleSearch = (text: string) => {
@@ -76,12 +84,25 @@ const Navbar = () => {
   };
 
   const clearSearchQuery = () => {
+    // Đánh dấu đang clear để tránh onTimeout can thiệp
+    isClearingRef.current = true;
+    
+    // Dừng micro nếu đang active
+    if (isMicroActive) {
+      setIsMicroActive(false);
+    }
     setSearchQuery("");
+    setShowDropdown(false);
     setListResult({
       songs: [],
       albums: [],
       artists: [],
     });
+    
+    // Reset flag sau một chút để tránh race condition
+    setTimeout(() => {
+      isClearingRef.current = false;
+    }, 200);
   };
 
   return (
@@ -101,29 +122,48 @@ const Navbar = () => {
                 placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
                 value={searchQuery}
                 onChange={handleChange}
+                onFocus={() => {
+                  if (searchQuery.trim()) {
+                    setShowDropdown(true);
+                  }
+                }}
+                onBlur={() => {
+                  // Đóng dropdown nếu focus không chuyển vào dropdown
+                  setTimeout(() => {
+                    if (dropdownRef.current && !dropdownRef.current.contains(document.activeElement)) {
+                      setShowDropdown(false);
+                    }
+                  }, 100);
+                }}
                 className="w-full bg-[#334155] text-white placeholder-gray-400 rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                {searchQuery ? (
-                  <X
-                    onClick={clearSearchQuery}
-                    className="text-[#B3B3C2] cursor-pointer"
-                  />
-                ) : (
-                  <Micro
-                    isActive={isMicroActive}
-                    language="vi-VN"
-                    onChangeIsActive={setIsMicroActive}
-                    onMicro={onMicro}
-                    onTimeout={() => {
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <Micro
+                  isActive={isMicroActive}
+                  language="vi-VN"
+                  onChangeIsActive={setIsMicroActive}
+                  onMicro={onMicro}
+                  onTimeout={(transcript) => {
+                    // Nếu đang clear, không làm gì cả
+                    if (isClearingRef.current) {
+                      return;
+                    }
+                    // Chỉ đóng dropdown nếu không có transcript (không nói gì)
+                    if (!transcript?.trim()) {
                       setShowDropdown(false);
-                    }}
-                  />
-                )}
+                    }
+                    // Nếu có transcript, giữ dropdown mở để hiển thị kết quả
+                  }}
+                />
+                <X
+                  onClick={clearSearchQuery}
+                  className="size-5 text-[#B3B3C2] cursor-pointer"
+                />
               </div>
               {showDropdown && (
                 <div
-                  onBlur={() => setShowDropdown(false)}
+                  ref={dropdownRef}
+                  onMouseDown={(e) => e.preventDefault()}
                   className="absolute px-4 py-3 top-full mt-2 w-full bg-[#334155] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50"
                 >
                   <p className="text-white text-base font-bold">

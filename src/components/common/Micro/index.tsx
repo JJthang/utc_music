@@ -63,9 +63,9 @@ export const Micro: React.FC<Props> = ({
 
     const resetTimeout = useCallback(() => {
         clearCurrentTimeout();
-        timeoutRef.current = setTimeout(() => {
+        timeoutRef.current = window.setTimeout(() => {
             stopListening();
-        }, 500);
+        }, 5000); // 5 giây timeout
     }, [stopListening]);
 
     const startListening = useCallback(() => {
@@ -94,11 +94,24 @@ export const Micro: React.FC<Props> = ({
 
     // giống watch(result) + processMessage trong Vue
     useEffect(() => {
-        if (transcript) {
+        if (transcript && transcript.trim()) {
             resetTimeout();
             onMicro?.(transcript);
         }
     }, [transcript, resetTimeout, onMicro]);
+
+    // Đảm bảo timeout được set khi bắt đầu nghe
+    useEffect(() => {
+        if (listening) {
+            // Khi đang nghe, đảm bảo timeout đang chạy
+            // Nếu chưa có timeout, set một timeout mới
+            // Điều này đảm bảo timeout luôn chạy ngay cả khi startListening không set nó
+            if (!timeoutRef.current) {
+                resetTimeout();
+            }
+        }
+        // Không cần clear timeout khi listening = false vì stopListening đã làm điều đó
+    }, [listening, resetTimeout]);
 
     // Sync với prop isActive từ parent (giống watch(props.isActive))
     useEffect(() => {

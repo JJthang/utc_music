@@ -24,9 +24,9 @@ const initialState: CounterState = {
         duration: 159,
         releaseDate: "2023-03-02T00:00:00.000Z",
         albumId: "9cfad2a2-d7f0-43b8-a370-2a30e00407f0",
-        url: "https://res.cloudinary.com/dxa8ks06k/video/upload/v1762443808/utc-music/songs/wdziu58dhzkikcjdekty.mp3",
+        url: "https://res.cloudinary.com/dxa8ks06k/video/upload/v1762443808/Music_BE/songs/wdziu58dhzkikcjdekty.mp3",
         coverUri:
-          "https://res.cloudinary.com/dxa8ks06k/image/upload/v1762443810/utc-music/covers/hkeemkusyqb36oe9ijwz.jpg",
+          "https://res.cloudinary.com/dxa8ks06k/image/upload/v1762443810/Music_BE/covers/hkeemkusyqb36oe9ijwz.jpg",
         views: 978721,
         lyrics: "...",
         trackNumber: 4,

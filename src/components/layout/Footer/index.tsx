@@ -1,4 +1,4 @@
-import React, {
+import {
     useState,
     useCallback,
     useMemo,
@@ -26,6 +26,7 @@ import { useAppDispatch, useMemoizedSelector } from "@/hooks";
 import { toggleSidebar } from "@/stores/slice/sidebar.slice";
 import { onHandNextSong, onHandPrevSong, setPlayStatus, togglePlayStatus, toggleShuffle } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
+import { trackListeningSong } from "@/services/Apis/song.service";
 
 const MusicPlayer: FC = () => {
     const dispatch = useAppDispatch();
@@ -41,6 +42,12 @@ const MusicPlayer: FC = () => {
     });
 
     const audioRef = useRef<HTMLAudioElement>(null);
+    
+    // Track cumulative listening time (thời gian nghe thực tế)
+    const cumulativeTimeRef = useRef<number>(0);
+    const lastUpdateTimeRef = useRef<number>(0);
+    const hasTrackedRef = useRef<boolean>(false); // Đánh dấu đã gọi API cho bài hát này chưa
+    const trackingIntervalRef = useRef<number | null>(null);
 
     const debouncedPlay = useDebouncedCallback(() => {
         dispatch(setPlayStatus(true));
@@ -60,13 +67,22 @@ const MusicPlayer: FC = () => {
             currentTime: 0
         }));
 
+        // Reset tracking khi bài hát thay đổi
+        cumulativeTimeRef.current = 0;
+        lastUpdateTimeRef.current = 0;
+        hasTrackedRef.current = false;
+        if (trackingIntervalRef.current) {
+            clearInterval(trackingIntervalRef.current);
+            trackingIntervalRef.current = null;
+        }
+
         // Reset và load bài hát mới
         if (audioRef.current) {
             audioRef.current.load();
         }
     }, [currentSong.id]);
 
-    // Điều khiển audio element
+    // Điều khiển audio element và track listening time
     useEffect(() => {
         if (!audioRef.current) return;
 
@@ -75,10 +91,63 @@ const MusicPlayer: FC = () => {
                 console.error("Error playing audio:", err);
                 dispatch(setPlayStatus(false));
             });
+            
+            // Bắt đầu track thời gian nghe
+            lastUpdateTimeRef.current = Date.now();
+            
+            // Track mỗi giây để cập nhật thời gian nghe thực tế
+            trackingIntervalRef.current = window.setInterval(() => {
+                const audio = audioRef.current;
+                if (audio && !audio.paused) {
+                    const now = Date.now();
+                    const elapsed = (now - lastUpdateTimeRef.current) / 1000; // chuyển sang giây
+                    cumulativeTimeRef.current += elapsed;
+                    lastUpdateTimeRef.current = now;
+                    
+                    // Kiểm tra nếu đã nghe >= 50% thời lượng và chưa gọi API
+                    const halfDuration = currentSong.duration / 2;
+                    if (!hasTrackedRef.current && cumulativeTimeRef.current >= halfDuration) {
+                        hasTrackedRef.current = true;
+                        // Gọi API track listening với thời gian đã nghe (làm tròn xuống giây)
+                        trackListeningSong(currentSong.id, Math.floor(cumulativeTimeRef.current))
+                            .catch((error) => {
+                                console.error("Error tracking listening:", error);
+                            });
+                    }
+                }
+            }, 1000); // Update mỗi giây
         } else {
             audioRef.current.pause();
+            
+            // Khi pause, cập nhật cumulative time từ lần update cuối
+            if (lastUpdateTimeRef.current > 0) {
+                const now = Date.now();
+                const elapsed = (now - lastUpdateTimeRef.current) / 1000;
+                cumulativeTimeRef.current += elapsed;
+                lastUpdateTimeRef.current = 0; // Reset để tránh double count
+            }
+            
+            // Dừng tracking
+            if (trackingIntervalRef.current) {
+                clearInterval(trackingIntervalRef.current);
+                trackingIntervalRef.current = null;
+            }
         }
-    }, [state.isPlaying, dispatch]);
+        
+        return () => {
+            // Cleanup: cập nhật cumulative time trước khi clear interval
+            if (lastUpdateTimeRef.current > 0 && audioRef.current && !audioRef.current.paused) {
+                const now = Date.now();
+                const elapsed = (now - lastUpdateTimeRef.current) / 1000;
+                cumulativeTimeRef.current += elapsed;
+            }
+            
+            if (trackingIntervalRef.current) {
+                clearInterval(trackingIntervalRef.current);
+                trackingIntervalRef.current = null;
+            }
+        };
+    }, [state.isPlaying, dispatch, currentSong.id, currentSong.duration]);
 
     useEffect(() => {
         if (audioRef.current) audioRef.current.loop = state.repeat;
@@ -123,8 +192,8 @@ const MusicPlayer: FC = () => {
     }, [state.volume]);
 
     const handleProgressChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const newTime = Number(e.target.value);
+        (_e: Event, value: number | number[]) => {
+            const newTime = typeof value === 'number' ? value : value[0];
             setState((prev) => ({ ...prev, currentTime: newTime }));
             if (audioRef.current) {
                 audioRef.current.currentTime = newTime;

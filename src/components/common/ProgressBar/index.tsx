@@ -4,7 +4,7 @@ import type { FC } from "react";
 interface ProgressBarProps {
     currentTime: number;
     duration: number;
-    onChange: (e: Event) => void;
+    onChange: (e: Event, value: number | number[]) => void;
 }
 
 const formatTime = (seconds: number): string => {
