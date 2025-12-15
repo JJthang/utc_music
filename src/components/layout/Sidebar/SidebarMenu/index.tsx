@@ -46,16 +46,45 @@ const SidebarMenu: React.FC = () => {
         <div className="sidebar-menu w-64 bg-sidebar text-white h-full overflow-y-auto flex flex-col">
             {/* Logo */}
             <div className="p-6 pb-4">
-                <div className="flex items-center gap-1">
-                    <span className="text-4xl font-bold">
-                        <span className="text-[#0d7ded]">Z</span>
-                        <span className="text-[#50e3c2]">i</span>
-                        <span className="text-[#fe63a9]">n</span>
-                        <span className="text-[#ffd300]">g</span>
-                    </span>
-                    <span className="text-2xl font-light ml-1">mp3</span>
+                <div className="flex items-center gap-3">
+                    {/* Logo SVG với gradient xanh dương */}
+                    <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                        <defs>
+                            <linearGradient id="noteGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#60A5FA" />
+                                <stop offset="100%" stopColor="#3B82F6" />
+                            </linearGradient>
+                            <linearGradient id="noteGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#93C5FD" />
+                                <stop offset="100%" stopColor="#60A5FA" />
+                            </linearGradient>
+                        </defs>
+                        {/* Musical note icon với gradient xanh */}
+                        <g>
+                            {/* Glow effect */}
+                            <ellipse cx="12" cy="22" rx="7" ry="6" fill="#60A5FA" opacity="0.2"/>
+                            {/* Note head */}
+                            <ellipse cx="12" cy="22" rx="6" ry="5" fill="url(#noteGradient)"/>
+                            {/* Note stem */}
+                            <rect x="16" y="12" width="2" height="12" fill="url(#noteGradient)"/>
+                            {/* Note flag */}
+                            <path d="M 18 12 Q 22 10, 24 14 Q 22 18, 18 16 Z" fill="url(#noteGradient)"/>
+                            {/* Second smaller note */}
+                            <ellipse cx="26" cy="26" rx="4" ry="3.5" fill="url(#noteGradient2)" opacity="0.9"/>
+                            <rect x="29" y="18" width="1.5" height="10" fill="url(#noteGradient2)" opacity="0.9"/>
+                        </g>
+                    </svg>
+                    {/* Brand name với gradient xanh dương */}
+                    <div className="flex flex-col">
+                        <div className="text-2xl font-bold">
+                            <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#2563EB] bg-clip-text text-transparent">
+                                Music
+                            </span>
+                            <span className="text-white font-semibold ml-1">Hub</span>
+                        </div>
+                        <p className="text-gray-400 text-xs mt-0.5 tracking-wide">KHÁM PHÁ ÂM NHẠC</p>
+                    </div>
                 </div>
-                <p className="text-gray-400 text-sm mt-1 tracking-wider">MXH ÂM NHẠC</p>
             </div>
 
             {/* Main Menu */}
@@ -66,8 +95,8 @@ const SidebarMenu: React.FC = () => {
 
                             <Link to={item.link} onClick={() => setActiveItem(item.id)}
                                 className={`w-full flex items-center gap-3 cursor-pointer px-6 py-3 transition-all ${activeItem === item.id
-                                    ? 'bg-[#ffffff1a] text-white'
-                                    : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
+                                    ? 'bg-white/10 text-white'
+                                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
                                     }`}>
                                 <item.icon size={22} />
                                 <span className="text-[15px] font-medium">{item.label}</span>
@@ -91,8 +120,8 @@ const SidebarMenu: React.FC = () => {
                             <button
                                 onClick={() => setActiveItem(item.id)}
                                 className={`w-full flex items-center gap-3 cursor-pointer px-6 py-3 transition-all ${activeItem === item.id
-                                    ? 'bg-[#ffffff1a] text-white'
-                                    : 'text-gray-300 hover:bg-[#ffffff0d] hover:text-white'
+                                    ? 'bg-white/10 text-white'
+                                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
                                     }`}
                             >
                                 <item.icon size={22} />

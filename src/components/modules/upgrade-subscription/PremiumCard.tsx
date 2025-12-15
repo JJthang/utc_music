@@ -3,11 +3,20 @@ import { Link } from "react-router-dom";
 
 const PremiumCard = () => {
   return (
-    <div className="max-w-sm w-full bg-[#1E293B] border border-blue-700 rounded-2xl shadow-xl p-8">
+    <div 
+      className="max-w-sm w-full border rounded-2xl shadow-xl p-8"
+      style={{ 
+        backgroundColor: 'var(--color-bg-secondary)',
+        borderColor: 'var(--color-purple-dark)'
+      }}
+    >
       <div className="mb-8">
         <h1 className="flex items-center gap-2 text-3xl font-bold text-white mb-2">
           <span>UTC Music</span>
-          <span className="bg-white text-[#1E293B] px-2 py-0.5 rounded-lg text-lg font-black tracking-wider">
+          <span 
+            className="bg-white px-2 py-0.5 rounded-lg text-lg font-black tracking-wider"
+            style={{ color: 'var(--color-bg-secondary)' }}
+          >
             PREMIUM
           </span>
         </h1>

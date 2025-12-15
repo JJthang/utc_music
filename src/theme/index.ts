@@ -4,15 +4,15 @@ const themeOptions: ThemeOptions = {
     palette: {
         mode: 'dark',
         primary: {
-            main: '#60A5FA',
+            main: '#60A5FA', // var(--color-purple)
         },
         background: {
-            default: '#0F172A',
-            paper: '#1E293B',
+            default: '#0F172A', // var(--color-outlet)
+            paper: '#1E293B', // var(--color-bg-secondary)
         },
         text: {
-            primary: '#ffffff',
-            secondary: 'rgba(255, 255, 255, 0.7)',
+            primary: '#ffffff', // var(--color-text-primary)
+            secondary: 'rgba(255, 255, 255, 0.7)', // var(--color-text-secondary)
         },
     },
     components: {
@@ -26,8 +26,8 @@ const themeOptions: ThemeOptions = {
         MuiMenu: {
             styleOverrides: {
                 paper: {
-                    backgroundColor: '#1E293B',
-                    border: '1px solid #334155',
+                    backgroundColor: '#1E293B', // var(--color-bg-secondary)
+                    border: '1px solid #334155', // var(--color-bg-tertiary)
                 },
             },
         },
@@ -35,7 +35,7 @@ const themeOptions: ThemeOptions = {
             styleOverrides: {
                 root: {
                     '&:hover': {
-                        backgroundColor: '#334155',
+                        backgroundColor: '#334155', // var(--color-bg-tertiary)
                     },
                 },
             },

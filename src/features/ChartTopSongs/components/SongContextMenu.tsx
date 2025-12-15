@@ -121,9 +121,9 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
       }}
       PaperProps={{
         sx: {
-          bgcolor: '#1E293B',
+          bgcolor: 'var(--color-bg-secondary)',
           borderRadius: 3,
-          border: '1px solid #334155',
+          border: '1px solid var(--color-bg-tertiary)',
           width: 320,
           maxWidth: 'calc(100vw - 20px)',
           boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
@@ -140,7 +140,7 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
       <Box
         sx={{
           p: 2,
-          borderBottom: '1px solid #334155',
+          borderBottom: '1px solid var(--color-bg-tertiary)',
         }}
       >
         <Stack direction="row" spacing={1.5} alignItems="flex-start">
@@ -203,7 +203,7 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
       <Box
         sx={{
           p: 1,
-          borderBottom: '1px solid #334155',
+          borderBottom: '1px solid var(--color-bg-tertiary)',
         }}
       >
         <Stack direction="row" spacing={1}>
@@ -215,12 +215,12 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
               onClose();
             }}
             sx={{
-              bgcolor: '#334155',
-              color: 'white',
+              bgcolor: 'var(--color-bg-tertiary)',
+              color: 'var(--color-text-primary)',
               fontSize: '0.875rem',
               py: 1,
               '&:hover': {
-                bgcolor: '#475569',
+                bgcolor: 'var(--color-bg-quaternary)',
               },
             }}
           >
@@ -234,12 +234,12 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
               onClose();
             }}
             sx={{
-              bgcolor: '#334155',
-              color: 'white',
+              bgcolor: 'var(--color-bg-tertiary)',
+              color: 'var(--color-text-primary)',
               fontSize: '0.875rem',
               py: 1,
               '&:hover': {
-                bgcolor: '#475569',
+                bgcolor: 'var(--color-bg-quaternary)',
               },
             }}
           >
@@ -264,7 +264,7 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
               color: 'white',
               fontSize: '0.875rem',
               '&:hover': {
-                bgcolor: '#334155',
+                bgcolor: 'var(--color-bg-tertiary)',
               },
             }}
           >
@@ -306,7 +306,7 @@ const SongContextMenu: React.FC<SongContextMenuProps> = ({
         <Typography
           variant="caption"
           sx={{
-            color: '#9CA3AF',
+            color: 'var(--color-text-gray)',
             fontSize: '0.75rem',
           }}
         >

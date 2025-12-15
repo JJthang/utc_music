@@ -141,7 +141,7 @@ export const Micro: React.FC<Props> = ({
             className={`micro-wrap ${listening ? "active" : ""} ${className}`}
             onClick={debounceToggleMicro}
         >
-            <FaMicrophoneAlt className="size-5 text-[#B3B3C2]" />
+            <FaMicrophoneAlt className="size-5 text-text-muted" style={{ color: 'var(--color-text-muted)' }} />
         </div>
     );
 };
