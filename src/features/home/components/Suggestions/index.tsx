@@ -4,9 +4,10 @@ import { RotateCw, Sparkles } from "lucide-react";
 import type { Song } from "@/types/song.type";
 import { getListSongs } from "@/services/Apis/song.service";
 import { useDispatch } from "react-redux";
-import { setCurrentSong, setPlayList, setPlayStatus } from "@/stores/slice/song.slice";
+import { setCurrentSong, setPlayList, setPlayStatus, togglePlayStatus } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
 import { Link } from "react-router-dom";
+import { useMemoizedSelector } from "@/hooks";
 
 export function Cover({ url, title }: { url?: string; title: string }) {
   const initials = title
@@ -60,15 +61,22 @@ export function SuggestedSongs() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
+  const { currentSong } = useMemoizedSelector((state) => state.currentSong);
 
   const debouncedPlay = useDebouncedCallback(() => {
     dispatch(setPlayStatus(true));
   }, 500);
 
   const handSetCurrentSong = (item: Song) => {
-    dispatch(setCurrentSong(item))
-    debouncedPlay()
-  }
+    // Nếu đây là bài hát đang phát, chỉ toggle play/pause
+    if (currentSong?.id === item.id) {
+      dispatch(togglePlayStatus());
+    } else {
+      // Nếu là bài hát khác, set bài hát mới và play
+      dispatch(setCurrentSong(item));
+      debouncedPlay();
+    }
+  };
 
   useEffect(() => {
     const fetchSongs = async () => {

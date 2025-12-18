@@ -1,12 +1,13 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { Heart, MoreHorizontal, Play } from "lucide-react";
+import { Heart, MoreHorizontal, Pause, Play } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 
-import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
+import { setCurrentSong, setPlayStatus, togglePlayStatus } from "@/stores/slice/song.slice";
 import type { Song } from "@/types/song.type";
 import { formatDuration } from "@/utils/format";
+import { useMemoizedSelector } from "@/hooks";
 
 interface SongCardProps {
   song: Song;
@@ -14,14 +15,20 @@ interface SongCardProps {
 
 export const SongCard: FC<SongCardProps> = ({ song }) => {
   const dispatch = useDispatch();
-
+  const { statusSong, currentSong } = useMemoizedSelector((state) => state.currentSong);
   const debouncedPlay = useDebouncedCallback(() => {
     dispatch(setPlayStatus(true));
   }, 500);
 
   const handSetCurrentSong = (item: Song) => {
-    dispatch(setCurrentSong(item));
-    debouncedPlay();
+    // Nếu đây là bài hát đang phát, chỉ toggle play/pause
+    if (currentSong?.id === item.id) {
+      dispatch(togglePlayStatus());
+    } else {
+      // Nếu là bài hát khác, set bài hát mới và play
+      dispatch(setCurrentSong(item));
+      debouncedPlay();
+    }
   };
   return (
     <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/60 transition-colors group">
@@ -35,7 +42,11 @@ export const SongCard: FC<SongCardProps> = ({ song }) => {
           onClick={() => handSetCurrentSong(song)}
           className="hidden group-hover:flex items-center justify-center w-full h-full bg-black/60 hover:bg-black/80 transition-colors cursor-pointer"
         >
-          <Play className="w-4 h-4 fill-white text-white" />
+          {statusSong ? (
+            <Pause fill="white" className="size fill-white text-white" />
+          ) : (
+            <Play fill="white" className="size fill-white text-white" />
+          )}
         </div>
       </div>
 

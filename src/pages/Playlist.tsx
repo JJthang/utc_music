@@ -1,15 +1,16 @@
 import type { FC } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Play, Heart, MoreHorizontal } from "lucide-react";
+import { Play, Heart, MoreHorizontal, Pause } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 
 import { formatDate, formatDuration } from "@/utils/format";
-import { setCurrentSong, setPlayStatus } from "@/stores/slice/song.slice";
+import { setCurrentSong, setPlayStatus, togglePlayStatus } from "@/stores/slice/song.slice";
 import { getDetailPlaylist } from "@/services/Apis/playlist.service";
 import type { Song } from "@/types/song.type";
 import type { Playlist } from "@/types/playlist.type";
+import { useMemoizedSelector } from "@/hooks";
 
 type SongCardType = {
   song: Song;
@@ -17,18 +18,13 @@ type SongCardType = {
 };
 
 const SongCard: FC<SongCardType> = ({ song, onClick }) => {
+  const { statusSong } = useMemoizedSelector((state) => state.currentSong);
   return (
     <div
       key={song.id}
       onClick={() => onClick(song)}
       className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/60 transition-colors group"
     >
-      <input
-        type="checkbox"
-        className="w-5 h-5 rounded opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-        aria-label={`Select ${song.title}`}
-      />
-
       <div className="relative w-10 h-10 rounded overflow-hidden shrink-0">
         <img
           src={song.coverUri || "/placeholder.svg"}
@@ -36,7 +32,11 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
           className="object-cover group-hover:hidden"
         />
         <button className="hidden group-hover:flex items-center justify-center w-full h-full bg-black/60 hover:bg-black/80 transition-colors cursor-pointer">
-          <Play className="w-4 h-4 fill-white text-white" />
+          {statusSong ? (
+            <Pause fill="white" className="size fill-white text-white" />
+          ) : (
+            <Play fill="white" className="size fill-white text-white" />
+          )}
         </button>
       </div>
 
@@ -71,7 +71,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
 
 const PlaylistPage: FC = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
-
+  const { currentSong } = useMemoizedSelector((state) => state.currentSong);
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -82,8 +82,14 @@ const PlaylistPage: FC = () => {
   }, 500);
 
   const handSetCurrentSong = (item: Song) => {
-    dispatch(setCurrentSong(item));
-    debouncedPlay();
+    // Nếu đây là bài hát đang phát, chỉ toggle play/pause
+    if (currentSong?.id === item.id) {
+      dispatch(togglePlayStatus());
+    } else {
+      // Nếu là bài hát khác, set bài hát mới và play
+      dispatch(setCurrentSong(item));
+      debouncedPlay();
+    }
   };
 
   useEffect(() => {
