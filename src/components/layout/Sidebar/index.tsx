@@ -1,8 +1,10 @@
 import { useAppDispatch, useMemoizedSelector } from '@/hooks'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Play, Pause, MoreHorizontal } from 'lucide-react'
-import { setCurrentSong, setPlayStatus, togglePlayStatus } from '@/stores/slice/song.slice';
+import { setCurrentSong, setPlayStatus, togglePlayStatus, setPlayList } from '@/stores/slice/song.slice';
 import { useDebouncedCallback } from 'use-debounce';
+import { getDetailAlbum } from '@/services/Apis/album.service';
+import type { Song } from '@/types/song.type';
 
 const Sidebar: React.FC = () => {
     const { isOpen } = useMemoizedSelector((item) => item.sidebar)
@@ -10,10 +12,32 @@ const Sidebar: React.FC = () => {
     const [autoPlay, setAutoPlay] = useState(true)
     const { playList, currentSong, statusSong } = useMemoizedSelector((state) => state.currentSong)
     const dispatch = useAppDispatch()
+    const [isLoadingPlaylist, setIsLoadingPlaylist] = useState(false)
 
     const debouncedPlay = useDebouncedCallback(() => {
         dispatch(setPlayStatus(true));
     }, 500);
+
+    // Fetch album playlist when currentSong changes
+    useEffect(() => {
+        const fetchAlbumPlaylist = async () => {
+            if (!currentSong?.albumId) return;
+
+            setIsLoadingPlaylist(true);
+            try {
+                const { data } = await getDetailAlbum(currentSong.albumId);
+                if (data.songs && data.songs.length > 0) {
+                    dispatch(setPlayList(data.songs as Song[]));
+                }
+            } catch (error) {
+                console.error("Lỗi khi tải playlist album:", error);
+            } finally {
+                setIsLoadingPlaylist(false);
+            }
+        };
+
+        fetchAlbumPlaylist();
+    }, [currentSong?.albumId, dispatch]);
 
     return (
         <div
@@ -97,7 +121,16 @@ const Sidebar: React.FC = () => {
 
                         {/* Song List */}
                         <div className="space-y-1">
-                            {playList.map((song) => (
+                            {isLoadingPlaylist ? (
+                                <div className="text-center py-4 text-gray-400 text-sm">
+                                    Đang tải danh sách phát...
+                                </div>
+                            ) : playList.length === 0 ? (
+                                <div className="text-center py-4 text-gray-400 text-sm">
+                                    Chưa có bài hát trong danh sách phát
+                                </div>
+                            ) : (
+                                playList.map((song) => (
                                 <div
                                     key={song.id}
                                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer ${currentSong?.id === song.id ? 'bg-gray-800' : ''
@@ -122,7 +155,8 @@ const Sidebar: React.FC = () => {
                                         <MoreHorizontal className="w-4 h-4 text-gray-300" />
                                     </button>
                                 </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
