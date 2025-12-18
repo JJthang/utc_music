@@ -27,6 +27,7 @@ import { toggleSidebar } from "@/stores/slice/sidebar.slice";
 import { onHandNextSong, onHandPrevSong, setPlayStatus, togglePlayStatus, toggleShuffle } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
 import { trackListeningSong } from "@/services/Apis/song.service";
+import { postFavorite } from "@/services/Apis/favourite.service";
 
 const MusicPlayer: FC = () => {
     const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ const MusicPlayer: FC = () => {
     });
 
     const audioRef = useRef<HTMLAudioElement>(null);
-    
+
     // Track cumulative listening time (thời gian nghe thực tế)
     const cumulativeTimeRef = useRef<number>(0);
     const lastUpdateTimeRef = useRef<number>(0);
@@ -80,7 +81,7 @@ const MusicPlayer: FC = () => {
         if (audioRef.current) {
             audioRef.current.load();
         }
-    }, [currentSong.id]);
+    }, [currentSong.duration, currentSong.id]);
 
     // Điều khiển audio element và track listening time
     useEffect(() => {
@@ -91,10 +92,10 @@ const MusicPlayer: FC = () => {
                 console.error("Error playing audio:", err);
                 dispatch(setPlayStatus(false));
             });
-            
+
             // Bắt đầu track thời gian nghe
             lastUpdateTimeRef.current = Date.now();
-            
+
             // Track mỗi giây để cập nhật thời gian nghe thực tế
             trackingIntervalRef.current = window.setInterval(() => {
                 const audio = audioRef.current;
@@ -103,7 +104,7 @@ const MusicPlayer: FC = () => {
                     const elapsed = (now - lastUpdateTimeRef.current) / 1000; // chuyển sang giây
                     cumulativeTimeRef.current += elapsed;
                     lastUpdateTimeRef.current = now;
-                    
+
                     // Kiểm tra nếu đã nghe >= 50% thời lượng và chưa gọi API
                     const halfDuration = currentSong.duration / 2;
                     if (!hasTrackedRef.current && cumulativeTimeRef.current >= halfDuration) {
@@ -118,7 +119,7 @@ const MusicPlayer: FC = () => {
             }, 1000); // Update mỗi giây
         } else {
             audioRef.current.pause();
-            
+
             // Khi pause, cập nhật cumulative time từ lần update cuối
             if (lastUpdateTimeRef.current > 0) {
                 const now = Date.now();
@@ -126,14 +127,14 @@ const MusicPlayer: FC = () => {
                 cumulativeTimeRef.current += elapsed;
                 lastUpdateTimeRef.current = 0; // Reset để tránh double count
             }
-            
+
             // Dừng tracking
             if (trackingIntervalRef.current) {
                 clearInterval(trackingIntervalRef.current);
                 trackingIntervalRef.current = null;
             }
         }
-        
+
         return () => {
             // Cleanup: cập nhật cumulative time trước khi clear interval
             if (lastUpdateTimeRef.current > 0 && audioRef.current && !audioRef.current.paused) {
@@ -141,7 +142,7 @@ const MusicPlayer: FC = () => {
                 const elapsed = (now - lastUpdateTimeRef.current) / 1000;
                 cumulativeTimeRef.current += elapsed;
             }
-            
+
             if (trackingIntervalRef.current) {
                 clearInterval(trackingIntervalRef.current);
                 trackingIntervalRef.current = null;
@@ -210,7 +211,8 @@ const MusicPlayer: FC = () => {
         dispatch(togglePlayStatus());
     }, [dispatch]);
 
-    const toggleFavorite = useCallback(() => {
+    const toggleFavorite = useCallback(async (val: string) => {
+        await postFavorite(val)
         setState((prev) => ({ ...prev, isFavorite: !prev.isFavorite }));
     }, []);
 
@@ -253,10 +255,10 @@ const MusicPlayer: FC = () => {
                             coverUri={currentSong.coverUri}
                             artist={artistNames}
                         />
-                        <div className="flex items-center gap-2 hidden md:flex">
+                        <div className="flex items-center gap-2 md:flex">
                             <IconButtonWithTooltip
                                 icon={Heart}
-                                onClick={toggleFavorite}
+                                onClick={() => toggleFavorite(currentSong.id)}
                                 tooltip={state.isFavorite ? "Remove favorite" : "Add favorite"}
                                 isActive={state.isFavorite}
                                 ariaLabel={
@@ -331,7 +333,7 @@ const MusicPlayer: FC = () => {
                     </div>
 
                     {/* Right Controls */}
-                    <div className="flex items-center gap-3 ml-4 hidden lg:flex">
+                    <div className="flex items-center gap-3 ml-4 lg:flex">
                         <button
                             aria-label="Queue"
                             title="Queue"

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 import { IoIosSearch } from "react-icons/io";
 import { useDebounce } from "use-debounce";
 
@@ -83,28 +83,6 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
-  const clearSearchQuery = () => {
-    // Đánh dấu đang clear để tránh onTimeout can thiệp
-    isClearingRef.current = true;
-    
-    // Dừng micro nếu đang active
-    if (isMicroActive) {
-      setIsMicroActive(false);
-    }
-    setSearchQuery("");
-    setShowDropdown(false);
-    setListResult({
-      songs: [],
-      albums: [],
-      artists: [],
-    });
-    
-    // Reset flag sau một chút để tránh race condition
-    setTimeout(() => {
-      isClearingRef.current = false;
-    }, 200);
-  };
-
   return (
     <nav className="h-[68px] w-full relative z-50">
       {/* Navbar */}
@@ -154,10 +132,6 @@ const Navbar = () => {
                     }
                     // Nếu có transcript, giữ dropdown mở để hiển thị kết quả
                   }}
-                />
-                <X
-                  onClick={clearSearchQuery}
-                  className="size-5 text-[#B3B3C2] cursor-pointer"
                 />
               </div>
               {showDropdown && (
