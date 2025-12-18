@@ -62,18 +62,9 @@ export function UserMenu() {
 
       {/* Dropdown */}
       {open && (
-        <div 
-          className="absolute right-0 mt-3 w-56 border rounded-2xl shadow-xl z-[99999] animate-fade-in"
-          style={{ 
-            backgroundColor: 'var(--color-bg-secondary)',
-            borderColor: 'var(--color-purple-dark)'
-          }}
-        >
+        <div className="absolute right-0 mt-3 w-56 bg-[#1E293B] border border-blue-700 rounded-2xl shadow-xl z-[99999] animate-fade-in">
           {/* Header */}
-            <div 
-              className="flex items-center gap-3 p-4 border-b"
-              style={{ borderColor: 'var(--color-purple-dark)' }}
-            >
+          <div className="flex items-center gap-3 p-4 border-b border-blue-700">
             <img
               src={user?.avatarUri || "/default-avatar.png"}
               alt="avatar"

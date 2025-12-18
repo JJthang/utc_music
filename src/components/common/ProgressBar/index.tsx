@@ -40,17 +40,17 @@ export const ProgressBar: FC<ProgressBarProps> = ({
                     flex: 1,
                     height: 4,
                     "& .MuiSlider-track": {
-                        background: "var(--gradient-purple)",
+                        background: "linear-gradient(to right, #a855f7, #7e22ce)",
                         border: "none",
                     },
                     "& .MuiSlider-rail": {
-                        backgroundColor: "var(--color-gray-700)",
+                        backgroundColor: "#374151",
                         opacity: 1,
                     },
                     "& .MuiSlider-thumb": {
                         width: 10,
                         height: 10,
-                        backgroundColor: "var(--color-purple)",
+                        backgroundColor: "#a855f7",
                     },
                 }}
             />

@@ -135,11 +135,7 @@ const Navbar = () => {
                     }
                   }, 100);
                 }}
-                className="w-full rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-purple transition-all placeholder-gray-400"
-                style={{ 
-                    backgroundColor: 'var(--color-bg-tertiary)',
-                    color: 'var(--color-text-primary)',
-                }}
+                className="w-full bg-[#334155] text-white placeholder-gray-400 rounded-full py-2.5 px-12 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
                 <Micro
@@ -161,16 +157,14 @@ const Navbar = () => {
                 />
                 <X
                   onClick={clearSearchQuery}
-                  className="size-5 cursor-pointer"
-                  style={{ color: 'var(--color-text-muted)' }}
+                  className="size-5 text-[#B3B3C2] cursor-pointer"
                 />
               </div>
               {showDropdown && (
                 <div
                   ref={dropdownRef}
                   onMouseDown={(e) => e.preventDefault()}
-                  className="absolute px-4 py-3 top-full mt-2 w-full rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50"
-                  style={{ backgroundColor: 'var(--color-bg-tertiary)' }}
+                  className="absolute px-4 py-3 top-full mt-2 w-full bg-[#334155] rounded-2xl shadow-xl max-h-[350px] hidden-scrollbar z-50"
                 >
                   <p className="text-white text-base font-bold">
                     Từ khoá liên quan
@@ -179,7 +173,7 @@ const Navbar = () => {
                     <div
                       key={index}
                       onClick={() => onHandleSearch(song.title)}
-                      className="flex items-center gap-1 w-full cursor-pointer rounded-xl px-2 py-2 transition-colors hover-bg-quaternary"
+                      className="flex items-center gap-1 w-full cursor-pointer rounded-xl px-2 py-2 hover:bg-[#475569]"
                     >
                       <IoIosSearch />
                       <span className="text-white text-sm font-bold">
@@ -190,7 +184,7 @@ const Navbar = () => {
                   {searchQuery.trim() && (
                     <div
                       onClick={() => onHandleSearch(searchQuery)}
-                      className="flex items-center gap-1 w-full cursor-pointer rounded-xl px-2 py-2 transition-colors hover-bg-quaternary"
+                      className="flex items-center gap-1 w-full cursor-pointer rounded-xl px-2 py-2 hover:bg-[#475569]"
                     >
                       <IoIosSearch />
                       <span className="text-zinc-400 text-sm font-normal">

@@ -24,18 +24,18 @@ body {
 }
 
 .sidebar-menu::-webkit-scrollbar-track {
-    background: var(--color-scrollbar-track);
+    background: #1E293B; /* nền tối */
     border-radius: 10px;
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb {
-    background: var(--color-scrollbar-thumb);
+    background: #d1d5dc;
     border-radius: 10px;
     transition: background 0.3s ease;
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb:hover {
-    background: var(--color-scrollbar-thumb-hover);
+    background: #60A5FA;
 }
 
 .main-content::-webkit-scrollbar {
@@ -44,18 +44,18 @@ body {
 }
 
 .main-content::-webkit-scrollbar-track {
-    background: var(--color-scrollbar-track);
+    background: #1E293B; /* nền tối */
     border-radius: 10px;
 }
 
 .main-content::-webkit-scrollbar-thumb {
-    background: var(--color-scrollbar-thumb);
+    background: #d1d5dc;
     border-radius: 10px;
     transition: background 0.3s ease;
 }
 
 .main-content::-webkit-scrollbar-thumb:hover {
-    background: var(--color-scrollbar-thumb-hover);
+    background: #60A5FA;
 }
 
 @theme {
@@ -68,7 +68,6 @@ body {
     --color-outlet: #0F172A;
     --color-bg-secondary: #1E293B;
     --color-bg-tertiary: #334155;
-    --color-bg-quaternary: #475569;
     --color-bg-alpha: rgba(15, 23, 42, 0.9);
 
     /* Sidebar */
@@ -83,28 +82,13 @@ body {
     --color-text-primary: #ffffff;
     --color-text-secondary: rgba(255, 255, 255, 0.5);
     --color-text-placeholder: rgba(255, 255, 255, 0.3);
-    --color-text-muted: #B3B3C2;
-    --color-text-gray: #9CA3AF;
 
     /* Border */
     --color-border: rgba(255, 255, 255, 0.1);
     --color-border-dark: rgba(0, 0, 0, 0.1);
 
-    /* Scrollbar */
-    --color-scrollbar-track: #1E293B;
-    --color-scrollbar-thumb: #d1d5dc;
-    --color-scrollbar-thumb-hover: #60A5FA;
-
-    /* Gray colors */
-    --color-gray-300: #d1d5dc;
-    --color-gray-400: #9CA3AF;
-    --color-gray-500: #6B7280;
-    --color-gray-600: #4B5563;
-    --color-gray-700: #374151;
-
     /* Hover states */
     --color-hover: rgba(255, 255, 255, 0.1);
-    --color-hover-light: rgba(255, 255, 255, 0.05);
     --color-hover-purple: rgba(96, 165, 250, 0.1);
 
     /* Accent colors */
@@ -116,23 +100,11 @@ body {
     /* Gradients - Winter theme */
     --gradient-primary: linear-gradient(to right, #60A5FA, #93C5FD);
     --gradient-dark: linear-gradient(180deg, #1E40AF, #0F172A);
-    --gradient-purple: linear-gradient(to right, #a855f7, #7e22ce);
-
-    /* Custom colors for Tailwind classes */
-    --color-bg-tertiary: #334155;
-    --color-bg-quaternary: #475569;
-    --color-text-muted: #B3B3C2;
-    --color-hover-white-10: rgba(255, 255, 255, 0.1);
-    --color-hover-white-5: rgba(255, 255, 255, 0.05);
 }
+
 
 .hidden-scrollbar {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     overflow: auto;
-}
-
-/* Utility classes for hover with CSS variables */
-.hover-bg-quaternary:hover {
-    background-color: var(--color-bg-quaternary);
 }
