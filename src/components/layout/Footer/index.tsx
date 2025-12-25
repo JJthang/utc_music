@@ -212,8 +212,13 @@ const MusicPlayer: FC = () => {
     }, [dispatch]);
 
     const toggleFavorite = useCallback(async (val: string) => {
-        await postFavorite(val)
-        setState((prev) => ({ ...prev, isFavorite: !prev.isFavorite }));
+        try {
+            await postFavorite(val);
+            setState((prev) => ({ ...prev, isFavorite: !prev.isFavorite }));
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+            // Có thể thêm toast notification ở đây
+        }
     }, []);
 
     const handToggleShuffle = useCallback(() => {

@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-import { SongCard } from "./SongCard";
+import { SongCard } from "../SongCard";
 
-import { getTopSongsByViews } from "@/services/Apis/stats.service";
+import { getNewReleaseSongs } from "@/services/Apis/stats.service";
 import { HorizontalScrollWrapper } from "@/components/common/HorizontalCarousel";
 import type { Song } from "@/types/song.type";
 
-const TopSongsByViews = () => {
-  const [topSongsByViews, setTopSongsByViews] = useState<Song[]>([]);
+const NewReleaseSongs = () => {
+  const [newReleaseSongs, setNewReleaseSongs] = useState<Song[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTopSongsByViews = async () => {
+    const fetchNewReleaseSongs = async () => {
       try {
-        const response = await getTopSongsByViews();
-        setTopSongsByViews(response.data);
+        const response = await getNewReleaseSongs();
+        setNewReleaseSongs(response.data);
       } catch (error) {
-        console.error("Error fetching top songs by views:", error);
+        console.error("Error fetching:", error);
         setError(
-          "Không thể tải danh sách bài hát có nhiều lượt nghe nhất, vui lòng thử lại sau!"
+          "Không thể tải danh sách bài hát mới phát hành, vui lòng thử lại sau!"
         );
       } finally {
         setIsFetching(false);
       }
     };
 
-    fetchTopSongsByViews();
+    fetchNewReleaseSongs();
   }, []);
 
   if (isFetching) {
@@ -45,9 +45,7 @@ const TopSongsByViews = () => {
   return (
     <section className="w-full p-2 sm:p-4">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-white">
-          Những bài hát có nhiều lượt nghe nhất
-        </h2>
+        <h2 className="text-xl font-bold text-white">Ca khúc mới phát hành</h2>
         <button
           type="button"
           className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/50 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 cursor-pointer"
@@ -59,7 +57,7 @@ const TopSongsByViews = () => {
       </div>
 
       <HorizontalScrollWrapper>
-        {topSongsByViews.map((song, index) => (
+        {newReleaseSongs.map((song, index) => (
           <SongCard key={index} song={song} />
         ))}
       </HorizontalScrollWrapper>
@@ -67,4 +65,4 @@ const TopSongsByViews = () => {
   );
 };
 
-export default TopSongsByViews;
+export default NewReleaseSongs;

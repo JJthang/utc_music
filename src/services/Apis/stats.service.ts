@@ -6,7 +6,9 @@ import type {
 } from "@/types/api-response.type";
 import type {
   ArtistMonthlyListenersStats,
+  ArtistPopular,
   DiscoveryStats,
+  AlbumFeatured,
   SongRecentPlay,
   StatsPeriod,
   TopAlbumPersonal,
@@ -29,6 +31,36 @@ const personalStatsUrl = `${requestUrl}/stats/me`;
 // ================================================================================
 // stats for public
 // ================================================================================
+export const getNewReleaseSongs = async ({
+  limit = 20,
+}: {
+  limit?: number;
+} = {}): Promise<ApiListResponse<Song>> => {
+  const url = `${publicStatsUrl}/songs/new-releases`;
+  const result = await api.get(url, { params: { limit } });
+  return result.data;
+};
+
+export const getFeaturedAlbums = async ({
+  limit = 10,
+}: {
+  limit?: number;
+} = {}): Promise<ApiListResponse<AlbumFeatured>> => {
+  const url = `${publicStatsUrl}/albums/featured`;
+  const result = await api.get(url, { params: { limit } });
+  return result.data;
+};
+
+export const getPopularArtists = async ({
+  limit = 12,
+}: {
+  limit?: number;
+} = {}): Promise<ApiListResponse<ArtistPopular>> => {
+  const url = `${publicStatsUrl}/artists/popular`;
+  const result = await api.get(url, { params: { limit } });
+  return result.data;
+};
+
 export const getTopSongsByViews = async (): Promise<ApiListResponse<Song>> => {
   const url = `${publicStatsUrl}/top-50/songs/by-views`;
   const result = await api.get(url);
