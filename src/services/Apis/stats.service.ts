@@ -67,7 +67,7 @@ export const getChartTopSongs = async ({
 }: {
   limit?: number;
   period?: "week" | "month" | "all";
-}): Promise<ApiListResponse<TopSongChart>> => {
+} = {}): Promise<ApiListResponse<TopSongChart>> => {
   const url = `${publicStatsUrl}/charts/top-songs`;
   const result = await api.get(url, { params: { limit, period } });
   return result.data;

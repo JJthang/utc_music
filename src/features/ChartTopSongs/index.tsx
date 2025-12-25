@@ -112,10 +112,7 @@ export const ChartTopSongs = () => {
     const fetchTopSongs = async () => {
       setIsLoading(true);
       try {
-        const { data } = await getChartTopSongs({
-          limit: 50,
-          period: "week",
-        });
+        const { data } = await getChartTopSongs();
 
         setTopSongs(data);
       } catch (error) {
@@ -163,30 +160,36 @@ export const ChartTopSongs = () => {
                     <td className="py-4 px-6 text-center">
                       <span
                         className={`text-xl font-bold ${getRankColor(
-                          ts.position
+                          ts.rank
                         )}`}
                       >
-                        {ts.position}
+                        {ts.rank}
                       </span>
                     </td>
 
                     {/* Trend Indicator */}
                     <td className="py-4 px-6">
                       <div className="flex items-center justify-center w-8">
-                        {ts.change > 0 && (
+                        {ts.trend === "up" && (
                           <div className="flex items-center text-green-400">
                             <ArrowUp className="w-4 h-4" />
-                            <span className="text-xs ml-1">{ts.change}</span>
+                            <span className="text-xs ml-1">{ts.rankDiff}</span>
                           </div>
                         )}
-                        {ts.change < 0 && (
+
+                        {ts.trend === "down" && (
                           <div className="flex items-center text-red-400">
                             <ArrowDown className="w-4 h-4" />
-                            <span className="text-xs ml-1">{ts.change}</span>
+                            <span className="text-xs ml-1">{Math.abs(ts.rankDiff!)}</span>
                           </div>
                         )}
-                        {ts.change == 0 && (
-                          <span className="text-gray-400">-</span>
+
+                        {ts.trend === "same" && (
+                          <span className="text-gray-400">—</span>
+                        )}
+
+                        {ts.trend === "new" && (
+                          <span className="text-yellow-400 text-xs font-bold">New</span>
                         )}
                       </div>
                     </td>

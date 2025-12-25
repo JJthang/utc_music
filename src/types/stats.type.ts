@@ -15,9 +15,11 @@ export interface TrendingSong {
 }
 
 export interface TopSongChart {
-  position: number;
-  lastPosition: number;
-  change: number;
+  rank: number;
+  previousRank: number | null;
+  rankDiff: number | null;
+  trend: "up" | "down" | "same" | "new";
+  isNewEntry: boolean;
   song: Song;
   playCount: number;
 }
