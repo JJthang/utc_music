@@ -7,8 +7,11 @@ import AlbumRecent from "./AlbumRecent";
 import DiscoverySongs from "./DiscoverySongs";
 import MyTopArtists from "./MyTopArtists";
 import MyTopSongs from "./MyTopSongs";
-import TrendingSongs from "./TrendingSongs";
-import TopSongsByViews from "./TopSongsByViews";
+import TrendingSongs from "./public/TrendingSongs";
+import TopSongsByViews from "./public/TopSongsByViews";
+import NewReleaseSongs from "./public/NewReleaseSongs";
+import FeaturedAlbum from "./public/FeaturedAlbum";
+import PopularArtists from "./public/PopularArtists";
 
 export {
   RecentPlay,
@@ -17,5 +20,8 @@ export {
   MyTopArtists,
   MyTopSongs,
   TrendingSongs,
-  TopSongsByViews
+  TopSongsByViews,
+  NewReleaseSongs,
+  FeaturedAlbum,
+  PopularArtists
 };

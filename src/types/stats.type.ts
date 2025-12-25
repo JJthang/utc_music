@@ -2,10 +2,19 @@ import type { Album, Artist } from "./album.type";
 import type { Genre, Song } from "./song.type";
 
 export interface ArtistMonthlyListenersStats {
-    artistId: string
-    monthlyListeners: number
-    totalPlays: number
-    period: string
+  artistId: string;
+  monthlyListeners: number;
+  totalPlays: number;
+  period: string;
+}
+
+export type AlbumFeatured = Album & {
+  totalViews: number;
+};
+
+export interface ArtistPopular {
+  artist: Artist;
+  playCount: number;
 }
 
 export interface TrendingSong {

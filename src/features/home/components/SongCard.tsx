@@ -31,7 +31,7 @@ export const SongCard: FC<SongCardProps> = ({ song }) => {
         {song.title}
       </p>
 
-      <p className="flex items-center">
+      <p className="truncate flex items-center">
         {song.artists?.map((art, idx) => (
           <span key={idx} className="flex items-center">
             <Link

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { Fragment, type FC } from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -9,6 +9,9 @@ import {
   TrendingSongs,
   MyTopSongs,
   TopSongsByViews,
+  NewReleaseSongs,
+  FeaturedAlbum,
+  PopularArtists,
 } from "./components";
 
 import type { RootState } from "@/stores";
@@ -28,13 +31,19 @@ const FeatureHomePage: FC = () => {
         </div>
       )}
       <TrendingSongs />
+      <NewReleaseSongs />
       <TopSongsByViews />
-      {user && (
-        <div>
+      {user ? (
+        <Fragment>
           <MyTopArtists />
           <AlbumRecent />
           <DiscoverySongs />
-        </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <PopularArtists />
+          <FeaturedAlbum />
+        </Fragment>
       )}
     </div>
   );
