@@ -46,16 +46,22 @@ const SidebarMenu: React.FC = () => {
         <div className="sidebar-menu w-64 bg-sidebar text-white h-full overflow-y-auto flex flex-col">
             {/* Logo */}
             <div className="p-6 pb-4">
-                <div className="flex items-center gap-1">
-                    <span className="text-4xl font-bold">
-                        <span className="text-[#0d7ded]">Z</span>
-                        <span className="text-[#50e3c2]">i</span>
-                        <span className="text-[#fe63a9]">n</span>
-                        <span className="text-[#ffd300]">g</span>
-                    </span>
-                    <span className="text-2xl font-light ml-1">mp3</span>
-                </div>
-                <p className="text-gray-400 text-sm mt-1 tracking-wider">MXH ÂM NHẠC</p>
+                <Link to="/" className="flex items-center gap-3 group">
+                    <div className="relative">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#60A5FA] to-[#3B82F6] flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-105">
+                            <Music size={24} className="text-white" strokeWidth={2.5} />
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#93C5FD] rounded-full opacity-80 animate-pulse"></div>
+                    </div>
+                    <div className="flex flex-col">
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-2xl font-bold bg-gradient-to-r from-[#60A5FA] via-[#93C5FD] to-[#60A5FA] bg-clip-text text-transparent">
+                                MusicHub
+                            </span>
+                        </div>
+                        <p className="text-gray-400 text-xs mt-0.5 tracking-wider">MXH ÂM NHẠC</p>
+                    </div>
+                </Link>
             </div>
 
             {/* Main Menu */}
