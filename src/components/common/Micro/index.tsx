@@ -96,11 +96,12 @@ export const Micro: React.FC<Props> = ({
 
     // giống watch(result) + processMessage trong Vue
     useEffect(() => {
-        if (transcript && transcript.trim()) {
+        // Chỉ cập nhật khi đang nghe để tránh ghi đè input sau khi dừng
+        if (listening && transcript && transcript.trim()) {
             resetTimeout();
             onMicro?.(transcript);
         }
-    }, [transcript, resetTimeout, onMicro]);
+    }, [transcript, listening, resetTimeout, onMicro]);
 
     // Đảm bảo timeout được set khi bắt đầu nghe
     useEffect(() => {
