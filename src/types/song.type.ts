@@ -55,4 +55,5 @@ export interface Song {
   album: SongAlbum;
   artists: SongArtist[];
   genres: SongGenre[];
+  isLiked?: boolean;
 }

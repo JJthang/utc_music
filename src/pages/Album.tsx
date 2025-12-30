@@ -9,20 +9,29 @@ import type { Album } from "@/types/album.type";
 import { getDetailAlbum } from "@/services/Apis/album.service";
 import { formatDuration, formatReleaseDate } from "@/utils/format";
 import { setCurrentSong, setPlayStatus, togglePlayStatus } from "@/stores/slice/song.slice";
+import { postFavorite, deleteFavorite } from "@/services/Apis/favourite.service";
 import type { Song } from "@/types/song.type";
 import { useMemoizedSelector } from "@/hooks";
 
 type SongCardType = {
   song: Song;
   onClick: (song: Song) => void;
+  onToggleFavorite: (songId: string, isFavorite: boolean) => void;
 };
 
-const SongCard: FC<SongCardType> = ({ song, onClick }) => {
+const SongCard: FC<SongCardType> = ({ song, onClick, onToggleFavorite }) => {
+  const isLiked = song.isLiked ?? false;
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleFavorite(song.id, isLiked);
+  };
+
   return (
     <div
       key={song.id}
       onClick={() => onClick(song)}
-      className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/60 transition-colors group"
+      className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/60 transition-colors group cursor-pointer"
     >
       <div className="relative w-10 h-10 rounded overflow-hidden shrink-0">
         <img
@@ -52,8 +61,17 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
       </span>
 
       <div className="hidden group-hover:flex items-center gap-2">
-        <button className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer">
-          <Heart className="w-5 h-5 text-white hover:text-blue-400 transition-colors" />
+        <button
+          onClick={handleFavoriteClick}
+          className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer"
+        >
+          <Heart
+            className={`w-5 h-5 transition-colors ${
+              isLiked
+                ? "text-red-500 fill-red-500 hover:text-red-400"
+                : "text-white hover:text-blue-400"
+            }`}
+          />
         </button>
         <button className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer">
           <MoreHorizontal className="w-5 h-5 text-white" />
@@ -83,6 +101,24 @@ const AlbumPage: FC = () => {
       // Nếu là bài hát khác, set bài hát mới và play
       dispatch(setCurrentSong(item));
       debouncedPlay();
+    }
+  };
+
+  const handleToggleFavorite = async (songId: string, isFavorite: boolean) => {
+    try {
+      if (isFavorite) {
+        await deleteFavorite(songId);
+      } else {
+        await postFavorite(songId);
+      }
+      // Refresh album to update isLiked status
+      if (albumId) {
+        const { data } = await getDetailAlbum(albumId);
+        setAlbum(data);
+      }
+    } catch (err) {
+      console.error("Lỗi khi cập nhật yêu thích:", err);
+      // You could show a toast notification here
     }
   };
 
@@ -182,6 +218,7 @@ const AlbumPage: FC = () => {
                 key={idx}
                 song={song}
                 onClick={(song: Song) => handSetCurrentSong(song)}
+                onToggleFavorite={handleToggleFavorite}
               />
             ))}
           </div>

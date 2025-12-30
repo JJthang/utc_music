@@ -78,7 +78,19 @@ const SearchResult: FC<SearchResultProps> = ({ q }) => {
 
           <div>
             {listResult.songs?.map((song, idx) => (
-              <SongCard key={idx} song={song} />
+              <SongCard
+                key={idx}
+                song={song}
+                onFavoriteChange={(songId, isLiked) => {
+                  // Update the song's isLiked status in the list
+                  setListResult((prev) => ({
+                    ...prev,
+                    songs: prev.songs.map((s) =>
+                      s.id === songId ? { ...s, isLiked } : s
+                    ),
+                  }));
+                }}
+              />
             ))}
           </div>
         </section>

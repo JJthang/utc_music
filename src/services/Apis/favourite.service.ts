@@ -53,7 +53,17 @@ export const getLikedSongs = async (
 ): Promise<ApiListResponse<Song>> => {
   try {
     const result = await api.get("/api/me/liked-songs", { params });
-    return result.data;
+    // Backend returns { data: Song[], pagination: {...} }
+    // We need to transform it to match ApiListResponse format
+    const response = result.data;
+    return {
+      success: true,
+      message: null,
+      data: response.data || [],
+      meta: {
+        pagination: response.pagination,
+      },
+    };
   } catch (error) {
     const axiosError = error as AxiosError<ErrorResponse>;
     const errorMessage =

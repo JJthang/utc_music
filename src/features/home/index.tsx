@@ -24,23 +24,21 @@ const FeatureHomePage: FC = () => {
       {/* <Banner /> */}
       {/* <SuggestedSongs /> */}
 
-      {user && (
-        <div className="bg-linear-to-b from-[#2a2222] to-outlet rounded-xl">
-          <MyTopSongs />
-          <RecentPlay />
-        </div>
-      )}
-      <TrendingSongs />
-      <NewReleaseSongs />
-      <TopSongsByViews />
       {user ? (
         <Fragment>
+          <div className="bg-linear-to-b from-[#2a2222] to-outlet rounded-xl">
+            <MyTopSongs />
+            <RecentPlay />
+          </div>
           <MyTopArtists />
           <AlbumRecent />
           <DiscoverySongs />
         </Fragment>
       ) : (
         <Fragment>
+          <TrendingSongs />
+          <NewReleaseSongs />
+          <TopSongsByViews />
           <PopularArtists />
           <FeaturedAlbum />
         </Fragment>

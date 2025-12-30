@@ -12,22 +12,31 @@ import {
   formatReleaseDate,
 } from "@/utils/format";
 import { setCurrentSong, setPlayStatus, togglePlayStatus } from "@/stores/slice/song.slice";
+import { postFavorite, deleteFavorite } from "@/services/Apis/favourite.service";
 import type { Song } from "@/types/song.type";
 import { useMemoizedSelector } from "@/hooks";
 
 type SongCardType = {
   song: Song;
   onClick: (song: Song) => void;
+  onToggleFavorite: (songId: string, isFavorite: boolean) => void;
 };
 
-const SongCard: FC<SongCardType> = ({ song, onClick }) => {
-  const { statusSong } = useMemoizedSelector((state) => state.currentSong);
+const SongCard: FC<SongCardType> = ({ song, onClick, onToggleFavorite }) => {
+  const { statusSong, currentSong } = useMemoizedSelector((state) => state.currentSong);
+  const isPlaying = currentSong?.id === song.id && statusSong;
+  const isLiked = song.isLiked ?? false;
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleFavorite(song.id, isLiked);
+  };
 
   return (
     <div
       key={song.id}
       onClick={() => onClick(song)}
-      className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/60 transition-colors group"
+      className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/60 transition-colors group cursor-pointer"
     >
       <div className="relative w-10 h-10 rounded overflow-hidden shrink-0">
         <img
@@ -36,7 +45,7 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
           className="object-cover group-hover:hidden"
         />
         <button className="hidden group-hover:flex items-center justify-center w-full h-full bg-black/60 hover:bg-black/80 transition-colors cursor-pointer">
-          {statusSong ? (
+          {isPlaying ? (
             <Pause fill="white" className="size fill-white text-white" />
           ) : (
             <Play fill="white" className="size fill-white text-white" />
@@ -69,8 +78,17 @@ const SongCard: FC<SongCardType> = ({ song, onClick }) => {
       </span>
 
       <div className="hidden group-hover:flex items-center gap-2">
-        <button className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer">
-          <Heart className="w-5 h-5 text-white hover:text-blue-400 transition-colors" />
+        <button
+          onClick={handleFavoriteClick}
+          className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer"
+        >
+          <Heart
+            className={`w-5 h-5 transition-colors ${
+              isLiked
+                ? "text-red-500 fill-red-500 hover:text-red-400"
+                : "text-white hover:text-blue-400"
+            }`}
+          />
         </button>
         <button className="p-1.5 rounded-full hover:bg-slate-600/60 transition-colors cursor-pointer">
           <MoreHorizontal className="w-5 h-5 text-white" />
@@ -100,6 +118,24 @@ const SongPage: FC = () => {
       // Nếu là bài hát khác, set bài hát mới và play
       dispatch(setCurrentSong(item));
       debouncedPlay();
+    }
+  };
+
+  const handleToggleFavorite = async (songId: string, isFavorite: boolean) => {
+    try {
+      if (isFavorite) {
+        await deleteFavorite(songId);
+      } else {
+        await postFavorite(songId);
+      }
+      // Refresh song to update isLiked status
+      if (songId) {
+        const { data } = await getDetailSong(songId);
+        setSong(data);
+      }
+    } catch (err) {
+      console.error("Lỗi khi cập nhật yêu thích:", err);
+      // You could show a toast notification here
     }
   };
 
@@ -181,6 +217,7 @@ const SongPage: FC = () => {
             <SongCard
               song={song}
               onClick={(song: Song) => handSetCurrentSong(song)}
+              onToggleFavorite={handleToggleFavorite}
             />
           </div>
 
