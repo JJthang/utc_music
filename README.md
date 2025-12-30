@@ -1,4 +1,61 @@
-# React + TypeScript + Vite
+# Music Streaming Frontend
+
+React + TypeScript + Vite application for music streaming platform.
+
+## Features
+
+- **Chatbot AI**: Tích hợp Groq AI API (miễn phí) để trả lời câu hỏi về nghe nhạc
+
+## Setup
+
+### 1. Install Dependencies
+
+```bash
+npm install
+# hoặc
+yarn install
+```
+
+### 2. Configure Environment Variables
+
+Tạo file `.env` trong thư mục root và thêm các biến môi trường:
+
+```env
+VITE_API_URL=http://localhost:3000
+VITE_GROQ_API_KEY=your_groq_api_key_here
+```
+
+#### Lấy Groq API Key (Miễn phí):
+
+1. Truy cập https://console.groq.com/
+2. Đăng ký/Đăng nhập tài khoản (hoàn toàn miễn phí)
+3. Vào phần "API Keys" 
+4. Tạo API key mới
+5. Copy API key và dán vào file `.env` như trên
+
+**Lưu ý**: Groq API có gói miễn phí hào phóng với giới hạn hợp lý cho việc sử dụng chatbot.
+
+### 3. Run Development Server
+
+```bash
+npm run dev
+# hoặc
+yarn dev
+```
+
+## Chatbot Feature
+
+Chatbot sử dụng Groq AI API để trả lời các câu hỏi về:
+- Tìm kiếm và khám phá bài hát
+- Hướng dẫn sử dụng ứng dụng
+- Thông tin về gói Premium
+- Tư vấn về tính năng nghe nhạc
+
+Nếu không cấu hình `VITE_GROQ_API_KEY`, chatbot sẽ sử dụng chế độ fallback với keyword matching cơ bản.
+
+---
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

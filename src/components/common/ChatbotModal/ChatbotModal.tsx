@@ -44,6 +44,15 @@ const ChatbotModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         }
     }, [isOpen]);
 
+    // Reset conversation khi đóng modal (optional - bạn có thể xóa dòng này nếu muốn giữ lịch sử)
+    useEffect(() => {
+        if (!isOpen) {
+            // Có thể giữ lại conversationId để tiếp tục khi mở lại
+            // Hoặc reset để bắt đầu cuộc hội thoại mới
+            // setConversationId(undefined);
+        }
+    }, [isOpen]);
+
     const handleSend = async () => {
         if (!inputValue.trim() || isLoading) return;
 
@@ -60,7 +69,7 @@ const ChatbotModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         setIsLoading(true);
 
         try {
-            // Thử gọi API chatbot thật
+            // Gọi Groq AI API
             const response = await sendChatbotMessage(userMessageText, conversationId);
             
             if (response?.data?.response) {
@@ -71,23 +80,30 @@ const ChatbotModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     timestamp: new Date(),
                 };
                 
-                // Lưu conversationId nếu có
+                // Lưu conversationId để duy trì context
                 if (response.data.conversationId) {
                     setConversationId(response.data.conversationId);
                 }
                 
                 setMessages((prev) => [...prev, botResponse]);
             } else {
-                throw new Error('Không nhận được phản hồi từ API');
+                throw new Error('Không nhận được phản hồi từ AI');
             }
-        } catch (error) {
+        } catch (error: any) {
             // Fallback: Sử dụng keyword matching nếu API không khả dụng
             console.warn('Chatbot API không khả dụng, sử dụng fallback:', error);
+            
+            let errorMessage = getBotResponse(userMessageText);
+            
+            // Hiển thị thông báo lỗi nếu thiếu API key
+            if (error?.message?.includes('VITE_GROQ_API_KEY')) {
+                errorMessage = '⚠️ Vui lòng cấu hình VITE_GROQ_API_KEY trong file .env để sử dụng AI chatbot. Hiện tại đang sử dụng chế độ cơ bản.\n\n' + errorMessage;
+            }
             
             setTimeout(() => {
                 const botResponse: Message = {
                     id: (Date.now() + 1).toString(),
-                    text: getBotResponse(userMessageText),
+                    text: errorMessage,
                     sender: 'bot',
                     timestamp: new Date(),
                 };
