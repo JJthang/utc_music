@@ -16,11 +16,13 @@ import {
     Shuffle,
     Heart,
     MoreVertical,
+    MessageCircle,
 } from "lucide-react";
 import { ProgressBar } from "../../common/ProgressBar";
 import { VolumeControl } from "./components/VolumeControl";
 import { IconButtonWithTooltip } from "./components/IconButtonWithTooltip";
 import { SongInfo } from "./components/SongInfo";
+import { ChatbotModal } from "../../common/ChatbotModal";
 import type { PlayerState } from "@/types/song.type";
 import { useAppDispatch, useMemoizedSelector } from "@/hooks";
 import { toggleSidebar } from "@/stores/slice/sidebar.slice";
@@ -41,6 +43,8 @@ const MusicPlayer: FC = () => {
         isFavorite: false,
         repeat: false,
     });
+
+    const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
     const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -358,10 +362,28 @@ const MusicPlayer: FC = () => {
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
                         </button>
+                        <button
+                            aria-label="Chatbot"
+                            title="Trợ lý ảo"
+                            onClick={() => setIsChatbotOpen(true)}
+                            className="relative text-gray-400 hover:text-blue-400 transition-all cursor-pointer p-2 rounded-lg hover:bg-blue-700/20 group"
+                        >
+                            <MessageCircle 
+                                size={20} 
+                                className="transition-transform group-hover:scale-110"
+                            />
+                            {!isChatbotOpen && (
+                                <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            )}
+                        </button>
                         <VolumeControl volume={state.volume} onChange={handleVolumeChange} />
                     </div>
                 </div>
             </div>
+            <ChatbotModal 
+                isOpen={isChatbotOpen} 
+                onClose={() => setIsChatbotOpen(false)} 
+            />
         </>
     );
 };
