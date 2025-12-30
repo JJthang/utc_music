@@ -3,9 +3,13 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import {
   AlbumPage,
+  ArtistPage,
   FavoritePage,
+  GenrePage,
   HomePage,
   PlaylistPage,
+  ProfilePage,
+  RecentlyPlayedPage,
   SearchPage,
   SongPage,
   TopSongPage
@@ -30,6 +34,8 @@ export const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           { path: "album/:albumId", element: <AlbumPage /> },
           { path: "song/:songId", element: <SongPage /> },
+          { path: "artist/:artistId", element: <ArtistPage /> },
+          { path: "genre/:genreId", element: <GenrePage /> },
           { path: "search", element: <SearchPage /> },
           { path: "playlist/:playlistId", element: <PlaylistPage /> },
           { path: "chart-top-song", element: <TopSongPage /> },
@@ -51,6 +57,14 @@ export const router = createBrowserRouter([
               {
                 path: "favorite",
                 element: <FavoritePage />,
+              },
+              {
+                path: "recently-played",
+                element: <RecentlyPlayedPage />,
+              },
+              {
+                path: "profile",
+                element: <ProfilePage />,
               },
             ],
           },

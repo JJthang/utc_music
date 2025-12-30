@@ -4,7 +4,9 @@ import { Play, Pause, MoreHorizontal } from 'lucide-react'
 import { setCurrentSong, setPlayStatus, togglePlayStatus, setPlayList } from '@/stores/slice/song.slice';
 import { useDebouncedCallback } from 'use-debounce';
 import { getDetailAlbum } from '@/services/Apis/album.service';
+import { getRecentPlayedSongs } from '@/services/Apis/stats.service';
 import type { Song } from '@/types/song.type';
+import type { SongRecentPlay } from '@/types/stats.type';
 
 const Sidebar: React.FC = () => {
     const { isOpen } = useMemoizedSelector((item) => item.sidebar)
@@ -13,15 +15,17 @@ const Sidebar: React.FC = () => {
     const { playList, currentSong, statusSong } = useMemoizedSelector((state) => state.currentSong)
     const dispatch = useAppDispatch()
     const [isLoadingPlaylist, setIsLoadingPlaylist] = useState(false)
+    const [recentSongs, setRecentSongs] = useState<SongRecentPlay[]>([])
+    const [isLoadingRecent, setIsLoadingRecent] = useState(false)
 
     const debouncedPlay = useDebouncedCallback(() => {
         dispatch(setPlayStatus(true));
     }, 500);
 
-    // Fetch album playlist when currentSong changes
+    // Fetch album playlist when currentSong changes (only for playlist tab)
     useEffect(() => {
         const fetchAlbumPlaylist = async () => {
-            if (!currentSong?.albumId) return;
+            if (!currentSong?.albumId || activeTab !== 'playlist') return;
 
             setIsLoadingPlaylist(true);
             try {
@@ -37,29 +41,49 @@ const Sidebar: React.FC = () => {
         };
 
         fetchAlbumPlaylist();
-    }, [currentSong?.albumId, dispatch]);
+    }, [currentSong?.albumId, dispatch, activeTab]);
+
+    // Fetch recent songs when switching to recent tab
+    useEffect(() => {
+        const fetchRecentSongs = async () => {
+            if (activeTab !== 'recent') return;
+
+            setIsLoadingRecent(true);
+            try {
+                const response = await getRecentPlayedSongs({ limit: 50 });
+                setRecentSongs(response.data || []);
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách nghe gần đây:", error);
+            } finally {
+                setIsLoadingRecent(false);
+            }
+        };
+
+        fetchRecentSongs();
+    }, [activeTab]);
 
     return (
         <div
-            className={`fixed right-0 top-0 h-full w-96 bg-gradient-to-b from-gray-900 to-black border-l border-gray-800 transform transition-transform duration-500 ease-in-out z-40 overflow-hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+            className={`fixed right-0 top-0 h-[calc(100dvh-91px)] w-96 bg-gradient-to-b from-gray-900 to-black border-l border-gray-800 transform transition-transform duration-500 ease-in-out z-[200] overflow-hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
             <div className="flex flex-col h-full">
-                <div className="p-4 border-b border-gray-800">
+                {/* Header with Tabs */}
+                <div className="p-4 border-b border-gray-800 bg-gray-900/50 flex-shrink-0">
                     <div className="flex gap-2">
                         <button
                             onClick={() => setActiveTab('playlist')}
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'playlist'
-                                ? 'bg-blue-600 text-white'
-                                : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                            className={`flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-all cursor-pointer duration-200 ${activeTab === 'playlist'
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                                : 'text-gray-400 hover:text-white hover:bg-gray-800 bg-gray-800/50'
                                 }`}
                         >
                             Danh sách phát
                         </button>
                         <button
                             onClick={() => setActiveTab('recent')}
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'recent'
-                                ? 'bg-blue-600 text-white'
-                                : 'text-gray-400 hover:text-white hover:bg-gray-800'
+                            className={`flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-all cursor-pointer duration-200 ${activeTab === 'recent'
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                                : 'text-gray-400 hover:text-white hover:bg-gray-800 bg-gray-800/50'
                                 }`}
                         >
                             Nghe gần đây
@@ -67,42 +91,42 @@ const Sidebar: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 main-content overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
-                    <div className="p-4">
-                        {/* Current Playing Song */}
-                        {currentSong && (
-                            <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl p-3 mb-4 flex items-center gap-3">
-                                <div className="bg-blue-900 rounded-lg w-12 h-12 flex items-center justify-center text-xl flex-shrink-0 overflow-hidden">
-                                    <img
-                                        src={currentSong.coverUri}
-                                        alt={currentSong.title}
-                                        className="w-full h-full object-cover rounded-lg"
-                                    />
-                                </div>
-
-                                <div className="flex-1 min-w-0">
-                                    <h3 className="font-semibold text-white text-sm truncate">
-                                        {currentSong.title}
-                                    </h3>
-                                    <p className="text-xs text-blue-100 truncate">
-                                        {currentSong.artists?.map((a) => a.artist.name).join(', ')}
-                                    </p>
-                                </div>
-
-                                <button
-                                    onClick={() => dispatch(togglePlayStatus())}
-                                    className="bg-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
-                                >
-                                    {
-                                        statusSong ? <Pause className="w-4 h-4 text-blue-600 fill-blue-600" /> : <Play className="w-4 h-4 text-blue-600 fill-blue-600" />
-                                    }
-                                </button>
+                {/* Fixed Content - Current Playing & Auto Play */}
+                <div className="flex-shrink-0 p-4 border-b border-gray-800">
+                    {/* Current Playing Song */}
+                    {currentSong && (
+                        <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl p-3 mb-4 flex items-center gap-3">
+                            <div className="bg-blue-900 rounded-lg w-12 h-12 flex items-center justify-center text-xl flex-shrink-0 overflow-hidden">
+                                <img
+                                    src={currentSong.coverUri}
+                                    alt={currentSong.title}
+                                    className="w-full h-full object-cover rounded-lg"
+                                />
                             </div>
-                        )}
 
-                        {/* Auto Play Toggle */}
-                        <div className="flex items-center justify-between mb-4 bg-gray-800 bg-opacity-50 rounded-lg p-3">
+                            <div className="flex-1 min-w-0">
+                                <h3 className="font-semibold text-white text-sm truncate">
+                                    {currentSong.title}
+                                </h3>
+                                <p className="text-xs text-blue-100 truncate">
+                                    {currentSong.artists?.map((a) => a.artist.name).join(', ')}
+                                </p>
+                            </div>
+
+                            <button
+                                onClick={() => dispatch(togglePlayStatus())}
+                                className="bg-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
+                            >
+                                {
+                                    statusSong ? <Pause className="w-4 h-4 text-blue-600 fill-blue-600" /> : <Play className="w-4 h-4 text-blue-600 fill-blue-600" />
+                                }
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Auto Play Toggle - Only show in playlist tab */}
+                    {activeTab === 'playlist' && (
+                        <div className="flex items-center justify-between bg-gray-800 bg-opacity-50 rounded-lg p-3">
                             <div>
                                 <h4 className="font-medium text-white text-sm">Tự động phát</h4>
                                 <p className="text-xs text-gray-400">Danh sách bài hát gợi ý</p>
@@ -118,46 +142,101 @@ const Sidebar: React.FC = () => {
                                 />
                             </button>
                         </div>
+                    )}
+                </div>
 
-                        {/* Song List */}
-                        <div className="space-y-1">
-                            {isLoadingPlaylist ? (
-                                <div className="text-center py-4 text-gray-400 text-sm">
-                                    Đang tải danh sách phát...
-                                </div>
-                            ) : playList.length === 0 ? (
-                                <div className="text-center py-4 text-gray-400 text-sm">
-                                    Chưa có bài hát trong danh sách phát
-                                </div>
-                            ) : (
-                                playList.map((song) => (
-                                <div
-                                    key={song.id}
-                                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer ${currentSong?.id === song.id ? 'bg-gray-800' : ''
-                                        }`}
-                                    onClick={() => {
-                                        dispatch(setCurrentSong(song))
-                                        debouncedPlay();
-                                    }}
-                                >
-                                    <div className="bg-gray-700 rounded-lg w-11 h-11 flex items-center justify-center text-lg flex-shrink-0">
-                                        <img src={song.coverUri} alt={song.title} className="w-full h-full object-cover rounded-lg" />
+                {/* Scrollable Song List */}
+                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+                    <div className="p-4">
+                        {/* Song List - Playlist Tab */}
+                        {activeTab === 'playlist' && (
+                            <div className="space-y-1">
+                                {isLoadingPlaylist ? (
+                                    <div className="text-center py-4 text-gray-400 text-sm">
+                                        Đang tải danh sách phát...
                                     </div>
-
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="font-medium text-white text-sm truncate">{song.title}</h4>
-                                        <p className="text-xs text-gray-400 truncate">
-                                            {song.artists?.map((a) => a.artist.name).join(', ')}
-                                        </p>
+                                ) : playList.length === 0 ? (
+                                    <div className="text-center py-4 text-gray-400 text-sm">
+                                        Chưa có bài hát trong danh sách phát
                                     </div>
+                                ) : (
+                                    playList.map((song) => (
+                                        <div
+                                            key={song.id}
+                                            className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer ${currentSong?.id === song.id ? 'bg-gray-800' : ''
+                                                }`}
+                                            onClick={() => {
+                                                dispatch(setCurrentSong(song))
+                                                debouncedPlay();
+                                            }}
+                                        >
+                                            <div className="bg-gray-700 rounded-lg w-11 h-11 flex items-center justify-center text-lg flex-shrink-0">
+                                                <img src={song.coverUri} alt={song.title} className="w-full h-full object-cover rounded-lg" />
+                                            </div>
 
-                                    <button className="p-1.5 opacity-0 group-hover:opacity-100 hover:bg-gray-700 rounded-full transition-all flex-shrink-0">
-                                        <MoreHorizontal className="w-4 h-4 text-gray-300" />
-                                    </button>
-                                </div>
-                                ))
-                            )}
-                        </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h4 className="font-medium text-white text-sm truncate">{song.title}</h4>
+                                                <p className="text-xs text-gray-400 truncate">
+                                                    {song.artists?.map((a) => a.artist.name).join(', ')}
+                                                </p>
+                                            </div>
+
+                                            <button className="p-1.5 opacity-0 group-hover:opacity-100 hover:bg-gray-700 rounded-full transition-all flex-shrink-0">
+                                                <MoreHorizontal className="w-4 h-4 text-gray-300" />
+                                            </button>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        )}
+
+                        {/* Recent Songs List - Recent Tab */}
+                        {activeTab === 'recent' && (
+                            <div className="space-y-1">
+                                {isLoadingRecent ? (
+                                    <div className="text-center py-4 text-gray-400 text-sm">
+                                        Đang tải danh sách nghe gần đây...
+                                    </div>
+                                ) : recentSongs.length === 0 ? (
+                                    <div className="text-center py-4 text-gray-400 text-sm">
+                                        Chưa có bài hát nào được phát
+                                    </div>
+                                ) : (
+                                    recentSongs.map((item) => {
+                                        const song = item.song;
+                                        return (
+                                            <div
+                                                key={item.id}
+                                                className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors group cursor-pointer ${currentSong?.id === song.id ? 'bg-gray-800' : ''
+                                                    }`}
+                                                onClick={() => {
+                                                    dispatch(setCurrentSong(song))
+                                                    // Set playlist to recent songs for navigation
+                                                    const songList = recentSongs.map((s) => s.song);
+                                                    dispatch(setPlayList(songList));
+                                                    debouncedPlay();
+                                                }}
+                                            >
+                                                <div className="bg-gray-700 rounded-lg w-11 h-11 flex items-center justify-center text-lg flex-shrink-0">
+                                                    <img src={song.coverUri} alt={song.title} className="w-full h-full object-cover rounded-lg" />
+                                                </div>
+
+                                                <div className="flex-1 min-w-0">
+                                                    <h4 className="font-medium text-white text-sm truncate">{song.title}</h4>
+                                                    <p className="text-xs text-gray-400 truncate">
+                                                        {song.artists?.map((a) => a.artist.name).join(', ')}
+                                                    </p>
+                                                </div>
+
+                                                <button className="p-1.5 opacity-0 group-hover:opacity-100 hover:bg-gray-700 rounded-full transition-all flex-shrink-0">
+                                                    <MoreHorizontal className="w-4 h-4 text-gray-300" />
+                                                </button>
+                                            </div>
+                                        );
+                                    })
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

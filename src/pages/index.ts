@@ -5,3 +5,7 @@ export { default as SongPage } from "./Song";
 export { default as TopSongPage } from "./TopSong";
 export { default as SearchPage } from "./Search";
 export { default as FavoritePage } from "./Favorite";
+export { default as ArtistPage } from "./Artist";
+export { default as GenrePage } from "./Genre";
+export { default as RecentlyPlayedPage } from "./RecentlyPlayed";
+export { default as ProfilePage } from "./Profile";
