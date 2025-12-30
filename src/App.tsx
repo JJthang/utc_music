@@ -34,7 +34,7 @@ function App() {
       <TanstackProvider>
         <AppThemeProvider>
           <Toaster />
-          <RouterProvider router={router} />,
+          <RouterProvider router={router} />
         </AppThemeProvider>
       </TanstackProvider>
     </>

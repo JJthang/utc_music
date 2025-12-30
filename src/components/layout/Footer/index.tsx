@@ -29,7 +29,7 @@ import { toggleSidebar } from "@/stores/slice/sidebar.slice";
 import { onHandNextSong, onHandPrevSong, setPlayStatus, togglePlayStatus, toggleShuffle } from "@/stores/slice/song.slice";
 import { useDebouncedCallback } from "use-debounce";
 import { trackListeningSong } from "@/services/Apis/song.service";
-import { postFavorite } from "@/services/Apis/favourite.service";
+import { postFavorite, deleteFavorite } from "@/services/Apis/favourite.service";
 
 const MusicPlayer: FC = () => {
     const dispatch = useAppDispatch();
@@ -69,7 +69,8 @@ const MusicPlayer: FC = () => {
         setState((prev) => ({
             ...prev,
             duration: currentSong.duration,
-            currentTime: 0
+            currentTime: 0,
+            isFavorite: currentSong.isLiked ?? false
         }));
 
         // Reset tracking khi bài hát thay đổi
@@ -85,7 +86,7 @@ const MusicPlayer: FC = () => {
         if (audioRef.current) {
             audioRef.current.load();
         }
-    }, [currentSong.duration, currentSong.id]);
+    }, [currentSong.duration, currentSong.id, currentSong.isLiked]);
 
     // Điều khiển audio element và track listening time
     useEffect(() => {
@@ -215,15 +216,22 @@ const MusicPlayer: FC = () => {
         dispatch(togglePlayStatus());
     }, [dispatch]);
 
-    const toggleFavorite = useCallback(async (val: string) => {
+    const toggleFavorite = useCallback(async (songId: string) => {
+        const isCurrentlyFavorite = state.isFavorite;
         try {
-            await postFavorite(val);
+            if (isCurrentlyFavorite) {
+                // Nếu đã yêu thích, thì bỏ yêu thích
+                await deleteFavorite(songId);
+            } else {
+                // Nếu chưa yêu thích, thì thêm vào yêu thích
+                await postFavorite(songId);
+            }
             setState((prev) => ({ ...prev, isFavorite: !prev.isFavorite }));
         } catch (error) {
             console.error("Error toggling favorite:", error);
             // Có thể thêm toast notification ở đây
         }
-    }, []);
+    }, [state.isFavorite]);
 
     const handToggleShuffle = useCallback(() => {
         if (state.repeat) return;
