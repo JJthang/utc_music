@@ -19,43 +19,21 @@ body {
 }
 
 .sidebar-menu::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    display: none;
 }
 
-.sidebar-menu::-webkit-scrollbar-track {
-    background: #1E293B; /* nền tối */
-    border-radius: 10px;
-}
-
-.sidebar-menu::-webkit-scrollbar-thumb {
-    background: #d1d5dc;
-    border-radius: 10px;
-    transition: background 0.3s ease;
-}
-
-.sidebar-menu::-webkit-scrollbar-thumb:hover {
-    background: #60A5FA;
+.sidebar-menu {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .main-content::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    display: none;
 }
 
-.main-content::-webkit-scrollbar-track {
-    background: #1E293B; /* nền tối */
-    border-radius: 10px;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-    background: #d1d5dc;
-    border-radius: 10px;
-    transition: background 0.3s ease;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-    background: #60A5FA;
+.main-content {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 @theme {
@@ -107,4 +85,18 @@ body {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     overflow: auto;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+/* Ẩn scrollbar cho tất cả các phần tử có scroll nhưng vẫn có thể scroll được */
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
 }
