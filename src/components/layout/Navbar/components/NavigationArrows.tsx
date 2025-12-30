@@ -3,15 +3,28 @@ import { useNavigate } from "react-router-dom";
 
 import { useHistoryCapabilities } from "@/hooks/useHistoryCapabilities";
 
-export const NavigationArrows = () => {
+type NavigationArrowsProps = {
+  onBackClick?: () => boolean; // Return true if handled, false to use default behavior
+};
+
+export const NavigationArrows = ({ onBackClick }: NavigationArrowsProps) => {
   const navigate = useNavigate();
   const { canGoBack, canGoForward } = useHistoryCapabilities();
+
+  const handleBackClick = () => {
+    // Nếu có callback và callback trả về true (đã xử lý), không navigate
+    if (onBackClick && onBackClick()) {
+      return;
+    }
+    // Ngược lại, navigate như bình thường
+    navigate(-1);
+  };
 
   return (
     <div className="flex items-center gap-2">
       <button
         disabled={!canGoBack}
-        onClick={() => navigate(-1)}
+        onClick={handleBackClick}
         className={`w-10 h-10 rounded-full flex items-center justify-center transition-all
           bg-black bg-opacity-20 hover:bg-opacity-30
           ${!canGoBack ? "opacity-40 cursor-not-allowed hover:bg-opacity-20" : "cursor-pointer"}

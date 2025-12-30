@@ -59,7 +59,9 @@ export const Micro: React.FC<Props> = ({
         onTimeout?.(transcript);
         SpeechRecognition.stopListening();
         clearCurrentTimeout();
-    }, [onChangeIsActive, onTimeout, transcript]);
+        // Reset transcript khi dừng để xóa dữ liệu
+        resetTranscript();
+    }, [onChangeIsActive, onTimeout, transcript, resetTranscript]);
 
     const resetTimeout = useCallback(() => {
         clearCurrentTimeout();

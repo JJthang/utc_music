@@ -83,13 +83,41 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
+  const handleClearSearch = () => {
+    // Đánh dấu đang clear để tránh callback từ Micro
+    isClearingRef.current = true;
+    
+    // Xóa dữ liệu input
+    setSearchQuery("");
+    setShowDropdown(false);
+    
+    // Dừng micro nếu đang active
+    if (isMicroActive) {
+      setIsMicroActive(false);
+    }
+    
+    // Reset flag sau một chút
+    setTimeout(() => {
+      isClearingRef.current = false;
+    }, 100);
+  };
+
+  const handleBackClick = () => {
+    // Nếu có dữ liệu trong input, xóa nó thay vì navigate back
+    if (searchQuery.trim()) {
+      handleClearSearch();
+      return true; // Đã xử lý, không cần navigate
+    }
+    return false; // Không có dữ liệu, cho phép navigate back
+  };
+
   return (
     <nav className="h-[68px] w-full relative z-50">
       {/* Navbar */}
       <div className="bg-outlet bg-opacity-90 backdrop-blur-sm px-6 py-3 flex items-center justify-between gap-4">
         {/* Left section - Navigation arrows and Search */}
         <div className="flex items-center gap-4 flex-1">
-          <NavigationArrows />
+          <NavigationArrows onBackClick={handleBackClick} />
 
           {/* Search Bar */}
           <div className="flex-1 max-w-xl">
