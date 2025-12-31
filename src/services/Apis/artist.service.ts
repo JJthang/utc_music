@@ -52,3 +52,4 @@ export const getArtistAlbums = async (
   return result.data;
 };
 
+

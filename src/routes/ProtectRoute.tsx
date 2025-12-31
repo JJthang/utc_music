@@ -21,3 +21,13 @@ export const ProtectedRoute = () => {
 
   return <Outlet />;
 };
+
+export const GuestRoute = () => {
+  const { accessToken } = useSelector((state: RootState) => state.auth);
+
+  if (accessToken) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
+};

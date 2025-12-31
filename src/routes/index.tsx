@@ -19,7 +19,7 @@ import {
   PaymentSubscriptionPage,
   UpgradeSubscriptionPage,
 } from "@/pages/subscription";
-import { BlockAdminGuard, ProtectedRoute } from "./ProtectRoute";
+import { BlockAdminGuard, ProtectedRoute, GuestRoute } from "./ProtectRoute";
 import { ForbiddenPage, NotFoundPage } from "@/pages/errors";
 import { LoginPage, SignUpPage } from "@/pages/auth";
 
@@ -72,8 +72,13 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/login", element: <LoginPage /> },
-  { path: "/signup", element: <SignUpPage /> },
+  {
+    element: <GuestRoute />,
+    children: [
+      { path: "/login", element: <LoginPage /> },
+      { path: "/signup", element: <SignUpPage /> },
+    ],
+  },
   { path: "/403", element: <ForbiddenPage /> },
   { path: "*", element: <NotFoundPage /> },
 ]);
